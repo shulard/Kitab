@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/Compiler.html"><code>Compiler</code></a></li>
+                                    <li><a href="./kitab/compiler/Parser.html"><code>Parser</code></a></li>
+                            </ul>
+        
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Class <code>Kitab\Compiler\Parser</code>
+    <aside>
+        <a href="./kitab/compiler/Parser.source.html#L.47-116" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">class Parser
+{
+    public function __construct();
+    public function parse(File\SplFileInfo $file): IntermediateRepresentation\File;
+    protected function intoIntermediateRepresentation(array $statements, string $fileName): IntermediateRepresentation\File;
+    protected static function getPhpParser(): ParserMultiple;
+    protected static function getTraverser(): NodeTraverser;
+    public static function extractFromComment($comment);
+}</code></pre>
+
+<section class="entity__description"></section>
+
+
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_phpParser"><code class="language-php">protected $_phpParser = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_phpTraverser"><code class="language-php">protected $_phpTraverser = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="__construct">
+                <code class="language-php">public function __construct()</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.52-62" title="View source of the `__construct` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="parse">
+                <code class="language-php">public function parse(File\SplFileInfo $file): IntermediateRepresentation\File</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.64-82" title="View source of the `parse` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoIntermediateRepresentation">
+                <code class="language-php">protected function intoIntermediateRepresentation(array $statements, string $fileName): IntermediateRepresentation\File</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.84-96" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getPhpParser">
+                <code class="language-php">protected static function getPhpParser(): ParserMultiple</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.98-101" title="View source of the `getPhpParser` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getTraverser">
+                <code class="language-php">protected static function getTraverser(): NodeTraverser</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.103-106" title="View source of the `getTraverser` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="extractFromComment">
+                <code class="language-php">public static function extractFromComment($comment)</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.108-115" title="View source of the `extractFromComment` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

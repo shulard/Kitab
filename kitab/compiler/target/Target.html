@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a>\<wbr /><a href="./kitab/compiler/target/index.html">Target</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/target/Templater.html"><code>Templater</code></a></li>
+                            </ul>
+        
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/target/Target.html"><code>Target</code></a></li>
+                            </ul>
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Interface <code>Kitab\Compiler\Target\Target</code>
+    <aside>
+        <a href="./kitab/compiler/target/Target.source.html#L.49-69" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">interface Target
+{
+    public function compile(File $file);
+    public function assemble(array $symbols);
+}</code></pre>
+
+<section class="entity__description"><p>Define a compilation target.</p>
+<p>A compilation target works in two steps:</p>
+<ol>
+<li>
+<code>compile</code> to compile an intermediate representation of a file into the target,</li>
+<li>
+<code>assemble</code> to assemble of the compiled files.</li>
+</ol>
+</section>
+
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="compile">
+                <code class="language-php">public function compile(File $file)</code>
+                <aside><a href="./kitab/compiler/target/Target.source.html#L.54-54" title="View source of the `compile` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Compile an intermediate representation of a file into a specific target.</p>
+</section>
+            </dd>
+                    <dt aria-label="assemble">
+                <code class="language-php">public function assemble(array $symbols)</code>
+                <aside><a href="./kitab/compiler/target/Target.source.html#L.68-68" title="View source of the `assemble` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Assemble the compiled files.</p>
+<p>This step is important, it can enhance the result based on
+symbols. When compiling one intermediate representation of a file at a
+time, not all symbols are present due to the nature of the
+algorithm. Indeed, each time a file is opened, it is compiled and
+dropped. Only symbols are kept in a store.</p>
+<p>The assemble step is here to complete, or enhance compiled file with
+the store of symbols.</p>
+</section>
+            </dd>
+            </dl>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

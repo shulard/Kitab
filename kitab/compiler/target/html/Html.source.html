@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php">&lt;?php
+
+/**
+ * Hoa
+ *
+ *
+ * @license
+ *
+ * New BSD License
+ *
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hoa nor the names of its contributors may be
+ *       used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+namespace Kitab\Compiler\Target\Html;
+
+use Hoa\Console\Processus;
+use Hoa\File\Directory;
+use Hoa\File\Write;
+use Hoa\Protocol\Protocol;
+use Hoa\Stream\IStream\Touchable;
+use Kitab\Compiler\IntermediateRepresentation;
+use Kitab\Compiler\Target\Target;
+use Kitab\Exception;
+use StdClass;
+
+class Html implements Target
+{
+    public function __construct(Router $router = null)
+    {
+        if (null === $router) {
+            $this-&gt;_router = new Router();
+        }
+
+        return;
+    }
+
+    public function compile(IntermediateRepresentation\File $file)
+    {
+        foreach ($file as $representation) {
+            if ($representation instanceof IntermediateRepresentation\Class_) {
+                $this-&gt;compileClass($representation);
+            } elseif ($representation instanceof IntermediateRepresentation\Interface_) {
+                $this-&gt;compileInterface($representation);
+            } elseif ($representation instanceof IntermediateRepresentation\Trait_) {
+                $this-&gt;compileTrait($representation);
+            } elseif ($representation instanceof IntermediateRepresentation\Function_) {
+                $this-&gt;compileFunction($representation);
+            } else {
+                throw new Exception\TargetUnknownIntermediateRepresentation(
+                    'Intermediate representation `%s` has not been handled.',
+                    0,
+                    get_class($representation)
+                );
+            }
+        }
+    }
+
+    protected function compileClass(Intermediaterepresentation\Class_ $class)
+    {
+        $data        = new StdClass();
+        $data-&gt;class = $class;
+
+        return $this-&gt;compileEntity(
+            $class,
+            __DIR__ . DS . 'Template' . DS . 'Partial' . DS . 'Class.html',
+            $data
+        );
+    }
+
+    protected function compileInterface(Intermediaterepresentation\Interface_ $interface)
+    {
+        $data            = new StdClass();
+        $data-&gt;interface = $interface;
+
+        return $this-&gt;compileEntity(
+            $interface,
+            __DIR__ . DS . 'Template' . DS . 'Partial' . DS . 'Interface.html',
+            $data
+        );
+    }
+
+    protected function compileTrait(Intermediaterepresentation\Trait_ $trait)
+    {
+        $data        = new StdClass();
+        $data-&gt;trait = $trait;
+
+        return $this-&gt;compileEntity(
+            $trait,
+            __DIR__ . DS . 'Template' . DS . 'Partial' . DS . 'Trait.html',
+            $data
+        );
+    }
+
+    protected function compileFunction(Intermediaterepresentation\Function_ $function)
+    {
+        $data           = new StdClass();
+        $data-&gt;function = $function;
+
+        return $this-&gt;compileEntity(
+            $function,
+            __DIR__ . DS . 'Template' . DS . 'Partial' . DS . 'Function.html',
+            $data
+        );
+    }
+
+    protected function compileEntity(Intermediaterepresentation\Entity $entity, string $templateFile, StdClass $data)
+    {
+        $namespaceName = mb_strtolower(str_replace('\\', '/', $entity-&gt;getNamespaceName()));
+        $shortName     = $entity-&gt;getShortName();
+
+        $url = $this-&gt;_router-&gt;unroute(
+            'entity',
+            [
+                'namespaceName' =&gt; $namespaceName,
+                'shortName'     =&gt; $shortName
+            ]
+        );
+        $output = 'hoa://Kitab/Output/' . $url;
+
+        $urlSource = $this-&gt;_router-&gt;unroute(
+            'entity',
+            [
+                'namespaceName' =&gt; $namespaceName,
+                'shortName'     =&gt; $shortName . '.source'
+            ]
+        );
+        $outputSource = 'hoa://Kitab/Output/' . $urlSource;
+
+        $data-&gt;url             = new StdClass();
+        $data-&gt;url-&gt;viewSource = '.' . $urlSource;
+
+        Directory::create(dirname($output));
+
+        $view = new Templater(
+            $templateFile,
+            new Write($output, Write::MODE_TRUNCATE_WRITE),
+            $this-&gt;_router,
+            $data
+        );
+        $view-&gt;render();
+
+        $dataSource = new StdClass();
+
+        $dataSource-&gt;layout        = new StdClass();
+        $dataSource-&gt;layout-&gt;base  = './' . str_repeat('../', substr_count($namespaceName, '/') + 1);
+        $dataSource-&gt;layout-&gt;title = 'Foobar';
+
+        $dataSource-&gt;layout-&gt;import       = new StdClass();
+        $dataSource-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Source.html';
+
+        $dataSource-&gt;layout-&gt;import-&gt;data              = new StdClass();
+        $dataSource-&gt;layout-&gt;import-&gt;data-&gt;fileContent = file_get_contents($entity-&gt;file-&gt;name);
+
+        $viewSource = new Templater(
+            __DIR__ . DS . 'Template' . DS . 'Layout.html',
+            new Write($outputSource, Write::MODE_TRUNCATE_WRITE),
+            $this-&gt;_router,
+            $dataSource
+        );
+        $viewSource-&gt;render();
+
+        Search::insert([
+            'id'             =&gt; null,
+            'name'           =&gt; $entity-&gt;name,
+            'normalizedName' =&gt; str_replace('\\', ' ', $entity-&gt;name),
+            'description'    =&gt; $entity-&gt;documentation,
+            'url'            =&gt; '.' . $url
+        ]);
+
+        return;
+    }
+
+    public function assemble(array $symbols)
+    {
+        $this-&gt;assembleNamespaces($symbols);
+        $this-&gt;assembleEntities($symbols);
+        $this-&gt;assembleResources();
+
+        return;
+    }
+
+    protected function assembleNamespaces(array $symbols, string $accumulator = '')
+    {
+        $siblingNamespaces = [];
+
+        foreach ($symbols as $symbolPrefix =&gt; $subSymbols) {
+            if ('@' !== $symbolPrefix[0]) {
+                $siblingNamespace       = new StdClass();
+                $siblingNamespace-&gt;name = $symbolPrefix;
+                $siblingNamespace-&gt;url  =
+                    '.' .
+                    $this-&gt;_router-&gt;unroute(
+                        'namespace',
+                        [
+                            'namespaceName' =&gt; mb_strtolower($accumulator . $symbolPrefix)
+                        ]
+                    );
+
+                $siblingNamespaces[] = $siblingNamespace;
+            }
+        }
+
+        foreach ($symbols as $symbolPrefix =&gt; $subSymbols) {
+            if ('@' !== $symbolPrefix[0]) {
+                $nextAccumulator = $accumulator . $symbolPrefix . '\\';
+                $namespaceName   = mb_strtolower(str_replace('\\', '/', $nextAccumulator));
+
+                $output =
+                    'hoa://Kitab/Output/' .
+                    $this-&gt;_router-&gt;unroute(
+                        'namespace',
+                        [
+                            'namespaceName' =&gt; $namespaceName
+                        ]
+                    );
+
+                $data = new StdClass();
+                $data-&gt;namespace       = new StdClass();
+                $data-&gt;namespace-&gt;name = rtrim($nextAccumulator, '\\');
+
+                $data-&gt;namespace-&gt;description = null;
+                $data-&gt;namespace-&gt;namespaces  = [];
+                $data-&gt;namespace-&gt;classes     = [];
+                $data-&gt;namespace-&gt;interfaces  = [];
+                $data-&gt;namespace-&gt;traits      = [];
+                $data-&gt;namespace-&gt;functions   = [];
+
+                $namespaceDirectory       = 'hoa://Kitab/Input/' . str_replace('\\', '/', $nextAccumulator);
+                $namespaceDescriptionFile = $namespaceDirectory . DS . 'README.md';
+
+                if (true === file_exists($namespaceDescriptionFile)) {
+                    $data-&gt;namespace-&gt;description = file_get_contents($namespaceDescriptionFile);
+                }
+
+                foreach ($subSymbols as $subSymbolPrefix =&gt; $subSymbol) {
+                    if ('@' !== $subSymbolPrefix[0]) {
+                        $_namespace       = new StdClass();
+                        $_namespace-&gt;name = $subSymbolPrefix;
+                        $_namespace-&gt;url  =
+                            '.' .
+                            $this-&gt;_router-&gt;unroute(
+                                'namespace',
+                                [
+                                    'namespaceName' =&gt; $namespaceName . $subSymbolPrefix
+                                ]
+                            );
+
+                        $data-&gt;namespace-&gt;namespaces[] = $_namespace;
+
+                        continue;
+                    }
+
+                    list($subSymbolType, $subSymbolName) = explode(':', $subSymbolPrefix);
+
+                    switch ($subSymbolType) {
+                        case '@class':
+                            $_class       = new StdClass();
+                            $_class-&gt;name = $subSymbolName;
+                            $_class-&gt;url  =
+                                '.' .
+                                $this-&gt;_router-&gt;unroute(
+                                    'entity',
+                                    [
+                                        'namespaceName' =&gt; rtrim($namespaceName, '/'),
+                                        'shortName'     =&gt; $subSymbolName
+                                    ]
+                                );
+
+                            $data-&gt;namespace-&gt;classes[] = $_class;
+
+                            break;
+
+                        case '@interface':
+                            $_interface       = new StdClass();
+                            $_interface-&gt;name = $subSymbolName;
+                            $_interface-&gt;url  =
+                                '.' .
+                                $this-&gt;_router-&gt;unroute(
+                                    'entity',
+                                    [
+                                        'namespaceName' =&gt; rtrim($namespaceName, '/'),
+                                        'shortName'     =&gt; $subSymbolName
+                                    ]
+                                );
+
+                            $data-&gt;namespace-&gt;interfaces[] = $_interface;
+
+                            break;
+
+                        case '@trait':
+                            $_trait       = new StdClass();
+                            $_trait-&gt;name = $subSymbolName;
+                            $_trait-&gt;url  =
+                                '.' .
+                                $this-&gt;_router-&gt;unroute(
+                                    'entity',
+                                    [
+                                        'namespaceName' =&gt; rtrim($namespaceName, '/'),
+                                        'shortName'     =&gt; $subSymbolName
+                                    ]
+                                );
+
+                            $data-&gt;namespace-&gt;traits[] = $_trait;
+
+                            break;
+
+                        case '@function':
+                            $_function       = new StdClass();
+                            $_function-&gt;name = $subSymbolName;
+                            $_function-&gt;url  =
+                                '.' .
+                                $this-&gt;_router-&gt;unroute(
+                                    'entity',
+                                    [
+                                        'namespaceName' =&gt; rtrim($namespaceName, '/'),
+                                        'shortName'     =&gt; $subSymbolName
+                                    ]
+                                );
+
+                            $data-&gt;namespace-&gt;functions[] = $_function;
+
+                            break;
+                    }
+                }
+
+                $data-&gt;layout         = new StdClass();
+                $data-&gt;layout-&gt;base   = './' . str_repeat('../', substr_count($nextAccumulator, '\\'));
+                $data-&gt;layout-&gt;title  = 'Foobar';
+
+                $data-&gt;layout-&gt;import       = new StdClass();
+                $data-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Namespace.html';
+                $data-&gt;layout-&gt;import-&gt;data = $data;
+
+                $data-&gt;navigation             = new StdClass();
+                $data-&gt;navigation-&gt;heading    = $accumulator;
+                $data-&gt;navigation-&gt;namespaces = $siblingNamespaces;
+
+                $view = new Templater(
+                    __DIR__ . DS . 'Template' . DS . 'Layout.html',
+                    new Write($output, Write::MODE_TRUNCATE_WRITE),
+                    $this-&gt;_router,
+                    $data
+                );
+                $view-&gt;render();
+
+                $this-&gt;assembleNamespaces(
+                    $subSymbols,
+                    $nextAccumulator
+                );
+            }
+        }
+    }
+
+    protected function assembleEntities(array $symbols, string $accumulator = '')
+    {
+        $siblingClasses    = [];
+        $siblingInterfaces = [];
+        $siblingTraits     = [];
+        $siblingFunctions  = [];
+
+        foreach ($symbols as $symbolPrefix =&gt; $symbol) {
+            if ('@' === $symbolPrefix[0]) {
+                list($symbolType, $symbolName) = explode(':', $symbolPrefix);
+
+                $siblingEntity       = new StdClass();
+                $siblingEntity-&gt;name = $symbolName;
+
+                switch ($symbolType) {
+                    case '@class':
+                        $siblingEntity-&gt;url  =
+                            '.' .
+                            $this-&gt;_router-&gt;unroute(
+                                'entity',
+                                [
+                                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', rtrim($accumulator, '\\'))),
+                                    'shortName'     =&gt; $symbolName
+                                ]
+                            );
+
+                        $siblingClasses[] = $siblingEntity;
+
+                        break;
+
+                    case '@interface':
+                        $siblingEntity-&gt;url  =
+                            '.' .
+                            $this-&gt;_router-&gt;unroute(
+                                'entity',
+                                [
+                                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', rtrim($accumulator, '\\'))),
+                                    'shortName'     =&gt; $symbolName
+                                ]
+                            );
+
+                        $siblingInterfaces[] = $siblingEntity;
+
+                        break;
+
+                    case '@trait':
+                        $siblingEntity-&gt;url  =
+                            '.' .
+                            $this-&gt;_router-&gt;unroute(
+                                'entity',
+                                [
+                                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', rtrim($accumulator, '\\'))),
+                                    'shortName'     =&gt; $symbolName
+                                ]
+                            );
+
+                        $siblingTraits[] = $siblingEntity;
+
+                        break;
+
+                    case '@function':
+                        $siblingEntity-&gt;url  =
+                            '.' .
+                            $this-&gt;_router-&gt;unroute(
+                                'entity',
+                                [
+                                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', rtrim($accumulator, '\\'))),
+                                    'shortName'     =&gt; $symbolName
+                                ]
+                            );
+
+                        $siblingFunctions[] = $siblingEntity;
+
+                        break;
+                }
+            }
+        }
+
+        foreach ($symbols as $symbolPrefix =&gt; $subSymbols) {
+            if ('@' !== $symbolPrefix[0]) {
+                $this-&gt;assembleEntities(
+                    $subSymbols,
+                    $accumulator . $symbolPrefix . '\\'
+                );
+            } else {
+                $symbolFullName = $subSymbols;
+
+                list($symbolType, $symbolName) = explode(':', $symbolPrefix);
+
+                switch ($symbolType) {
+                    case '@class':
+                    case '@interface':
+                    case '@trait':
+                    case '@function':
+                        $output =
+                            'hoa://Kitab/Output/' .
+                            $this-&gt;_router-&gt;unroute(
+                                'entity',
+                                [
+                                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', $accumulator)),
+                                    'shortName'     =&gt; $symbolName
+                                ]
+                            );
+
+                        break;
+
+                    default:
+                        continue 2;
+                }
+
+                $data = new StdClass();
+
+                $data-&gt;layout        = new StdClass();
+                $data-&gt;layout-&gt;base  = './' . str_repeat('../', substr_count($accumulator, '\\'));
+                $data-&gt;layout-&gt;title = 'Foobar';
+
+                $data-&gt;layout-&gt;import       = new StdClass();
+                $data-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Entity.html';
+
+                $data-&gt;layout-&gt;import-&gt;data = new StdClass();
+
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation             = new StdClass();
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;heading    = $accumulator;
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;classes    = $siblingClasses;
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;interfaces = $siblingInterfaces;
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;traits     = $siblingTraits;
+                $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;functions  = $siblingFunctions;
+
+                $data-&gt;layout-&gt;import-&gt;data-&gt;layout = new StdClass();
+
+                $data-&gt;layout-&gt;import-&gt;data-&gt;layout-&gt;import       = new StdClass();
+                $data-&gt;layout-&gt;import-&gt;data-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Echo.html';
+
+                $data-&gt;layout-&gt;import-&gt;data-&gt;layout-&gt;import-&gt;data       = new StdClass();
+                $data-&gt;layout-&gt;import-&gt;data-&gt;layout-&gt;import-&gt;data-&gt;echo = file_get_contents($output);
+
+                $view = new Templater(
+                    __DIR__ . DS . 'Template' . DS . 'Layout.html',
+                    new Write($output, Write::MODE_TRUNCATE_WRITE),
+                    $this-&gt;_router,
+                    $data
+                );
+                $view-&gt;render();
+            }
+        }
+    }
+
+    protected function assembleResources()
+    {
+        $from = __DIR__ . DS . 'Template' . DS . 'Public' . DS . 'css';
+        $to   = 'hoa://Kitab/Output/css';
+
+        (new Directory($from))-&gt;copy($to, Touchable::OVERWRITE);
+
+        $from = __DIR__ . DS . 'Template' . DS . 'Public' . DS . 'javascript';
+        $to   = 'hoa://Kitab/Output/javascript';
+
+        (new Directory($from))-&gt;copy($to, Touchable::OVERWRITE);
+
+        $from = __DIR__ . DS . 'Template' . DS . 'Public' . DS . 'font';
+        $to   = 'hoa://Kitab/Output/font';
+
+        (new Directory($from))-&gt;copy($to, Touchable::OVERWRITE);
+
+        Search::pack();
+
+        $searchDatabase      = json_decode(file_get_contents(Search::DATABASE_FILE));
+        $searchMetadataItems = [];
+
+        foreach ($searchDatabase as $searchDatabaseItem) {
+            $searchMetadataItems[] = [
+                'id'          =&gt; $searchDatabaseItem-&gt;id,
+                'name'        =&gt; $searchDatabaseItem-&gt;name,
+                'description' =&gt; $searchDatabaseItem-&gt;description,
+                'url'         =&gt; $searchDatabaseItem-&gt;url
+            ];
+        }
+
+        $searchMetadata = new Write('hoa://Kitab/Output/javascript/search-metadata.js', Write::MODE_TRUNCATE_WRITE);
+        $searchMetadata-&gt;writeAll('window.searchMetadata = ');
+        $searchMetadata-&gt;writeAll(json_encode($searchMetadataItems));
+        $searchMetadata-&gt;writeAll(';');
+
+        $protocol = Protocol::getInstance();
+        $output   = 'hoa://Kitab/Output/javascript/search-index.js';
+        touch($output);
+
+        Processus::execute(
+            sprintf(
+                'node %s %s %s',
+                __DIR__ . DS . 'Javascript' . DS . 'search-build-index.js',
+                $protocol-&gt;resolve(Search::DATABASE_FILE),
+                $protocol-&gt;resolve($output)
+            )
+        );
+
+        return;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

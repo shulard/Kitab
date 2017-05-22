@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a>\<wbr /><a href="./kitab/compiler/target/index.html">Target</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/target/Templater.html"><code>Templater</code></a></li>
+                            </ul>
+        
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/target/Target.html"><code>Target</code></a></li>
+                            </ul>
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Class <code>Kitab\Compiler\Target\Templater</code>
+    <aside>
+        <a href="./kitab/compiler/target/Templater.source.html#L.44-106" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">class Templater
+{
+    public function __construct(string $in, Out $out, Router $router, StdClass $data);
+    public function getOutputStream(): Out;
+    public function getData(): ?StdClass;
+    public function render();
+    public function getRouter(): ?Router;
+    public function import(string $template, StdClass $data);
+}</code></pre>
+
+<section class="entity__description"></section>
+
+
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_in"><code class="language-php">protected $_in = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_out"><code class="language-php">protected $_out = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_data"><code class="language-php">protected $_data = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_router"><code class="language-php">protected $_router = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="__construct">
+                <code class="language-php">public function __construct(string $in, Out $out, Router $router, StdClass $data)</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.51-67" title="View source of the `__construct` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getOutputStream">
+                <code class="language-php">public function getOutputStream(): Out</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.68-71" title="View source of the `getOutputStream` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getData">
+                <code class="language-php">public function getData(): ?StdClass</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.73-76" title="View source of the `getData` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="render">
+                <code class="language-php">public function render()</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.78-91" title="View source of the `render` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getRouter">
+                <code class="language-php">public function getRouter(): ?Router</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.93-96" title="View source of the `getRouter` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="import">
+                <code class="language-php">public function import(string $template, StdClass $data)</code>
+                <aside><a href="./kitab/compiler/target/Templater.source.html#L.98-105" title="View source of the `import` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="interfaces">Interfaces</h2>
+
+    <dl class="entity__children list--flat">
+                    <dt><code class="language-php">interface Hoa\View\Viewable</code></dt>
+            <dd>…</dd>
+            </dl>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

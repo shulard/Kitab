@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php">&lt;?php
+
+/**
+ * Hoa
+ *
+ *
+ * @license
+ *
+ * New BSD License
+ *
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hoa nor the names of its contributors may be
+ *       used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+namespace Kitab\Compiler\IntermediateRepresentation;
+
+use Kitab\Compiler\Parser;
+use PhpParser\Node;
+use PhpParser\NodeVisitorAbstract;
+use PhpParser\PrettyPrinter;
+
+class Into extends NodeVisitorAbstract
+{
+    protected $_file        = null;
+    private $_prettyPrinter = null;
+
+    public function __construct(string $filename)
+    {
+        $this-&gt;_file          = new File($filename);
+        $this-&gt;_prettyPrinter = new PrettyPrinter\Standard(['shortArraySyntax' =&gt; true]);
+    }
+
+    public function enterNode(Node $node)
+    {
+        if ($node instanceof Node\Stmt\Class_) {
+            $classNode            = $node;
+            $class                = new Class_($classNode-&gt;namespacedName-&gt;toString());
+            $class-&gt;lineStart     = $classNode-&gt;getAttribute('startLine');
+            $class-&gt;lineEnd       = $classNode-&gt;getAttribute('endLine');
+            $class-&gt;documentation = Parser::extractFromComment($classNode-&gt;getDocComment());
+            $class-&gt;constants     = $this-&gt;intoConstants($classNode);
+            $class-&gt;attributes    = $this-&gt;intoAttributes($classNode);
+            $class-&gt;methods       = $this-&gt;intoMethods($classNode);
+
+            if ($classNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_ABSTRACT) {
+                $class-&gt;abstract = true;
+            }
+
+            if ($classNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_FINAL) {
+                $class-&gt;final = true;
+            }
+
+            if (null !== $classNode-&gt;extends) {
+                $class-&gt;parent = $classNode-&gt;extends-&gt;toString();
+            }
+
+            foreach ($classNode-&gt;implements as $interfaceNameNode) {
+                $class-&gt;interfaces[] = $interfaceNameNode-&gt;toString();
+            }
+
+            $this-&gt;_file[] = $class;
+        } elseif ($node instanceof Node\Stmt\Interface_) {
+            $interfaceNode            = $node;
+            $interface                = new Interface_($interfaceNode-&gt;namespacedName-&gt;toString());
+            $interface-&gt;lineStart     = $interfaceNode-&gt;getAttribute('startLine');
+            $interface-&gt;lineEnd       = $interfaceNode-&gt;getAttribute('endLine');
+            $interface-&gt;documentation = Parser::extractFromComment($interfaceNode-&gt;getDocComment());
+            $interface-&gt;constants     = $this-&gt;intoConstants($interfaceNode);
+            $interface-&gt;methods       = $this-&gt;intoMethods($interfaceNode);
+
+            if (!empty($interfaceNode-&gt;extends)) {
+                $interface-&gt;parents = array_map(
+                    function ($nodeName) {
+                        return $nodeName-&gt;toString();
+                    },
+                    $interfaceNode-&gt;extends
+                );
+            }
+
+            $this-&gt;_file[] = $interface;
+        } elseif ($node instanceof Node\Stmt\Trait_) {
+            $traitNode        = $node;
+            $trait            = new Trait_($traitNode-&gt;namespacedName-&gt;toString());
+            $trait-&gt;lineStart = $traitNode-&gt;getAttribute('startLine');
+            $trait-&gt;lineEnd   = $traitNode-&gt;getAttribute('endLine');
+            $trait-&gt;methods   = $this-&gt;intoMethods($traitNode);
+
+            $this-&gt;_file[] = $trait;
+        } elseif ($node instanceof Node\Stmt\Function_) {
+            $functionNode            = $node;
+            $function                = new Function_($functionNode-&gt;namespacedName-&gt;toString());
+            $function-&gt;lineStart     = $functionNode-&gt;getAttribute('startLine');
+            $function-&gt;lineEnd       = $functionNode-&gt;getAttribute('endLine');
+            $function-&gt;documentation = Parser::extractFromComment($functionNode-&gt;getDocComment());
+            $function-&gt;inputs        = $this-&gt;intoInputs($functionNode);
+            $function-&gt;output        = $this-&gt;intoOutput($functionNode);
+
+            $this-&gt;_file[] = $function;
+        }
+
+        return;
+    }
+
+    protected function intoConstants(Node\Stmt\ClassLike $node): array
+    {
+        $constants = [];
+
+        foreach ($node-&gt;stmts as $statement) {
+            if (!($statement instanceof Node\Stmt\ClassConst)) {
+                continue;
+            }
+
+            $defaultDocumentation = Parser::extractFromComment($statement-&gt;getDocComment());
+
+            if (true === $statement-&gt;isPublic()) {
+                $visibility = Constant::VISIBILITY_PUBLIC;
+            } else if (true === $statement-&gt;isProtected()) {
+                $visibility = Constant::VISIBILITY_PROTECTED;
+            } else {
+                $visibility = Constant::VISIBILITY_PRIVATE;
+            }
+
+            foreach ($statement-&gt;consts as $constantNode) {
+                $constant             = new Constant($constantNode-&gt;name);
+                $constant-&gt;visibility = $visibility;
+                $constant-&gt;value      = $this-&gt;_prettyPrinter-&gt;prettyPrint([$constantNode-&gt;value]);
+
+                $documentation = Parser::extractFromComment($constantNode-&gt;getDocComment());
+
+                if (empty($documentation)) {
+                    $constant-&gt;documentation = $defaultDocumentation;
+                } else {
+                    $constant-&gt;documentation = $documentation;
+                }
+
+                $constants[] = $constant;
+            }
+        }
+
+        return $constants;
+    }
+
+    protected function intoAttributes(Node\Stmt\ClassLike $node): array
+    {
+        $attributes = [];
+
+        foreach ($node-&gt;stmts as $statement) {
+            if (!($statement instanceof Node\Stmt\Property)) {
+                continue;
+            }
+
+            $defaultDocumentation = Parser::extractFromComment($statement-&gt;getDocComment());
+
+            if (true === $statement-&gt;isPublic()) {
+                $visibility = Attribute::VISIBILITY_PUBLIC;
+            } else if (true === $statement-&gt;isProtected()) {
+                $visibility = Attribute::VISIBILITY_PROTECTED;
+            } else {
+                $visibility = Attribute::VISIBILITY_PRIVATE;
+            }
+
+            $static = $statement-&gt;isStatic();
+
+            foreach ($statement-&gt;props as $attributeNode) {
+                $attribute             = new Attribute($attributeNode-&gt;name);
+                $attribute-&gt;visibility = $visibility;
+
+                if (null !== $attributeNode-&gt;default) {
+                    $attribute-&gt;default = $this-&gt;_prettyPrinter-&gt;prettyPrint([$attributeNode-&gt;default]);
+                }
+
+                $documentation = Parser::extractFromComment($attributeNode-&gt;getDocComment());
+
+                if (empty($documentation)) {
+                    $attribute-&gt;documentation = $defaultDocumentation;
+                } else {
+                    $attribute-&gt;documentation = $documentation;
+                }
+
+                $attributes[] = $attribute;
+            }
+        }
+
+        return $attributes;
+    }
+
+    protected function intoMethods(Node\Stmt\ClassLike $node): array
+    {
+        $methods = [];
+
+        foreach ($node-&gt;getMethods() as $methodNode) {
+            $method            = new Method($methodNode-&gt;name);
+            $method-&gt;lineStart = $methodNode-&gt;getAttribute('startLine');
+            $method-&gt;lineEnd   = $methodNode-&gt;getAttribute('endLine');
+
+            // Documentation.
+            $method-&gt;documentation = Parser::extractFromComment($methodNode-&gt;getDocComment());
+
+            // Visibility, scope, and abstract.
+            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PUBLIC) {
+                $method-&gt;visibility = $method::VISIBILITY_PUBLIC;
+            } else if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PROTECTED) {
+                $method-&gt;visibility = $method::VISIBILITY_PROTECTED;
+            } else if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PRIVATE) {
+                $method-&gt;visibility = $method::VISIBILITY_PRIVATE;
+            }
+
+            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_STATIC) {
+                $method-&gt;static = true;
+            }
+
+            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_ABSTRACT) {
+                $method-&gt;abstract = true;
+            }
+
+            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_FINAL) {
+                $method-&gt;final = true;
+            }
+
+            $method-&gt;inputs = $this-&gt;intoInputs($methodNode);
+            $method-&gt;output = $this-&gt;intoOutput($methodNode);
+
+            $methods[] = $method;
+        }
+
+        return $methods;
+    }
+
+    protected function intoInputs($node): array
+    {
+        $inputs         = [];
+        $parametersNode = $node-&gt;params;
+
+        foreach ($parametersNode as $parameterNode) {
+            $parameter                  = new Parameter($parameterNode-&gt;name);
+            $parameter-&gt;type            = $this-&gt;intoType($parameterNode-&gt;type);
+            $parameter-&gt;type-&gt;reference = $parameterNode-&gt;byRef;
+            $parameter-&gt;type-&gt;variadic  = $parameterNode-&gt;variadic;
+
+            $inputs[] = $parameter;
+        }
+
+        return $inputs;
+    }
+
+    protected function intoOutput($node): Type
+    {
+        $output            = $this-&gt;intoType($node-&gt;returnType);
+        $output-&gt;reference = $node-&gt;byRef;
+
+        return $output;
+    }
+
+    protected function intoType($node): Type
+    {
+        $type = new Type();
+
+        if ($node instanceof Node\Name) {
+            $type-&gt;name = $node-&gt;toString();
+        } else if ($node instanceof Node\NullableType) {
+            $type-&gt;nullable = true;
+
+            $nullableNode = $node-&gt;type;
+
+            if ($nullableNode instanceof Node\Name) {
+                $type-&gt;name = $nullableNode-&gt;toString();
+            } else {
+                $type-&gt;name = $nullableNode;
+            }
+        } else {
+            $type-&gt;name = $node;
+        }
+
+        return $type;
+    }
+
+    public function collect(): File
+    {
+        return $this-&gt;_file;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

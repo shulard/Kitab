@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a>\<wbr /><a href="./kitab/compiler/intermediaterepresentation/index.html">IntermediateRepresentation</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Interface_.html"><code>Interface_</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Into.html"><code>Into</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Method.html"><code>Method</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Parameter.html"><code>Parameter</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Trait_.html"><code>Trait_</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
+                            </ul>
+        
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Class <code>Kitab\Compiler\IntermediateRepresentation\Into</code>
+    <aside>
+        <a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.44-303" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">class Into extends PhpParser\NodeVisitorAbstract
+{
+    public function __construct(string $filename);
+    public function enterNode(Node $node);
+    protected function intoConstants(Node\Stmt\ClassLike $node): array;
+    protected function intoAttributes(Node\Stmt\ClassLike $node): array;
+    protected function intoMethods(Node\Stmt\ClassLike $node): array;
+    protected function intoInputs($node): array;
+    protected function intoOutput($node): Type;
+    protected function intoType($node): Type;
+    public function collect(): File;
+}</code></pre>
+
+<section class="entity__description"></section>
+
+
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_file"><code class="language-php">protected $_file = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_prettyPrinter"><code class="language-php">private $_prettyPrinter = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="__construct">
+                <code class="language-php">public function __construct(string $filename)</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.49-53" title="View source of the `__construct` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="enterNode">
+                <code class="language-php">public function enterNode(Node $node)</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.55-124" title="View source of the `enterNode` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoConstants">
+                <code class="language-php">protected function intoConstants(Node\Stmt\ClassLike $node): array</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.126-163" title="View source of the `intoConstants` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoAttributes">
+                <code class="language-php">protected function intoAttributes(Node\Stmt\ClassLike $node): array</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.165-207" title="View source of the `intoAttributes` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoMethods">
+                <code class="language-php">protected function intoMethods(Node\Stmt\ClassLike $node): array</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.209-249" title="View source of the `intoMethods` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoInputs">
+                <code class="language-php">protected function intoInputs($node): array</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.251-266" title="View source of the `intoInputs` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoOutput">
+                <code class="language-php">protected function intoOutput($node): Type</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.268-274" title="View source of the `intoOutput` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="intoType">
+                <code class="language-php">protected function intoType($node): Type</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.276-297" title="View source of the `intoType` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="collect">
+                <code class="language-php">public function collect(): File</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.299-302" title="View source of the `collect` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>

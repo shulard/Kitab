@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../" />
+        <title>Foobar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://placehold.it/150x150" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/Compiler.html"><code>Compiler</code></a></li>
+                                    <li><a href="./kitab/compiler/Parser.html"><code>Parser</code></a></li>
+                            </ul>
+        
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Class <code>Kitab\Compiler\Compiler</code>
+    <aside>
+        <a href="./kitab/compiler/Compiler.source.html#L.48-155" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">class Compiler
+{
+    public function __construct();
+    public function compile(Finder $finder, Target\Target $target);
+    protected function getParser(): Parser;
+    protected function link(IntermediateRepresentation\File $file, array &$symbols);
+}</code></pre>
+
+<section class="entity__description"><p>The compiler.</p>
+<p>It is responsible to orchestrate the whole compilation process.</p>
+</section>
+
+
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_parser"><code class="language-php">protected $_parser = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="__construct">
+                <code class="language-php">public function __construct()</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.58-65" title="View source of the `__construct` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>When constructing the compiler, a new instance of the parser
+<a href="./kitab/compiler/Parser.html"><code>Kitab\Compiler\Parser</code></a> is created and stored statically. This is a way
+to cache the parser. This is not necessary to allocate a new parser
+each time.</p>
+</section>
+            </dd>
+                    <dt aria-label="compile">
+                <code class="language-php">public function compile(Finder $finder, Target\Target $target)</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.91-106" title="View source of the `compile` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Compile all files provided by the finder into the specified target.
+The compilation process is very classical. It works as follows:</p>
+<ol>
+<li>For each file provided by the finder,</li>
+<li>Parser the file, and get an intermediate representation,</li>
+<li>Compile the intermediate representation based on the given target,</li>
+<li>Update the linker with new symbols,</li>
+<li>Go to 1 if the finder is not empty,</li>
+<li>Ask the target to assemble all the generated objects.</li>
+</ol>
+<p>With this approach, only one intermediate representation of a file is
+allocated in the memory at a time. Not all the representations for all
+the files are in memory. It avoids having huge allocations, and big
+peaks, with all the complications.</p>
+<h1>Examples</h1>
+<p>Bla bla foo bar:</p>
+<pre><code class="language-php">assert(3 === 2 + 1);
+</code></pre>
+</section>
+            </dd>
+                    <dt aria-label="getParser">
+                <code class="language-php">protected function getParser(): Parser</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.111-114" title="View source of the `getParser` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Return the parser stored in the cache.</p>
+</section>
+            </dd>
+                    <dt aria-label="link">
+                <code class="language-php">protected function link(IntermediateRepresentation\File $file, array &$symbols)</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.128-154" title="View source of the `link` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Extract new symbols from an intermediate representation and update the linker.</p>
+<p>The linker is a tree structure. Bla bla.</p>
+<h1>Exceptions</h1>
+<p>If the link handles an intermediate representation that is unexpected,
+a <a href="./kitab/exception/LinkerUnknownIntermediateRepresentation.html"><code>Kitab\Exception\LinkerUnknownIntermediateRepresentation</code></a> exception
+will be thrown. This is not likely to happen, except during a
+development phase.</p>
+</section>
+            </dd>
+            </dl>
+
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+    </body>
+</html>
