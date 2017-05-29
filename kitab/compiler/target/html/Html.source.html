@@ -294,7 +294,7 @@ class Html implements Target
                             $this-&gt;_router-&gt;unroute(
                                 'namespace',
                                 [
-                                    'namespaceName' =&gt; $namespaceName . $subSymbolPrefix
+                                    'namespaceName' =&gt; $namespaceName . mb_strtolower($subSymbolPrefix)
                                 ]
                             );
 
