@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../" />
-        <title>Foobar</title>
+        <title>Kitab\Compiler\Compiler from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://placehold.it/150x150" alt="Home" />
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
         </a>
     </header>
 
@@ -45,13 +45,13 @@
     <h1>
     Class <code>Kitab\Compiler\Compiler</code>
     <aside>
-        <a href="./kitab/compiler/Compiler.source.html#L.48-155" title="View source">[src]</a>
+        <a href="./kitab/compiler/Compiler.source.html#L.49-163" title="View source">[src]</a>
     </aside>
 </h1>
 
 <pre><code class="language-php">class Compiler
 {
-    public function __construct();
+    public function __construct(Configuration $configuration);
     public function compile(Finder $finder, Target\Target $target);
     protected function getParser(): Parser;
     protected function link(IntermediateRepresentation\File $file, array &$symbols);
@@ -65,6 +65,10 @@
     <h2 id="attributes">Attributes</h2>
 
     <dl class="entity__children">
+                    <dt aria-label="_configuration"><code class="language-php">protected $_configuration = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
                     <dt aria-label="_parser"><code class="language-php">protected $_parser = null;</code></dt>
             <dd>
                 <section></section>
@@ -75,8 +79,8 @@
 
     <dl class="entity__children">
                     <dt aria-label="__construct">
-                <code class="language-php">public function __construct()</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.58-65" title="View source of the `__construct` method">[src]</a></aside>
+                <code class="language-php">public function __construct(Configuration $configuration)</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.60-73" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>When constructing the compiler, a new instance of the parser
@@ -87,7 +91,7 @@ each time.</p>
             </dd>
                     <dt aria-label="compile">
                 <code class="language-php">public function compile(Finder $finder, Target\Target $target)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.91-106" title="View source of the `compile` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.99-114" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Compile all files provided by the finder into the specified target.
@@ -112,7 +116,7 @@ peaks, with all the complications.</p>
             </dd>
                     <dt aria-label="getParser">
                 <code class="language-php">protected function getParser(): Parser</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.111-114" title="View source of the `getParser` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.119-122" title="View source of the `getParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Return the parser stored in the cache.</p>
@@ -120,7 +124,7 @@ peaks, with all the complications.</p>
             </dd>
                     <dt aria-label="link">
                 <code class="language-php">protected function link(IntermediateRepresentation\File $file, array &$symbols)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.128-154" title="View source of the `link` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.136-162" title="View source of the `link` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Extract new symbols from an intermediate representation and update the linker.</p>

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../../" />
-        <title>Foobar</title>
+        <title>Kitab\Compiler\Target\Html\Html from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://placehold.it/150x150" alt="Home" />
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
         </a>
     </header>
 
@@ -47,13 +47,13 @@
     <h1>
     Class <code>Kitab\Compiler\Target\Html\Html</code>
     <aside>
-        <a href="./kitab/compiler/target/html/Html.source.html#L.49-575" title="View source">[src]</a>
+        <a href="./kitab/compiler/target/html/Html.source.html#L.50-621" title="View source">[src]</a>
     </aside>
 </h1>
 
 <pre><code class="language-php">class Html
 {
-    public function __construct(Router $router);
+    public function __construct(Router $router, Configuration $configuration);
     public function compile(IntermediateRepresentation\File $file);
     protected function compileClass(Intermediaterepresentation\Class_ $class);
     protected function compileInterface(Intermediaterepresentation\Interface_ $interface);
@@ -69,83 +69,91 @@
 <section class="entity__description"></section>
 
 
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_configuration"><code class="language-php">protected $_configuration = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
 
     <h2 id="methods">Methods</h2>
 
     <dl class="entity__children">
                     <dt aria-label="__construct">
-                <code class="language-php">public function __construct(Router $router)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.51-58" title="View source of the `__construct` method">[src]</a></aside>
+                <code class="language-php">public function __construct(Router $router, Configuration $configuration)</code>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.54-67" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compile">
                 <code class="language-php">public function compile(IntermediateRepresentation\File $file)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.60-79" title="View source of the `compile` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.69-88" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileClass">
                 <code class="language-php">protected function compileClass(Intermediaterepresentation\Class_ $class)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.81-91" title="View source of the `compileClass` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.90-100" title="View source of the `compileClass` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileInterface">
                 <code class="language-php">protected function compileInterface(Intermediaterepresentation\Interface_ $interface)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.93-103" title="View source of the `compileInterface` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.102-112" title="View source of the `compileInterface` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileTrait">
                 <code class="language-php">protected function compileTrait(Intermediaterepresentation\Trait_ $trait)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.105-115" title="View source of the `compileTrait` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.114-124" title="View source of the `compileTrait` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileFunction">
                 <code class="language-php">protected function compileFunction(Intermediaterepresentation\Function_ $function)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.117-127" title="View source of the `compileFunction` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.126-136" title="View source of the `compileFunction` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileEntity">
                 <code class="language-php">protected function compileEntity(Intermediaterepresentation\Entity $entity, string $templateFile, StdClass $data)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.129-194" title="View source of the `compileEntity` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.138-208" title="View source of the `compileEntity` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="assemble">
                 <code class="language-php">public function assemble(array $symbols)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.196-203" title="View source of the `assemble` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.210-217" title="View source of the `assemble` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="assembleNamespaces">
                 <code class="language-php">protected function assembleNamespaces(array $symbols, string $accumulator)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.205-375" title="View source of the `assembleNamespaces` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.219-395" title="View source of the `assembleNamespaces` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="assembleEntities">
                 <code class="language-php">protected function assembleEntities(array $symbols, string $accumulator)</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.377-522" title="View source of the `assembleEntities` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.397-548" title="View source of the `assembleEntities` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="assembleResources">
                 <code class="language-php">protected function assembleResources()</code>
-                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.524-574" title="View source of the `assembleResources` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/target/html/Html.source.html#L.550-620" title="View source of the `assembleResources` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>

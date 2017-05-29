@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../" />
-        <title>Foobar</title>
+        <title>Source of Kitab\Bin\Compile from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://placehold.it/150x150" alt="Home" />
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
         </a>
     </header>
 </aside>
@@ -71,6 +71,7 @@ use Hoa\Protocol\Node;
 use Hoa\Protocol\Protocol;
 use Kitab\Compiler\Compiler;
 use Kitab\Compiler\Target\Html\Html;
+use Kitab\Configuration;
 use Kitab\Finder;
 
 class Compile extends Console\Dispatcher\Kit
@@ -81,10 +82,13 @@ class Compile extends Console\Dispatcher\Kit
      * @var array
      */
     protected $options = [
-        ['with-composer',    Console\GetOption::OPTIONAL_ARGUMENT, 'c'],
-        ['output-directory', Console\GetOption::REQUIRED_ARGUMENT, 'o'],
-        ['help',             Console\GetOption::NO_ARGUMENT,       'h'],
-        ['help',             Console\GetOption::NO_ARGUMENT,       '?']
+        ['default-namespace', Console\GetOption::REQUIRED_ARGUMENT, 'd'],
+        ['with-composer',     Console\GetOption::OPTIONAL_ARGUMENT, 'c'],
+        ['with-logo-url',     Console\GetOption::REQUIRED_ARGUMENT, 'l'],
+        ['with-project-name', Console\GetOption::REQUIRED_ARGUMENT, 'p'],
+        ['output-directory',  Console\GetOption::REQUIRED_ARGUMENT, 'o'],
+        ['help',              Console\GetOption::NO_ARGUMENT,       'h'],
+        ['help',              Console\GetOption::NO_ARGUMENT,       '?']
     ];
 
 
@@ -99,15 +103,31 @@ class Compile extends Console\Dispatcher\Kit
         $composerFile    = null;
         $outputDirectory = null;
         $directoryToScan = getcwd();
+        $configuration   = new Configuration();
 
         while (false !== $c = $this-&gt;getOption($v)) {
             switch ($c) {
+                case 'd':
+                    $configuration-&gt;defaultNamespace = $v;
+
+                    break;
+
                 case 'c':
                     if (false === is_string($v)) {
                         $composerFile = './composer.json';
                     } else {
                         $composerFile = $v;
                     }
+
+                    break;
+
+                case 'l':
+                    $configuration-&gt;logoURL = $v;
+
+                    break;
+
+                case 'p':
+                    $configuration-&gt;projectName = $v;
 
                     break;
 
@@ -164,9 +184,9 @@ class Compile extends Console\Dispatcher\Kit
         $finder = new Finder();
         $finder-&gt;in($directoryToScan);
 
-        $target = new Html();
+        $target = new Html(null, $configuration);
 
-        $compiler = new Compiler();
+        $compiler = new Compiler($configuration);
         $compiler-&gt;compile($finder, $target);
 
         return;
@@ -183,8 +203,11 @@ class Compile extends Console\Dispatcher\Kit
             'Usage   : compile &lt;options&gt;', &quot;\n&quot;,
             'Options :', &quot;\n&quot;,
             $this-&gt;makeUsageOptionsList([
+                'd'    =&gt; 'Default namespace that must be displayed.',
                 'c'    =&gt; 'Use a specific Composer file to get PSR-4 mappings ' .
-                          '(default: `./composer.json` if enabled)',
+                          '(default: `./composer.json` if enabled).',
+                'l'    =&gt; 'URL of the logo.',
+                'p'    =&gt; 'Project name.',
                 'o'    =&gt; 'Directory that will receive the generated documentation.',
                 'help' =&gt; 'This help.'
             ]);

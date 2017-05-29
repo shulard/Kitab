@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../../" />
-        <title>Foobar</title>
+        <title>Source of Kitab\Compiler\Target\Html\Html from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://placehold.it/150x150" alt="Home" />
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
         </a>
     </header>
 </aside>
@@ -73,16 +73,25 @@ use Hoa\Protocol\Protocol;
 use Hoa\Stream\IStream\Touchable;
 use Kitab\Compiler\IntermediateRepresentation;
 use Kitab\Compiler\Target\Target;
+use Kitab\Configuration;
 use Kitab\Exception;
 use StdClass;
 
 class Html implements Target
 {
-    public function __construct(Router $router = null)
+    protected $_configuration = null;
+
+    public function __construct(Router $router = null, Configuration $configuration = null)
     {
         if (null === $router) {
             $this-&gt;_router = new Router();
         }
+
+        if (null === $configuration) {
+            $configuration = new Configuration();
+        }
+
+        $this-&gt;_configuration = $configuration;
 
         return;
     }
@@ -196,13 +205,18 @@ class Html implements Target
 
         $dataSource-&gt;layout        = new StdClass();
         $dataSource-&gt;layout-&gt;base  = './' . str_repeat('../', substr_count($namespaceName, '/') + 1);
-        $dataSource-&gt;layout-&gt;title = 'Foobar';
+        $dataSource-&gt;layout-&gt;title = sprintf(
+            'Source of %s from %s',
+            $entity-&gt;name,
+            $this-&gt;_configuration-&gt;projectName
+        );
 
         $dataSource-&gt;layout-&gt;import       = new StdClass();
         $dataSource-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Source.html';
 
-        $dataSource-&gt;layout-&gt;import-&gt;data              = new StdClass();
-        $dataSource-&gt;layout-&gt;import-&gt;data-&gt;fileContent = file_get_contents($entity-&gt;file-&gt;name);
+        $dataSource-&gt;layout-&gt;import-&gt;data                = new StdClass();
+        $dataSource-&gt;layout-&gt;import-&gt;data-&gt;configuration = $this-&gt;_configuration;
+        $dataSource-&gt;layout-&gt;import-&gt;data-&gt;fileContent   = file_get_contents($entity-&gt;file-&gt;name);
 
         $viewSource = new Templater(
             __DIR__ . DS . 'Template' . DS . 'Layout.html',
@@ -378,11 +392,17 @@ class Html implements Target
 
                 $data-&gt;layout         = new StdClass();
                 $data-&gt;layout-&gt;base   = './' . str_repeat('../', substr_count($nextAccumulator, '\\'));
-                $data-&gt;layout-&gt;title  = 'Foobar';
+                $data-&gt;layout-&gt;title  = sprintf(
+                    'Index of %s from %s',
+                    trim($nextAccumulator, '\\'),
+                    $this-&gt;_configuration-&gt;projectName
+                );
 
                 $data-&gt;layout-&gt;import       = new StdClass();
                 $data-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Namespace.html';
-                $data-&gt;layout-&gt;import-&gt;data = $data;
+
+                $data-&gt;layout-&gt;import-&gt;data                = $data;
+                $data-&gt;layout-&gt;import-&gt;data-&gt;configuration = $this-&gt;_configuration;
 
                 $data-&gt;navigation             = new StdClass();
                 $data-&gt;navigation-&gt;heading    = $accumulator;
@@ -518,12 +538,18 @@ class Html implements Target
 
                 $data-&gt;layout        = new StdClass();
                 $data-&gt;layout-&gt;base  = './' . str_repeat('../', substr_count($accumulator, '\\'));
-                $data-&gt;layout-&gt;title = 'Foobar';
+                $data-&gt;layout-&gt;title = sprintf(
+                    '%s from %s',
+                    $symbolFullName,
+                    $this-&gt;_configuration-&gt;projectName
+                );
 
                 $data-&gt;layout-&gt;import       = new StdClass();
                 $data-&gt;layout-&gt;import-&gt;file = __DIR__ . DS . 'Template' . DS . 'Entity.html';
 
                 $data-&gt;layout-&gt;import-&gt;data = new StdClass();
+
+                $data-&gt;layout-&gt;import-&gt;data-&gt;configuration = $this-&gt;_configuration;
 
                 $data-&gt;layout-&gt;import-&gt;data-&gt;navigation             = new StdClass();
                 $data-&gt;layout-&gt;import-&gt;data-&gt;navigation-&gt;heading    = $accumulator;
@@ -553,6 +579,26 @@ class Html implements Target
 
     protected function assembleResources()
     {
+        $defaultNamespace = $this-&gt;_configuration-&gt;defaultNamespace;
+
+        if (null !== $defaultNamespace) {
+            $data      = new StdClass();
+            $data-&gt;url = '.' . $this-&gt;_router-&gt;unroute(
+                'namespace',
+                [
+                    'namespaceName' =&gt; mb_strtolower(str_replace('\\', '/', $defaultNamespace)),
+                ]
+            );
+
+            $view = new Templater(
+                __DIR__ . DS . 'Template' . DS . 'Redirect.html',
+                new Write('hoa://Kitab/Output/index.html', Write::MODE_TRUNCATE_WRITE),
+                $this-&gt;_router,
+                $data
+            );
+            $view-&gt;render();
+        }
+
         $from = __DIR__ . DS . 'Template' . DS . 'Public' . DS . 'css';
         $to   = 'hoa://Kitab/Output/css';
 

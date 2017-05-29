@@ -2,8 +2,8 @@
 
 <html lang="en">
     <head>
-        <base href="./../../../../../" />
-        <title>Kitab\Compiler\Target\Html\Markdown\Markdown from Kitab</title>
+        <base href="./../" />
+        <title>Kitab\Configuration from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -27,12 +27,13 @@
     </header>
 
     <nav>
-        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a>\<wbr /><a href="./kitab/compiler/target/index.html">Target</a>\<wbr /><a href="./kitab/compiler/target/html/index.html">Html</a>\<wbr /><a href="./kitab/compiler/target/html/markdown/index.html">Markdown</a></code></h1>
+        <h1><code><a href="./kitab/index.html">Kitab</a></code></h1>
 
                     <h2>Classes</h2>
 
             <ul class="list--flat">
-                                    <li><a href="./kitab/compiler/target/html/markdown/Markdown.html"><code>Markdown</code></a></li>
+                                    <li><a href="./kitab/Configuration.html"><code>Configuration</code></a></li>
+                                    <li><a href="./kitab/Finder.html"><code>Finder</code></a></li>
                             </ul>
         
         
@@ -42,33 +43,33 @@
 
 <article>
     <h1>
-    Class <code>Kitab\Compiler\Target\Html\Markdown\Markdown</code>
+    Class <code>Kitab\Configuration</code>
     <aside>
-        <a href="./kitab/compiler/target/html/markdown/Markdown.source.html#L.46-75" title="View source">[src]</a>
+        <a href="./kitab/Configuration.source.html#L.42-56" title="View source">[src]</a>
     </aside>
 </h1>
 
-<pre><code class="language-php">class Markdown
+<pre><code class="language-php">class Configuration
 {
-    public function __construct(Router $router);
-    public function toHtml(string $markdown): string;
+    public function getOr(string $item, mixed $default);
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>The configuration structure.</p>
+</section>
 
 
     <h2 id="attributes">Attributes</h2>
 
     <dl class="entity__children">
-                    <dt aria-label="_router"><code class="language-php">protected $_router = null;</code></dt>
+                    <dt aria-label="defaultNamespace"><code class="language-php">public $defaultNamespace = null;</code></dt>
             <dd>
                 <section></section>
             </dd>
-                    <dt aria-label="_htmlParser"><code class="language-php">private $_htmlParser = null;</code></dt>
+                    <dt aria-label="logoURL"><code class="language-php">public $logoURL = 'https://placehold.it/150x150';</code></dt>
             <dd>
                 <section></section>
             </dd>
-                    <dt aria-label="_htmlRenderer"><code class="language-php">private $_htmlRenderer = null;</code></dt>
+                    <dt aria-label="projectName"><code class="language-php">public $projectName = '(unknown)';</code></dt>
             <dd>
                 <section></section>
             </dd>
@@ -77,16 +78,9 @@
     <h2 id="methods">Methods</h2>
 
     <dl class="entity__children">
-                    <dt aria-label="__construct">
-                <code class="language-php">public function __construct(Router $router)</code>
-                <aside><a href="./kitab/compiler/target/html/markdown/Markdown.source.html#L.52-57" title="View source of the `__construct` method">[src]</a></aside>
-            </dt>
-            <dd>
-                <section></section>
-            </dd>
-                    <dt aria-label="toHtml">
-                <code class="language-php">public function toHtml(string $markdown): string</code>
-                <aside><a href="./kitab/compiler/target/html/markdown/Markdown.source.html#L.59-74" title="View source of the `toHtml` method">[src]</a></aside>
+                    <dt aria-label="getOr">
+                <code class="language-php">public function getOr(string $item, mixed $default)</code>
+                <aside><a href="./kitab/Configuration.source.html#L.48-55" title="View source of the `getOr` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>

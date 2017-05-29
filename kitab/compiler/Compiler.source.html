@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../" />
-        <title>Foobar</title>
+        <title>Source of Kitab\Compiler\Compiler from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://placehold.it/150x150" alt="Home" />
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
         </a>
     </header>
 </aside>
@@ -66,8 +66,9 @@
 
 namespace Kitab\Compiler;
 
-use Kitab\Finder;
+use Kitab\Configuration;
 use Kitab\Exception;
+use Kitab\Finder;
 use PhpParser\ParserFactory;
 
 /**
@@ -77,6 +78,7 @@ use PhpParser\ParserFactory;
  */
 class Compiler
 {
+    protected $_configuration = null;
     protected static $_parser = null;
 
     /**
@@ -85,8 +87,14 @@ class Compiler
      * to cache the parser. This is not necessary to allocate a new parser
      * each time.
      */
-    public function __construct()
+    public function __construct(Configuration $configuration = null)
     {
+        if (null === $configuration) {
+            $configuration = new Configuration();
+        }
+
+        $this-&gt;_configuration = $configuration;
+
         if (null === self::$_parser) {
             self::$_parser = new Parser();
         }
