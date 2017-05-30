@@ -47,7 +47,7 @@
     <h1>
     Class <code>Kitab\Exception\PhpParserError</code>
     <aside>
-        <a href="./kitab/exception/PhpParserError.source.html#L.39-41" title="View source">[src]</a>
+        <a href="./kitab/exception/PhpParserError.source.html#L.48-50" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -55,7 +55,13 @@
 {
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>Runtime exception when Kitab parses a PHP file containing invalid PHP code
+(with a syntax error).</p>
+<p>This exception contains <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/Error.php">the <code>Error</code> exception from the
+PHP-Parser</a>
+project as the previous exception. This <code>Error</code> exception holds all the
+information about the syntax error.</p>
+</section>
 
 
 

@@ -45,7 +45,7 @@
     <h1>
     Class <code>Kitab\Compiler\Compiler</code>
     <aside>
-        <a href="./kitab/compiler/Compiler.source.html#L.49-163" title="View source">[src]</a>
+        <a href="./kitab/compiler/Compiler.source.html#L.53-177" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -53,12 +53,17 @@
 {
     public function __construct(Kitab\Configuration $configuration);
     public function compile(Kitab\Finder $finder, Kitab\Compiler\Target\Target $target);
-    protected function getParser(): Kitab\Compiler\Parser;
+    public function getParser(): Kitab\Compiler\Parser;
     protected function link(Kitab\Compiler\IntermediateRepresentation\File $file, array &$symbols);
 }</code></pre>
 
-<section class="entity__description"><p>The compiler.</p>
-<p>It is responsible to orchestrate the whole compilation process.</p>
+<section class="entity__description"><p>The compiler orchestrates the whole compilation process.</p>
+<p>The compiler, <a href="kitab/compiler/index.html">as explained previously</a>, is a
+stream compiler. It receives a finder that is an iterator where each item
+is a PHP file to analyse. Each file is parsed by the parser, transformed
+into a Intermediate Representation, that is compiled by the target into
+partial objects. The target ends the whole process by assembling all the
+objects.</p>
 </section>
 
 
@@ -67,11 +72,16 @@
     <dl class="entity__children">
                     <dt aria-label="_configuration"><code class="language-php">protected $_configuration = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Configuration of the Kitab project, represented by the
+<a href="./kitab/Configuration.html"><code>Kitab\Configuration</code></a> class.</p>
+</section>
             </dd>
                     <dt aria-label="_parser"><code class="language-php">protected $_parser = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>The PHP parser, aka <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>,
+that is used to parse PHP files.</p>
+<p>The PHP parser is allocated once, hence the static declaration.</p>
+</section>
             </dd>
             </dl>
 
@@ -80,55 +90,52 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(Kitab\Configuration $configuration)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.60-73" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.74-87" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section><p>When constructing the compiler, a new instance of the parser
-<a href="./kitab/compiler/Parser.html"><code>Kitab\Compiler\Parser</code></a> is created and stored statically. This is a way
-to cache the parser. This is not necessary to allocate a new parser
-each time.</p>
+                <section><p>When constructing the compiler, a new instance of the
+<a href="./kitab/compiler/Parser.html"><code>Kitab\Compiler\Parser</code></a> parser is created and stored statically. If no
+configuration is provided, a default configuration is allocated.</p>
 </section>
             </dd>
                     <dt aria-label="compile">
                 <code class="language-php">public function compile(Kitab\Finder $finder, Kitab\Compiler\Target\Target $target)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.99-114" title="View source of the `compile` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.105-120" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Compile all files provided by the finder into the specified target.
-The compilation process is very classical. It works as follows:</p>
-<ol>
-<li>For each file provided by the finder,</li>
-<li>Parser the file, and get an intermediate representation,</li>
-<li>Compile the intermediate representation based on the given target,</li>
-<li>Update the linker with new symbols,</li>
-<li>Go to 1 if the finder is not empty,</li>
-<li>Ask the target to assemble all the generated objects.</li>
-</ol>
-<p>With this approach, only one intermediate representation of a file is
-allocated in the memory at a time. Not all the representations for all
-the files are in memory. It avoids having huge allocations, and big
-peaks, with all the complications.</p>
+See <a href="kitab/compiler/index.html">the workflow description</a> for more details.</p>
 <h1>Examples</h1>
-<p>Bla bla foo bar:</p>
-<pre><code class="language-php">assert(3 === 2 + 1);
+<pre><code class="language-php,ignore">$finder = new Kitab\Finder();
+$finder-&gt;in($path);
+
+$target = new Kitab\Compiler\Target\Html\Html();
+
+$compiler = new Kitab\Compiler\Compiler();
+$compiler-&gt;compile($finder, $target);
 </code></pre>
 </section>
             </dd>
                     <dt aria-label="getParser">
-                <code class="language-php">protected function getParser(): Kitab\Compiler\Parser</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.119-122" title="View source of the `getParser` method">[src]</a></aside>
+                <code class="language-php">public function getParser(): Kitab\Compiler\Parser</code>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.133-136" title="View source of the `getParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Return the parser stored in the cache.</p>
+<h1>Examples</h1>
+<pre><code class="language-php,ignore">$compiler = new Kitab\Compiler\Compiler();
+
+assert($compiler-&gt;getParser() instanceof Kitab\Compiler\Parser);
+</code></pre>
 </section>
             </dd>
                     <dt aria-label="link">
                 <code class="language-php">protected function link(Kitab\Compiler\IntermediateRepresentation\File $file, array &$symbols)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.136-162" title="View source of the `link` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.150-176" title="View source of the `link` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Extract new symbols from an intermediate representation and update the linker.</p>
-<p>The linker is a tree structure. Bla bla.</p>
+<p>The linker is a tree structure.</p>
 <h1>Exceptions</h1>
 <p>If the link handles an intermediate representation that is unexpected,
 a <a href="./kitab/exception/LinkerUnknownIntermediateRepresentation.html"><code>Kitab\Exception\LinkerUnknownIntermediateRepresentation</code></a> exception

@@ -42,6 +42,50 @@
 <article>
     <h1>Namespace <code>Kitab\Compiler</code></h1>
 
+            <section class="entity__description"><p>The compiler is composed of 3 parts:</p>
+<ol>
+<li>A parser,</li>
+<li>An intermediate representation,</li>
+<li>Targets.</li>
+</ol>
+<h1>Stream compiler</h1>
+<p>In order to fast handle large projects to document, Kitab compiler has
+been designed to work as a <em>stream</em>. Objects in memory are freed as
+soon as possible, they are not accumulate. The same memory space can
+be reused for each file being compiled. The algorithm works as
+follows:</p>
+<ol>
+<li>The finder provides the inputs to the compiler: This is an
+iterator, where each item is a PHP file,</li>
+<li>The parser… parses each file, and are transformed into an
+intermediate representation,</li>
+<li>The intermediate representation is compiled into partial objects
+by the target,</li>
+<li>Some data (e.g. symbols) are copied in the linker,</li>
+<li>Once these is no more inputs, the target ends by assembling all
+the partial objects thanks to the linker.</li>
+</ol>
+<p>The amount of memory used by this workflow is almost linear in
+time. This design imposes some limitations, but we are not here yet.</p>
+<h1>Parser</h1>
+<p>The parser is responsible to analyse each PHP
+file. The <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a> project
+is used to achieve this goal. All the difficult job is handled by this
+project. The result of a parsing is an Abstract Syntax Tree (AST),
+that will be transformed into an Intermediate Representation (IR).</p>
+<h1>Intermediate Representation</h1>
+<p>Because Kitab does not need to keep the whole AST in memory, it is
+transformed into a lower Intermediate Representation (IR). The IR is a
+set of simple structures. It ensures a light and simple API for the
+targets, decoupled from the PHP-Parser AST API.</p>
+<p>The root of IR is the <a href="./kitab/compiler/intermediaterepresentation/Into.html"><code>Kitab\Compiler\IntermediateRepresentation\Into</code></a>
+class. It acts as a visitor to traverse the AST.</p>
+<h1>Targets</h1>
+<p>Kitab can compile to many targets. So far, it only has the HTML target.</p>
+<p>All targets must implement the <a href="./kitab/compiler/target/Target.html"><code>Kitab\Compiler\Target\Target</code></a>
+interface. It requires few basic methods. It's up to the implementer
+to ensure the correct behavior of the target.</p>
+</section>
     
             <h2 id="classes">Classes</h2>
 
