@@ -24,9 +24,10 @@
 {"id":"22","name":"Kitab\\Compiler\\Target\\Html\\Templater","normalizedName":"Kitab Compiler Target Html Templater","description":"","url":".\/kitab\/compiler\/target\/html\/Templater.html"},
 {"id":"23","name":"Kitab\\Compiler\\Target\\Target","normalizedName":"Kitab Compiler Target Target","description":"\nDefine a compilation target.\n\nA compilation target works in two steps:\n\n1. `compile` to compile an intermediate representation of a file into the target,\n2. `assemble` to assemble of the compiled files.\n","url":".\/kitab\/compiler\/target\/Target.html"},
 {"id":"24","name":"Kitab\\Compiler\\Target\\Templater","normalizedName":"Kitab Compiler Target Templater","description":"","url":".\/kitab\/compiler\/target\/Templater.html"},
-{"id":"25","name":"Kitab\\Exception\\Exception","normalizedName":"Kitab Exception Exception","description":"","url":".\/kitab\/exception\/Exception.html"},
-{"id":"26","name":"Kitab\\Exception\\LinkerUnknownIntermediateRepresentation","normalizedName":"Kitab Exception LinkerUnknownIntermediateRepresentation","description":"","url":".\/kitab\/exception\/LinkerUnknownIntermediateRepresentation.html"},
-{"id":"27","name":"Kitab\\Exception\\PhpParserError","normalizedName":"Kitab Exception PhpParserError","description":"","url":".\/kitab\/exception\/PhpParserError.html"},
-{"id":"28","name":"Kitab\\Exception\\TargetUnknownIntermediateRepresentation","normalizedName":"Kitab Exception TargetUnknownIntermediateRepresentation","description":"","url":".\/kitab\/exception\/TargetUnknownIntermediateRepresentation.html"},
-{"id":"29","name":"Kitab\\Finder","normalizedName":"Kitab Finder","description":"\nCustom finder that scans only PHP files.\n","url":".\/kitab\/Finder.html"}
+{"id":"25","name":"Kitab\\Configuration","normalizedName":"Kitab Configuration","description":"\nThe configuration structure.\n","url":".\/kitab\/Configuration.html"},
+{"id":"26","name":"Kitab\\Exception\\Exception","normalizedName":"Kitab Exception Exception","description":"","url":".\/kitab\/exception\/Exception.html"},
+{"id":"27","name":"Kitab\\Exception\\LinkerUnknownIntermediateRepresentation","normalizedName":"Kitab Exception LinkerUnknownIntermediateRepresentation","description":"","url":".\/kitab\/exception\/LinkerUnknownIntermediateRepresentation.html"},
+{"id":"28","name":"Kitab\\Exception\\PhpParserError","normalizedName":"Kitab Exception PhpParserError","description":"","url":".\/kitab\/exception\/PhpParserError.html"},
+{"id":"29","name":"Kitab\\Exception\\TargetUnknownIntermediateRepresentation","normalizedName":"Kitab Exception TargetUnknownIntermediateRepresentation","description":"","url":".\/kitab\/exception\/TargetUnknownIntermediateRepresentation.html"},
+{"id":"30","name":"Kitab\\Finder","normalizedName":"Kitab Finder","description":"\nCustom finder that scans only PHP files.\n","url":".\/kitab\/Finder.html"}
 ]

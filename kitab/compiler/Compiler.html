@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../" />
-        <title>Kitab\Compiler\Compiler from Kitab</title>
+        <title>Kitab\Compiler\Compiler from (unknown)</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+            <img src="https://placehold.it/150x150" alt="Home" />
         </a>
     </header>
 
@@ -51,10 +51,10 @@
 
 <pre><code class="language-php">class Compiler
 {
-    public function __construct(Configuration $configuration);
-    public function compile(Finder $finder, Target\Target $target);
-    protected function getParser(): Parser;
-    protected function link(IntermediateRepresentation\File $file, array &$symbols);
+    public function __construct(Kitab\Configuration $configuration);
+    public function compile(Kitab\Finder $finder, Kitab\Compiler\Target\Target $target);
+    protected function getParser(): Kitab\Compiler\Parser;
+    protected function link(Kitab\Compiler\IntermediateRepresentation\File $file, array &$symbols);
 }</code></pre>
 
 <section class="entity__description"><p>The compiler.</p>
@@ -79,7 +79,7 @@
 
     <dl class="entity__children">
                     <dt aria-label="__construct">
-                <code class="language-php">public function __construct(Configuration $configuration)</code>
+                <code class="language-php">public function __construct(Kitab\Configuration $configuration)</code>
                 <aside><a href="./kitab/compiler/Compiler.source.html#L.60-73" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
@@ -90,7 +90,7 @@ each time.</p>
 </section>
             </dd>
                     <dt aria-label="compile">
-                <code class="language-php">public function compile(Finder $finder, Target\Target $target)</code>
+                <code class="language-php">public function compile(Kitab\Finder $finder, Kitab\Compiler\Target\Target $target)</code>
                 <aside><a href="./kitab/compiler/Compiler.source.html#L.99-114" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
@@ -115,7 +115,7 @@ peaks, with all the complications.</p>
 </section>
             </dd>
                     <dt aria-label="getParser">
-                <code class="language-php">protected function getParser(): Parser</code>
+                <code class="language-php">protected function getParser(): Kitab\Compiler\Parser</code>
                 <aside><a href="./kitab/compiler/Compiler.source.html#L.119-122" title="View source of the `getParser` method">[src]</a></aside>
             </dt>
             <dd>
@@ -123,7 +123,7 @@ peaks, with all the complications.</p>
 </section>
             </dd>
                     <dt aria-label="link">
-                <code class="language-php">protected function link(IntermediateRepresentation\File $file, array &$symbols)</code>
+                <code class="language-php">protected function link(Kitab\Compiler\IntermediateRepresentation\File $file, array &$symbols)</code>
                 <aside><a href="./kitab/compiler/Compiler.source.html#L.136-162" title="View source of the `link` method">[src]</a></aside>
             </dt>
             <dd>

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../" />
-        <title>Kitab\Compiler\Parser from Kitab</title>
+        <title>Kitab\Compiler\Parser from (unknown)</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+            <img src="https://placehold.it/150x150" alt="Home" />
         </a>
     </header>
 
@@ -52,10 +52,10 @@
 <pre><code class="language-php">class Parser
 {
     public function __construct();
-    public function parse(File\SplFileInfo $file): IntermediateRepresentation\File;
-    protected function intoIntermediateRepresentation(array $statements, string $fileName): IntermediateRepresentation\File;
-    protected static function getPhpParser(): ParserMultiple;
-    protected static function getTraverser(): NodeTraverser;
+    public function parse(Hoa\File\SplFileInfo $file): Kitab\Compiler\IntermediateRepresentation\File;
+    protected function intoIntermediateRepresentation(array $statements, string $fileName): Kitab\Compiler\IntermediateRepresentation\File;
+    protected static function getPhpParser(): PhpParser\Parser\Multiple;
+    protected static function getTraverser(): PhpParser\NodeTraverser;
     public static function extractFromComment($comment);
 }</code></pre>
 
@@ -86,28 +86,28 @@
                 <section></section>
             </dd>
                     <dt aria-label="parse">
-                <code class="language-php">public function parse(File\SplFileInfo $file): IntermediateRepresentation\File</code>
+                <code class="language-php">public function parse(Hoa\File\SplFileInfo $file): Kitab\Compiler\IntermediateRepresentation\File</code>
                 <aside><a href="./kitab/compiler/Parser.source.html#L.64-82" title="View source of the `parse` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="intoIntermediateRepresentation">
-                <code class="language-php">protected function intoIntermediateRepresentation(array $statements, string $fileName): IntermediateRepresentation\File</code>
+                <code class="language-php">protected function intoIntermediateRepresentation(array $statements, string $fileName): Kitab\Compiler\IntermediateRepresentation\File</code>
                 <aside><a href="./kitab/compiler/Parser.source.html#L.84-96" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="getPhpParser">
-                <code class="language-php">protected static function getPhpParser(): ParserMultiple</code>
+                <code class="language-php">protected static function getPhpParser(): PhpParser\Parser\Multiple</code>
                 <aside><a href="./kitab/compiler/Parser.source.html#L.98-101" title="View source of the `getPhpParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="getTraverser">
-                <code class="language-php">protected static function getTraverser(): NodeTraverser</code>
+                <code class="language-php">protected static function getTraverser(): PhpParser\NodeTraverser</code>
                 <aside><a href="./kitab/compiler/Parser.source.html#L.103-106" title="View source of the `getTraverser` method">[src]</a></aside>
             </dt>
             <dd>

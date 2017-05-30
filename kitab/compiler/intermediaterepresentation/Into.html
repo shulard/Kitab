@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../" />
-        <title>Kitab\Compiler\IntermediateRepresentation\Into from Kitab</title>
+        <title>Kitab\Compiler\IntermediateRepresentation\Into from (unknown)</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+            <img src="https://placehold.it/150x150" alt="Home" />
         </a>
     </header>
 
@@ -62,14 +62,14 @@
 <pre><code class="language-php">class Into extends PhpParser\NodeVisitorAbstract
 {
     public function __construct(string $filename);
-    public function enterNode(Node $node);
-    protected function intoConstants(Node\Stmt\ClassLike $node): array;
-    protected function intoAttributes(Node\Stmt\ClassLike $node): array;
-    protected function intoMethods(Node\Stmt\ClassLike $node): array;
+    public function leaveNode(PhpParser\Node $node);
+    protected function intoConstants(PhpParser\Node\Stmt\ClassLike $node): array;
+    protected function intoAttributes(PhpParser\Node\Stmt\ClassLike $node): array;
+    protected function intoMethods(PhpParser\Node\Stmt\ClassLike $node): array;
     protected function intoInputs($node): array;
-    protected function intoOutput($node): Type;
-    protected function intoType($node): Type;
-    public function collect(): File;
+    protected function intoOutput($node): Kitab\Compiler\IntermediateRepresentation\Type;
+    protected function intoType($node): Kitab\Compiler\IntermediateRepresentation\Type;
+    public function collect(): Kitab\Compiler\IntermediateRepresentation\File;
 }</code></pre>
 
 <section class="entity__description"></section>
@@ -98,29 +98,29 @@
             <dd>
                 <section></section>
             </dd>
-                    <dt aria-label="enterNode">
-                <code class="language-php">public function enterNode(Node $node)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.55-124" title="View source of the `enterNode` method">[src]</a></aside>
+                    <dt aria-label="leaveNode">
+                <code class="language-php">public function leaveNode(PhpParser\Node $node)</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.55-124" title="View source of the `leaveNode` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="intoConstants">
-                <code class="language-php">protected function intoConstants(Node\Stmt\ClassLike $node): array</code>
+                <code class="language-php">protected function intoConstants(PhpParser\Node\Stmt\ClassLike $node): array</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.126-163" title="View source of the `intoConstants` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="intoAttributes">
-                <code class="language-php">protected function intoAttributes(Node\Stmt\ClassLike $node): array</code>
+                <code class="language-php">protected function intoAttributes(PhpParser\Node\Stmt\ClassLike $node): array</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.165-207" title="View source of the `intoAttributes` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="intoMethods">
-                <code class="language-php">protected function intoMethods(Node\Stmt\ClassLike $node): array</code>
+                <code class="language-php">protected function intoMethods(PhpParser\Node\Stmt\ClassLike $node): array</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.209-249" title="View source of the `intoMethods` method">[src]</a></aside>
             </dt>
             <dd>
@@ -134,21 +134,21 @@
                 <section></section>
             </dd>
                     <dt aria-label="intoOutput">
-                <code class="language-php">protected function intoOutput($node): Type</code>
+                <code class="language-php">protected function intoOutput($node): Kitab\Compiler\IntermediateRepresentation\Type</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.268-274" title="View source of the `intoOutput` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="intoType">
-                <code class="language-php">protected function intoType($node): Type</code>
+                <code class="language-php">protected function intoType($node): Kitab\Compiler\IntermediateRepresentation\Type</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.276-297" title="View source of the `intoType` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="collect">
-                <code class="language-php">public function collect(): File</code>
+                <code class="language-php">public function collect(): Kitab\Compiler\IntermediateRepresentation\File</code>
                 <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.299-302" title="View source of the `collect` method">[src]</a></aside>
             </dt>
             <dd>

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../" />
-        <title>Source of Kitab\Compiler\IntermediateRepresentation\Into from Kitab</title>
+        <title>Source of Kitab\Compiler\IntermediateRepresentation\Into from (unknown)</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,13 +22,13 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+            <img src="https://placehold.it/150x150" alt="Home" />
         </a>
     </header>
 </aside>
 
 <article>
-    <pre id="L" data-line="," class="line-numbers"><code class="language-php">&lt;?php
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
 /**
  * Hoa
@@ -82,7 +82,7 @@ class Into extends NodeVisitorAbstract
         $this-&gt;_prettyPrinter = new PrettyPrinter\Standard(['shortArraySyntax' =&gt; true]);
     }
 
-    public function enterNode(Node $node)
+    public function leaveNode(Node $node)
     {
         if ($node instanceof Node\Stmt\Class_) {
             $classNode            = $node;

@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../../" />
-        <title>Kitab\Compiler\Target\Html\Html from Kitab</title>
+        <title>Kitab\Compiler\Target\Html\Html from (unknown)</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -22,7 +22,7 @@
             <aside>
     <header>
         <a href="./">
-            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+            <img src="https://placehold.it/150x150" alt="Home" />
         </a>
     </header>
 
@@ -53,13 +53,13 @@
 
 <pre><code class="language-php">class Html
 {
-    public function __construct(Router $router, Configuration $configuration);
-    public function compile(IntermediateRepresentation\File $file);
-    protected function compileClass(Intermediaterepresentation\Class_ $class);
-    protected function compileInterface(Intermediaterepresentation\Interface_ $interface);
-    protected function compileTrait(Intermediaterepresentation\Trait_ $trait);
-    protected function compileFunction(Intermediaterepresentation\Function_ $function);
-    protected function compileEntity(Intermediaterepresentation\Entity $entity, string $templateFile, StdClass $data);
+    public function __construct(Kitab\Compiler\Target\Html\Router $router, Kitab\Configuration $configuration);
+    public function compile(Kitab\Compiler\IntermediateRepresentation\File $file);
+    protected function compileClass(Kitab\Compiler\IntermediateRepresentation\Class_ $class);
+    protected function compileInterface(Kitab\Compiler\IntermediateRepresentation\Interface_ $interface);
+    protected function compileTrait(Kitab\Compiler\IntermediateRepresentation\Trait_ $trait);
+    protected function compileFunction(Kitab\Compiler\IntermediateRepresentation\Function_ $function);
+    protected function compileEntity(Kitab\Compiler\IntermediateRepresentation\Entity $entity, string $templateFile, StdClass $data);
     public function assemble(array $symbols);
     protected function assembleNamespaces(array $symbols, string $accumulator);
     protected function assembleEntities(array $symbols, string $accumulator);
@@ -82,49 +82,49 @@
 
     <dl class="entity__children">
                     <dt aria-label="__construct">
-                <code class="language-php">public function __construct(Router $router, Configuration $configuration)</code>
+                <code class="language-php">public function __construct(Kitab\Compiler\Target\Html\Router $router, Kitab\Configuration $configuration)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.54-67" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compile">
-                <code class="language-php">public function compile(IntermediateRepresentation\File $file)</code>
+                <code class="language-php">public function compile(Kitab\Compiler\IntermediateRepresentation\File $file)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.69-88" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileClass">
-                <code class="language-php">protected function compileClass(Intermediaterepresentation\Class_ $class)</code>
+                <code class="language-php">protected function compileClass(Kitab\Compiler\IntermediateRepresentation\Class_ $class)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.90-100" title="View source of the `compileClass` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileInterface">
-                <code class="language-php">protected function compileInterface(Intermediaterepresentation\Interface_ $interface)</code>
+                <code class="language-php">protected function compileInterface(Kitab\Compiler\IntermediateRepresentation\Interface_ $interface)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.102-112" title="View source of the `compileInterface` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileTrait">
-                <code class="language-php">protected function compileTrait(Intermediaterepresentation\Trait_ $trait)</code>
+                <code class="language-php">protected function compileTrait(Kitab\Compiler\IntermediateRepresentation\Trait_ $trait)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.114-124" title="View source of the `compileTrait` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileFunction">
-                <code class="language-php">protected function compileFunction(Intermediaterepresentation\Function_ $function)</code>
+                <code class="language-php">protected function compileFunction(Kitab\Compiler\IntermediateRepresentation\Function_ $function)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.126-136" title="View source of the `compileFunction` method">[src]</a></aside>
             </dt>
             <dd>
                 <section></section>
             </dd>
                     <dt aria-label="compileEntity">
-                <code class="language-php">protected function compileEntity(Intermediaterepresentation\Entity $entity, string $templateFile, StdClass $data)</code>
+                <code class="language-php">protected function compileEntity(Kitab\Compiler\IntermediateRepresentation\Entity $entity, string $templateFile, StdClass $data)</code>
                 <aside><a href="./kitab/compiler/target/html/Html.source.html#L.138-208" title="View source of the `compileEntity` method">[src]</a></aside>
             </dt>
             <dd>
