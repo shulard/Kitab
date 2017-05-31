@@ -7,6 +7,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
 
         <link rel="stylesheet" href="./css/main.css" media="all" />
         <link rel="stylesheet" href="./css/prism.css" media="all" />
@@ -45,7 +46,7 @@
     <h1>
     Class <code>Kitab\Compiler\Compiler</code>
     <aside>
-        <a href="./kitab/compiler/Compiler.source.html#L.53-177" title="View source">[src]</a>
+        <a href="./kitab/compiler/Compiler.source.html#L.53-176" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -78,9 +79,8 @@ objects.</p>
             </dd>
                     <dt aria-label="_parser"><code class="language-php">protected $_parser = null;</code></dt>
             <dd>
-                <section><p>The PHP parser, aka <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>,
-that is used to parse PHP files.</p>
-<p>The PHP parser is allocated once, hence the static declaration.</p>
+                <section><p>The parsed used to parse PHP files.</p>
+<p>The parser is allocated once, hence the static declaration.</p>
 </section>
             </dd>
             </dl>
@@ -90,7 +90,7 @@ that is used to parse PHP files.</p>
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(Kitab\Configuration $configuration)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.74-87" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.73-86" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>When constructing the compiler, a new instance of the
@@ -100,7 +100,7 @@ configuration is provided, a default configuration is allocated.</p>
             </dd>
                     <dt aria-label="compile">
                 <code class="language-php">public function compile(Kitab\Finder $finder, Kitab\Compiler\Target\Target $target)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.105-120" title="View source of the `compile` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.104-119" title="View source of the `compile` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Compile all files provided by the finder into the specified target.
@@ -118,7 +118,7 @@ $compiler-&gt;compile($finder, $target);
             </dd>
                     <dt aria-label="getParser">
                 <code class="language-php">public function getParser(): Kitab\Compiler\Parser</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.133-136" title="View source of the `getParser` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.132-135" title="View source of the `getParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Return the parser stored in the cache.</p>
@@ -131,7 +131,7 @@ assert($compiler-&gt;getParser() instanceof Kitab\Compiler\Parser);
             </dd>
                     <dt aria-label="link">
                 <code class="language-php">protected function link(Kitab\Compiler\IntermediateRepresentation\File $file, array &$symbols)</code>
-                <aside><a href="./kitab/compiler/Compiler.source.html#L.150-176" title="View source of the `link` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Compiler.source.html#L.149-175" title="View source of the `link` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Extract new symbols from an intermediate representation and update the linker.</p>
