@@ -36,6 +36,7 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Documentation</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
@@ -56,26 +57,30 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Entity</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.39-76" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.45-145" title="View source">[src]</a>
     </aside>
 </h1>
 
 <pre><code class="language-php">abstract class Entity
 {
-    public function getNamespaceName();
-    public function getShortName();
-    public function inNamespace();
-    public static function getType();
+    public function getNamespaceName(): string;
+    public function getShortName(): string;
+    public function inNamespace(): bool;
+    public static function getType(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>An entity intermediate representation.</p>
+<p>This is an abstract class aiming at representing all kind of entity, like
+class, interface, trait, function…</p>
+</section>
 
     <h2 id="constants">Constants</h2>
 
     <dl class="entity__children">
                     <dt aria-label="TYPE"><code class="language-php">public const TYPE = '(unknown)';</code></dt>
             <dd>
-                <section></section>
+                <section><p>The kind of the entity, defined as a simple string.</p>
+</section>
             </dd>
             </dl>
 
@@ -84,23 +89,28 @@
     <dl class="entity__children">
                     <dt aria-label="file"><code class="language-php">public $file</code></dt>
             <dd>
-                <section></section>
+                <section><p>File name containing the entity.</p>
+</section>
             </dd>
                     <dt aria-label="lineStart"><code class="language-php">public $lineStart = 0;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Unsigned integer representing where the entity declaration starts in the file.</p>
+</section>
             </dd>
                     <dt aria-label="lineEnd"><code class="language-php">public $lineEnd = 0;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Unsigned integer representing where the entity declaration ends in the file.</p>
+</section>
             </dd>
                     <dt aria-label="name"><code class="language-php">public $name</code></dt>
             <dd>
-                <section></section>
+                <section><p>The fully-qualified name of the entity, i.e. it includes namespaces.</p>
+</section>
             </dd>
                     <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
             <dd>
-                <section></section>
+                <section><p>Associated documentation of the entity.</p>
+</section>
             </dd>
             </dl>
 
@@ -108,32 +118,56 @@
 
     <dl class="entity__children">
                     <dt aria-label="getNamespaceName">
-                <code class="language-php">public function getNamespaceName()</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.49-56" title="View source of the `getNamespaceName` method">[src]</a></aside>
+                <code class="language-php">public function getNamespaceName(): string</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.88-95" title="View source of the `getNamespaceName` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>The name of the entity without the short name, i.e. only the namespaces.</p>
+<h1>Examples</h1>
+<pre><code class="language-php">$class = new Kitab\Compiler\IntermediateRepresentation\Class_('Foo\\Bar\\Baz');
+
+assert($class-&gt;getNamespaceName() === 'Foo\\Bar');
+</code></pre>
+</section>
             </dd>
                     <dt aria-label="getShortName">
-                <code class="language-php">public function getShortName()</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.58-65" title="View source of the `getShortName` method">[src]</a></aside>
+                <code class="language-php">public function getShortName(): string</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.108-115" title="View source of the `getShortName` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>The name of the entity without the namespaces, only the short name.</p>
+<h1>Examples</h1>
+<pre><code class="language-php">$class = new Kitab\Compiler\IntermediateRepresentation\Class_('Foo\\Bar\\Baz');
+
+assert($class-&gt;getShortName() === 'Baz');
+</code></pre>
+</section>
             </dd>
                     <dt aria-label="inNamespace">
-                <code class="language-php">public function inNamespace()</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.67-70" title="View source of the `inNamespace` method">[src]</a></aside>
+                <code class="language-php">public function inNamespace(): bool</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.133-136" title="View source of the `inNamespace` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>An entity is in a namespace if its fully-qualified name contains at
+least one namespace separator (aka <code>\</code>).</p>
+<h1>Examples</h1>
+<pre><code class="language-php">$classA = new Kitab\Compiler\IntermediateRepresentation\Class_('Foo\\Bar\\Baz');
+
+assert(true === $class-&gt;inNamespace());
+
+$classB = new Kitab\Compiler\IntermediateRepresentation\Class_('Qux');
+
+assert(false === $class-&gt;inNamespace());
+</code></pre>
+</section>
             </dd>
                     <dt aria-label="getType">
-                <code class="language-php">public static function getType()</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.72-75" title="View source of the `getType` method">[src]</a></aside>
+                <code class="language-php">public static function getType(): string</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.141-144" title="View source of the `getType` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Return the type of the entity defined by the <code>TYPE</code> class constant.</p>
+</section>
             </dd>
             </dl>
 
@@ -145,6 +179,6 @@
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

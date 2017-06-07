@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <base href="./../../../" />
-        <title>Kitab\Compiler\IntermediateRepresentation\Trait_ from Kitab</title>
+        <title>Kitab\Compiler\IntermediateRepresentation\Documentation from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -55,57 +55,28 @@
 
 <article>
     <h1>
-    Class <code>Kitab\Compiler\IntermediateRepresentation\Trait_</code>
+    Class <code>Kitab\Compiler\IntermediateRepresentation\Documentation</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Trait_.source.html#L.57-87" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.39-61" title="View source">[src]</a>
     </aside>
 </h1>
 
-<pre><code class="language-php">class Trait_ extends Kitab\Compiler\IntermediateRepresentation\Entity
+<pre><code class="language-php">class Documentation
 {
-    public function __construct(string $name);
+    public function __construct(string $documentation);
+    public function getDescription(): string;
+    public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"><p>A trait intermediate representation.</p>
-<p>A trait is one of the major entity in PHP. It exposes attributes, and
-methods. A trait can inherit from one other trait.</p>
-<h1>Examples</h1>
-<p>In this example, a new trait <code>T</code> is built, with 2 attributes: <code>foo</code>
-and <code>bar</code>, and one method: <code>f</code>.</p>
-<pre><code class="language-php">$trait               = new Kitab\Compiler\IntermediateRepresentation\Trait_('T');
-$trait-&gt;attributes[] = new Kitab\Compiler\IntermediateRepresentation\Attribute('foo');
-$trait-&gt;attributes[] = new Kitab\Compiler\IntermediateRepresentation\Attribute('bar');
-$trait-&gt;methods[]    = new Kitab\Compiler\IntermediateRepresentation\Method('f');
-</code></pre>
-</section>
+<section class="entity__description"></section>
 
-    <h2 id="constants">Constants</h2>
-
-    <dl class="entity__children">
-                    <dt aria-label="TYPE"><code class="language-php">public const TYPE = 'trait';</code></dt>
-            <dd>
-                <section><p>Type of the entity. See parent.</p>
-</section>
-            </dd>
-            </dl>
 
     <h2 id="attributes">Attributes</h2>
 
     <dl class="entity__children">
-                    <dt aria-label="parent"><code class="language-php">public $parent = null;</code></dt>
+                    <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
             <dd>
-                <section><p>Fully-qualified name of the trait it extends if any.</p>
-</section>
-            </dd>
-                    <dt aria-label="attributes"><code class="language-php">public $attributes = [];</code></dt>
-            <dd>
-                <section><p>Collection of <a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Kitab\Compiler\IntermediateRepresentation\Attribute</code></a> instances.</p>
-</section>
-            </dd>
-                    <dt aria-label="methods"><code class="language-php">public $methods = [];</code></dt>
-            <dd>
-                <section><p>Collection of <a href="./kitab/compiler/intermediaterepresentation/Method.html"><code>Kitab\Compiler\IntermediateRepresentation\Method</code></a> instances.</p>
-</section>
+                <section></section>
             </dd>
             </dl>
 
@@ -113,13 +84,25 @@ $trait-&gt;methods[]    = new Kitab\Compiler\IntermediateRepresentation\Method('
 
     <dl class="entity__children">
                     <dt aria-label="__construct">
-                <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Trait_.source.html#L.83-86" title="View source of the `__construct` method">[src]</a></aside>
+                <code class="language-php">public function __construct(string $documentation)</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.43-46" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section><p>Allocate a trait with a fully-qualified name. This is the only
-mandatory information.</p>
-</section>
+                <section></section>
+            </dd>
+                    <dt aria-label="getDescription">
+                <code class="language-php">public function getDescription(): string</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.48-55" title="View source of the `getDescription` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="__toString">
+                <code class="language-php">public function __toString(): string</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.57-60" title="View source of the `__toString` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
             </dd>
             </dl>
 

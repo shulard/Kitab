@@ -36,6 +36,7 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Documentation</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
@@ -56,7 +57,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Type</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.39-54" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.62-105" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -65,7 +66,22 @@
     public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A type intermediate representation.</p>
+<p>A type has a name. It can represent a value passed by copy or by
+reference. It can be nullable, i.e. null value can be considered as valid.</p>
+<p>Because values in PHP are represented by union types (many types), the type
+of a value can be undeclared (and decided at runtime). Thus, a type can
+have no name in this intermediate representation.</p>
+<h1>Examples</h1>
+<p>The following example builds a nullable reference type <code>T</code>.</p>
+<pre><code class="language-php">$type = new Kitab\Compiler\IntermediateRepresentation\Type();
+$type-&gt;name      = 'T';
+$type-&gt;reference = true;
+$type-&gt;nullable  = true;
+
+assert('?T &amp;' === (string) $type);
+</code></pre>
+</section>
 
 
     <h2 id="attributes">Attributes</h2>
@@ -73,15 +89,21 @@
     <dl class="entity__children">
                     <dt aria-label="reference"><code class="language-php">public $reference = false;</code></dt>
             <dd>
-                <section></section>
+                <section><p>If <code>true</code>, the type will represent a value passed by reference, else
+—<code>false</code>—, a value passed by copy.</p>
+</section>
             </dd>
                     <dt aria-label="nullable"><code class="language-php">public $nullable = false;</code></dt>
             <dd>
-                <section></section>
+                <section><p>A nullable type accepts the <code>null</code> value as valid. For instance the
+type <code>string</code> does not accept the <code>null</code> value, but <code>?string</code> will
+accept both strings and the <code>null</code> value.</p>
+</section>
             </dd>
                     <dt aria-label="name"><code class="language-php">public $name = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Name of the type.</p>
+</section>
             </dd>
             </dl>
 
@@ -90,10 +112,18 @@
     <dl class="entity__children">
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.45-53" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.96-104" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform this intermediate representation into its PHP representation.</p>
+<p>The original formatting is not kept. The applied formatting is designed for Kitab.</p>
+<h1>Examples</h1>
+<pre><code class="language-php">$type = new Kitab\Compiler\IntermediateRepresentation\Type();
+$type-&gt;name = 'T';
+
+assert('T' === (string) $type);
+</code></pre>
+</section>
             </dd>
             </dl>
 
@@ -105,6 +135,6 @@
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

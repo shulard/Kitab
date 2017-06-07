@@ -36,6 +36,7 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Documentation</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
@@ -56,7 +57,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Constant</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.39-105" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.57-132" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -66,7 +67,18 @@
     public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A constant intermediate representation.</p>
+<p>A constant is a property of a class entity.</p>
+<h1>Examples</h1>
+<p>In this example, a new constant <code>FOO</code> is built, with a protected
+visibility, and a value sets to 42.</p>
+<pre><code class="language-php">$constant             = new Kitab\Compiler\IntermediateRepresentation\Constant('FOO');
+$constant-&gt;visibility = $constant::VISIBILITY_PROTECTED;
+$constant-&gt;value      = '42';
+
+assert('protected const FOO = 42' === (string) $attribute);
+</code></pre>
+</section>
 
     <h2 id="constants">Constants</h2>
 
@@ -93,22 +105,23 @@
     <dl class="entity__children">
                     <dt aria-label="visibility"><code class="language-php">public $visibility = self::VISIBILITY_PUBLIC;</code></dt>
             <dd>
-                <section><p>Visibility of the constant.</p>
+                <section><p>The visibility of the attribute, represented by the
+<code>self::VISIBILITY_*</code> constants.</p>
 </section>
             </dd>
                     <dt aria-label="name"><code class="language-php">public $name</code></dt>
             <dd>
-                <section><p>Name of the constant.</p>
+                <section><p>Represent the name of the constant.</p>
 </section>
             </dd>
                     <dt aria-label="value"><code class="language-php">public $value = null;</code></dt>
             <dd>
-                <section><p>String of PHP code expressing the value of the constant.</p>
+                <section><p>A string containing only PHP code representing the value of the constant.</p>
 </section>
             </dd>
                     <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
             <dd>
-                <section><p>Documentation of the constant.</p>
+                <section><p>Associated documentation of the constant.</p>
 </section>
             </dd>
             </dl>
@@ -118,17 +131,20 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.76-79" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.98-101" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate a constant with a name. This is the only mandatory information.</p>
+</section>
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.81-104" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.108-131" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform this intermediate representation into its PHP representation.</p>
+<p>The original formatting is not kept. The applied formatting is designed for Kitab.</p>
+</section>
             </dd>
             </dl>
 
@@ -140,6 +156,6 @@
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

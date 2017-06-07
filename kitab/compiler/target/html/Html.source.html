@@ -231,7 +231,7 @@ class Html implements Target
             'id'             =&gt; null,
             'name'           =&gt; $entity-&gt;name,
             'normalizedName' =&gt; str_replace('\\', ' ', $entity-&gt;name),
-            'description'    =&gt; $entity-&gt;documentation,
+            'description'    =&gt; (string) $entity-&gt;documentation,
             'url'            =&gt; '.' . $url
         ]);
 
@@ -322,9 +322,10 @@ class Html implements Target
 
                     switch ($subSymbolType) {
                         case '@class':
-                            $_class       = new StdClass();
-                            $_class-&gt;name = $subSymbolName;
-                            $_class-&gt;url  =
+                            $_class              = new StdClass();
+                            $_class-&gt;name        = $subSymbolName;
+                            $_class-&gt;description = $subSymbol-&gt;description;
+                            $_class-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(
                                     'entity',
@@ -339,9 +340,10 @@ class Html implements Target
                             break;
 
                         case '@interface':
-                            $_interface       = new StdClass();
-                            $_interface-&gt;name = $subSymbolName;
-                            $_interface-&gt;url  =
+                            $_interface              = new StdClass();
+                            $_interface-&gt;name        = $subSymbolName;
+                            $_interface-&gt;description = $subSymbol-&gt;description;
+                            $_interface-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(
                                     'entity',
@@ -356,9 +358,10 @@ class Html implements Target
                             break;
 
                         case '@trait':
-                            $_trait       = new StdClass();
-                            $_trait-&gt;name = $subSymbolName;
-                            $_trait-&gt;url  =
+                            $_trait              = new StdClass();
+                            $_trait-&gt;name        = $subSymbolName;
+                            $_trait-&gt;descripiton = $subSymbolName-&gt;description;
+                            $_trait-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(
                                     'entity',
@@ -373,9 +376,10 @@ class Html implements Target
                             break;
 
                         case '@function':
-                            $_function       = new StdClass();
-                            $_function-&gt;name = $subSymbolName;
-                            $_function-&gt;url  =
+                            $_function              = new StdClass();
+                            $_function-&gt;name        = $subSymbolName;
+                            $_function-&gt;descripiton = $subSymbolName-&gt;description;
+                            $_function-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(
                                     'entity',
@@ -510,7 +514,7 @@ class Html implements Target
                     $accumulator . $symbolPrefix . '\\'
                 );
             } else {
-                $symbolFullName = $subSymbols;
+                $symbolFullName = $subSymbols-&gt;name;
 
                 list($symbolType, $symbolName) = explode(':', $symbolPrefix);
 
@@ -659,6 +663,6 @@ class Html implements Target
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

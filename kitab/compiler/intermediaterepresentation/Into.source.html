@@ -90,7 +90,7 @@ class Into extends NodeVisitorAbstract
             $class                = new Class_($classNode-&gt;namespacedName-&gt;toString());
             $class-&gt;lineStart     = $classNode-&gt;getAttribute('startLine');
             $class-&gt;lineEnd       = $classNode-&gt;getAttribute('endLine');
-            $class-&gt;documentation = Parser::extractFromComment($classNode-&gt;getDocComment());
+            $class-&gt;documentation = new Documentation(Parser::extractFromComment($classNode-&gt;getDocComment()));
             $class-&gt;constants     = $this-&gt;intoConstants($classNode);
             $class-&gt;attributes    = $this-&gt;intoAttributes($classNode);
             $class-&gt;methods       = $this-&gt;intoMethods($classNode);
@@ -117,7 +117,7 @@ class Into extends NodeVisitorAbstract
             $interface                = new Interface_($interfaceNode-&gt;namespacedName-&gt;toString());
             $interface-&gt;lineStart     = $interfaceNode-&gt;getAttribute('startLine');
             $interface-&gt;lineEnd       = $interfaceNode-&gt;getAttribute('endLine');
-            $interface-&gt;documentation = Parser::extractFromComment($interfaceNode-&gt;getDocComment());
+            $interface-&gt;documentation = new Documentation(Parser::extractFromComment($interfaceNode-&gt;getDocComment()));
             $interface-&gt;constants     = $this-&gt;intoConstants($interfaceNode);
             $interface-&gt;methods       = $this-&gt;intoMethods($interfaceNode);
 
@@ -144,7 +144,7 @@ class Into extends NodeVisitorAbstract
             $function                = new Function_($functionNode-&gt;namespacedName-&gt;toString());
             $function-&gt;lineStart     = $functionNode-&gt;getAttribute('startLine');
             $function-&gt;lineEnd       = $functionNode-&gt;getAttribute('endLine');
-            $function-&gt;documentation = Parser::extractFromComment($functionNode-&gt;getDocComment());
+            $function-&gt;documentation = new Documentation(Parser::extractFromComment($functionNode-&gt;getDocComment()));
             $function-&gt;inputs        = $this-&gt;intoInputs($functionNode);
             $function-&gt;output        = $this-&gt;intoOutput($functionNode);
 
@@ -181,9 +181,9 @@ class Into extends NodeVisitorAbstract
                 $documentation = Parser::extractFromComment($constantNode-&gt;getDocComment());
 
                 if (empty($documentation)) {
-                    $constant-&gt;documentation = $defaultDocumentation;
+                    $constant-&gt;documentation = new Documentation($defaultDocumentation);
                 } else {
-                    $constant-&gt;documentation = $documentation;
+                    $constant-&gt;documentation = new Documentation($documentation);
                 }
 
                 $constants[] = $constant;
@@ -217,6 +217,7 @@ class Into extends NodeVisitorAbstract
             foreach ($statement-&gt;props as $attributeNode) {
                 $attribute             = new Attribute($attributeNode-&gt;name);
                 $attribute-&gt;visibility = $visibility;
+                $attribute-&gt;static     = $static;
 
                 if (null !== $attributeNode-&gt;default) {
                     $attribute-&gt;default = $this-&gt;_prettyPrinter-&gt;prettyPrint([$attributeNode-&gt;default]);
@@ -225,9 +226,9 @@ class Into extends NodeVisitorAbstract
                 $documentation = Parser::extractFromComment($attributeNode-&gt;getDocComment());
 
                 if (empty($documentation)) {
-                    $attribute-&gt;documentation = $defaultDocumentation;
+                    $attribute-&gt;documentation = new Documentation($defaultDocumentation);
                 } else {
-                    $attribute-&gt;documentation = $documentation;
+                    $attribute-&gt;documentation = new Documentation($documentation);
                 }
 
                 $attributes[] = $attribute;
@@ -247,28 +248,20 @@ class Into extends NodeVisitorAbstract
             $method-&gt;lineEnd   = $methodNode-&gt;getAttribute('endLine');
 
             // Documentation.
-            $method-&gt;documentation = Parser::extractFromComment($methodNode-&gt;getDocComment());
+            $method-&gt;documentation = new Documentation(Parser::extractFromComment($methodNode-&gt;getDocComment()));
 
             // Visibility, scope, and abstract.
-            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PUBLIC) {
+            if (true === $methodNode-&gt;isPublic()) {
                 $method-&gt;visibility = $method::VISIBILITY_PUBLIC;
-            } else if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PROTECTED) {
+            } else if (true === $methodNode-&gt;isProtected()) {
                 $method-&gt;visibility = $method::VISIBILITY_PROTECTED;
-            } else if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_PRIVATE) {
+            } else {
                 $method-&gt;visibility = $method::VISIBILITY_PRIVATE;
             }
 
-            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_STATIC) {
-                $method-&gt;static = true;
-            }
-
-            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_ABSTRACT) {
-                $method-&gt;abstract = true;
-            }
-
-            if ($methodNode-&gt;flags &amp; Node\Stmt\Class_::MODIFIER_FINAL) {
-                $method-&gt;final = true;
-            }
+            $method-&gt;static   = $methodNode-&gt;isStatic();
+            $method-&gt;abstract = $methodNode-&gt;isAbstract();
+            $method-&gt;final    = $methodNode-&gt;isFinal();
 
             $method-&gt;inputs = $this-&gt;intoInputs($methodNode);
             $method-&gt;output = $this-&gt;intoOutput($methodNode);
@@ -288,7 +281,7 @@ class Into extends NodeVisitorAbstract
             $parameter                  = new Parameter($parameterNode-&gt;name);
             $parameter-&gt;type            = $this-&gt;intoType($parameterNode-&gt;type);
             $parameter-&gt;type-&gt;reference = $parameterNode-&gt;byRef;
-            $parameter-&gt;type-&gt;variadic  = $parameterNode-&gt;variadic;
+            $parameter-&gt;variadic        = $parameterNode-&gt;variadic;
 
             $inputs[] = $parameter;
         }
@@ -341,6 +334,6 @@ class Into extends NodeVisitorAbstract
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

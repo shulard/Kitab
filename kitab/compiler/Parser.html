@@ -46,7 +46,7 @@
     <h1>
     Class <code>Kitab\Compiler\Parser</code>
     <aside>
-        <a href="./kitab/compiler/Parser.source.html#L.59-201" title="View source">[src]</a>
+        <a href="./kitab/compiler/Parser.source.html#L.60-202" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -60,27 +60,28 @@
     public static function extractFromComment($comment);
 }</code></pre>
 
-<section class="entity__description"><p>The parser producing an Intermediate Representation.</p>
-<p>The parser takes one file, parses it, generates an Abstract Syntax Tree,
+<section class="entity__description"><p>A parser producing an Intermediate Representation.</p>
+<p>This parser takes one file, parses it, generates an Abstract Syntax Tree,
 and transforms it into an Intermediate Representation.</p>
-<p>The parser prefers PHP 7 form, it means it will try to parse with PHP 7
-strategy first. They are small but subtle <a href="http://php.net/manual/en/migration70.incompatible.php#migration70.incompatible.variable-handling">differences with previous PHP
+<p>The PHP 7 form is prefered over PHP 5 and lower forms, it means it will try
+to parse with PHP 7 strategy first. They are small but subtle <a href="http://php.net/manual/en/migration70.incompatible.php#migration70.incompatible.variable-handling">differences
+with previous PHP
 versions</a>.</p>
-<p>This parser delegates all the work to <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>.</p>
+<p>All the work done by the parser is delegated to <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>.</p>
 </section>
 
 
     <h2 id="attributes">Attributes</h2>
 
     <dl class="entity__children">
-                    <dt aria-label="_phpParser"><code class="language-php">protected $_phpParser = null;</code></dt>
+                    <dt aria-label="_phpParser"><code class="language-php">protected static $_phpParser = null;</code></dt>
             <dd>
                 <section><p>The PHP parser, aka <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>,
 that is used to parse PHP files.</p>
 <p>The PHP parser is allocated once, hence the static declaration.</p>
 </section>
             </dd>
-                    <dt aria-label="_phpTraverser"><code class="language-php">protected $_phpTraverser = null;</code></dt>
+                    <dt aria-label="_phpTraverser"><code class="language-php">protected static $_phpTraverser = null;</code></dt>
             <dd>
                 <section><p>A traverser, for PHP-Parser, is a set of visitors visiting the Abstract
 Syntax Tree produced by the parser. This traverser will be used to
@@ -96,7 +97,7 @@ to get fully qualified names everywhere in the code.</p>
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct()</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.84-94" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.85-95" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>When allocating a <code>Parser</code> instance, a PHP-Parser instance is created
@@ -106,7 +107,7 @@ traverser is created and stored in <code>self::$_phpTraverser</code> too.</p>
             </dd>
                     <dt aria-label="parse">
                 <code class="language-php">public function parse(Hoa\File\SplFileInfo $file): Kitab\Compiler\IntermediateRepresentation\File</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.118-136" title="View source of the `parse` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.119-137" title="View source of the `parse` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>The <code>parse</code> methods parses a file aiming at containing PHP code, and
@@ -127,7 +128,7 @@ exception.</p>
             </dd>
                     <dt aria-label="intoIntermediateRepresentation">
                 <code class="language-php">protected function intoIntermediateRepresentation(array $statements, string $fileName): Kitab\Compiler\IntermediateRepresentation\File</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.149-161" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.150-162" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Transform the Abstract Syntax Tree into its Intermediate Representation.</p>
@@ -141,7 +142,7 @@ contains the resulting IR.</p>
             </dd>
                     <dt aria-label="getPhpParser">
                 <code class="language-php">protected static function getPhpParser(): PhpParser\Parser\Multiple</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.166-169" title="View source of the `getPhpParser` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.167-170" title="View source of the `getPhpParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Get the statically allocated PHP-Parser instance.</p>
@@ -149,7 +150,7 @@ contains the resulting IR.</p>
             </dd>
                     <dt aria-label="getTraverser">
                 <code class="language-php">protected static function getTraverser(): PhpParser\NodeTraverser</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.174-177" title="View source of the `getTraverser` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.175-178" title="View source of the `getTraverser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Get the statically allocated traverser instance.</p>
@@ -157,7 +158,7 @@ contains the resulting IR.</p>
             </dd>
                     <dt aria-label="extractFromComment">
                 <code class="language-php">public static function extractFromComment($comment)</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.193-200" title="View source of the `extractFromComment` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.194-201" title="View source of the `extractFromComment` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Extract content from a comment of kind block (<code>/**</code>).</p>
@@ -180,6 +181,6 @@ assert(Kitab\Compiler\Parser::extractFromComment($input) === $content);
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

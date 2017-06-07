@@ -36,6 +36,7 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Documentation</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
@@ -56,7 +57,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Attribute</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.39-98" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.57-147" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -66,24 +67,35 @@
     public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>An attribute intermediate representation.</p>
+<p>An attribute is a property of a class like entity.</p>
+<h1>Examples</h1>
+<p>In this example, a new attribute <code>foo</code> is built, with a protected
+visibility, and a default value sets to 42.</p>
+<pre><code class="language-php">$attribute             = new Kitab\Compiler\IntermediateRepresentation\Attribute('foo');
+$attribute-&gt;visibility = $attribute::VISIBILITY_PROTECTED;
+$attribute-&gt;default    = '42';
+
+assert('protected $foo = 42' === (string) $attribute);
+</code></pre>
+</section>
 
     <h2 id="constants">Constants</h2>
 
     <dl class="entity__children">
                     <dt aria-label="VISIBILITY_PUBLIC"><code class="language-php">public const VISIBILITY_PUBLIC = 0;</code></dt>
             <dd>
-                <section><p>Represent a public constant.</p>
+                <section><p>Represent a public attribute.</p>
 </section>
             </dd>
                     <dt aria-label="VISIBILITY_PROTECTED"><code class="language-php">public const VISIBILITY_PROTECTED = 1;</code></dt>
             <dd>
-                <section><p>Represent a protected constant.</p>
+                <section><p>Represent a protected attribute.</p>
 </section>
             </dd>
                     <dt aria-label="VISIBILITY_PRIVATE"><code class="language-php">public const VISIBILITY_PRIVATE = 2;</code></dt>
             <dd>
-                <section><p>Represent a private constant.</p>
+                <section><p>Represent a private private.</p>
 </section>
             </dd>
             </dl>
@@ -93,19 +105,30 @@
     <dl class="entity__children">
                     <dt aria-label="visibility"><code class="language-php">public $visibility = self::VISIBILITY_PUBLIC;</code></dt>
             <dd>
-                <section></section>
+                <section><p>The visibility of the attribute, represented by the
+<code>self::VISIBILITY_*</code> constants.</p>
+</section>
+            </dd>
+                    <dt aria-label="static"><code class="language-php">public $static = false;</code></dt>
+            <dd>
+                <section><p>Represent whether the attribute is static or not.</p>
+</section>
             </dd>
                     <dt aria-label="name"><code class="language-php">public $name</code></dt>
             <dd>
-                <section></section>
+                <section><p>Represent the name of the attribute, without the leading <code>$</code>.</p>
+</section>
             </dd>
                     <dt aria-label="default"><code class="language-php">public $default = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>A string containing only PHP code representing the default value of the
+attribute if any.</p>
+</section>
             </dd>
                     <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
             <dd>
-                <section></section>
+                <section><p>Associated documentation of the attribute.</p>
+</section>
             </dd>
             </dl>
 
@@ -114,17 +137,20 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.61-64" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.104-107" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate an attribute with a name. This is the only mandatory information.</p>
+</section>
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.66-97" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Attribute.source.html#L.114-146" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform this intermediate representation into its PHP representation.</p>
+<p>The original formatting is not kept. The applied formatting is designed for Kitab.</p>
+</section>
             </dd>
             </dl>
 
@@ -136,6 +162,6 @@
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

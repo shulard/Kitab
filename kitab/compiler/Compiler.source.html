@@ -70,11 +70,12 @@ namespace Kitab\Compiler;
 use Kitab\Configuration;
 use Kitab\Exception;
 use Kitab\Finder;
+use StdClass;
 
 /**
- * The compiler orchestrates the whole compilation process.
+ * A compiler that orchestrates the whole compilation process.
  *
- * The compiler, [as explained previously](kitab/compiler/index.html), is a
+ * This compiler, [as explained previously](kitab/compiler/index.html), is a
  * stream compiler. It receives a finder that is an iterator where each item
  * is a PHP file to analyse. Each file is parsed by the parser, transformed
  * into a Intermediate Representation, that is compiled by the target into
@@ -193,7 +194,11 @@ class Compiler
                     $currentDimension = &amp;$currentDimension[$symbolPart];
                 }
 
-                $currentDimension[$lastSymbolPart] = $item-&gt;name;
+                $symbol              = new StdClass();
+                $symbol-&gt;name        = $item-&gt;name;
+                $symbol-&gt;description = $item-&gt;documentation;
+
+                $currentDimension[$lastSymbolPart] = $symbol;
             } else {
                 throw new Exception\LinkerUnknownIntermediateRepresentation(
                     'Linker does not handle the following intermediate ' .
@@ -214,6 +219,6 @@ class Compiler
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

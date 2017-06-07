@@ -90,11 +90,11 @@ Kitab with the <code>--with-composer</code> option to specify the location of th
 <code>composer.json</code> file of your project in order to allow Kitab to
 automatically find PSR-4 mappings. These mappings are necessary to
 transform a namespace into a path to a directory. For each directory
-representing a namespace, if a <code>README.md</code> file exists, then it
-will be used as the documentation of this particular namespace. For
-instance, <code>Kitab\</code> maps to <code>src/</code>, so the documentation for the
-<a href="./kitab/Compiler.html"><code>Kitab\Compiler</code></a> namespace is expected to be find in the
-<code>src/Compiler/README.md</code> file, that simple. This is pretty
+representing a namespace, if a <code>README.md</code> file exists, then it will
+be used as the documentation of this particular namespace. For
+instance, <code>Kitab\</code> maps to <code>src/</code>, so the documentation for
+the <a href="kittab/index.html"><a href="./kitab/Compiler.html"><code>Kitab\Compiler</code></a></a> namespace is expected to be
+find in the <code>src/Compiler/README.md</code> file, that simple. This is pretty
 straightforward at usage.</p>
 <p>Entity and namespace documentations are inserted at the top of their
 respective documentation page. The rest of the page contains
@@ -114,9 +114,15 @@ forget to specify the type of a code block.</p>
     
             <h2 id="classes">Classes</h2>
 
-        <ul>
-                            <li><a href="./kitab/Configuration.html"><code>Configuration</code></a></li>
-                            <li><a href="./kitab/Finder.html"><code>Finder</code></a></li>
+        <ul class="list--table">
+                            <li>
+                    <a href="./kitab/Configuration.html"><code>Configuration</code></a>
+                    <p>Configuration structure for the Kitab project.</p>
+                </li>
+                            <li>
+                    <a href="./kitab/Finder.html"><code>Finder</code></a>
+                    <p>Custom finder that scans only PHP files.</p>
+                </li>
                     </ul>
     
     
@@ -137,6 +143,6 @@ forget to specify the type of a code block.</p>
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

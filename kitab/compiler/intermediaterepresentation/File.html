@@ -36,6 +36,7 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Attribute</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Class_.html"><code>Class_</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Constant</code></a></li>
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Documentation</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Entity</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/File.html"><code>File</code></a></li>
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Function_.html"><code>Function_</code></a></li>
@@ -56,7 +57,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\File</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.39-58" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.56-87" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -66,7 +67,17 @@
     public function offsetSet($name, $value);
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A file intermediate representation.</p>
+<p>A file is one root containing all the other intermediate
+representations. By design, it extends the <code>ArrayObject</code> class, thus this
+is a collection of objects.</p>
+<h1>Examples</h1>
+<p>This example shows how to create a file and to add intermediate
+representations in it, here a class.</p>
+<pre><code class="language-php">$file   = new Kitab\Compiler\IntermediateRepresentation\File('example.php');
+$file[] = new Kitab\Compiler\IntermediateRepresentation\Class_('C');
+</code></pre>
+</section>
 
 
     <h2 id="attributes">Attributes</h2>
@@ -74,7 +85,8 @@
     <dl class="entity__children">
                     <dt aria-label="name"><code class="language-php">public $name</code></dt>
             <dd>
-                <section></section>
+                <section><p>Name of the file.</p>
+</section>
             </dd>
             </dl>
 
@@ -83,17 +95,22 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.43-48" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.66-71" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate a file with a name.</p>
+</section>
             </dd>
                     <dt aria-label="offsetSet">
                 <code class="language-php">public function offsetSet($name, $value)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.50-57" title="View source of the `offsetSet` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/File.source.html#L.79-86" title="View source of the `offsetSet` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Automatically propagate this instance onto intermediate representations
+of kind <a href="./kitab/compiler/intermediaterepresentation/Entity.html"><code>Kitab\Compiler\IntermediateRepresentation\Entity</code></a> when setting
+a new pair into the collection.
+This is handy way to ensure all the entities receive this instance.</p>
+</section>
             </dd>
             </dl>
 
@@ -105,6 +122,6 @@
         <script type="text/javascript" src="./javascript/search-metadata.js"></script>
         <script type="text/javascript" src="./javascript/application.js"></script>
         <script type="text/javascript" src="./javascript/prism.js"></script>
-        <script type="text/javascript" src="./javascript/prism-abbreviate.js" async defer></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
     </body>
 </html>

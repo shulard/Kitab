@@ -2,8 +2,8 @@
 
 <html lang="en">
     <head>
-        <base href="./../../" />
-        <title>Source of Kitab\Bin\Bin from Kitab</title>
+        <base href="./../../../" />
+        <title>Source of Kitab\Compiler\IntermediateRepresentation\Documentation from Kitab</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
         <meta http-equiv="content-type" content="text/css; charset=utf-8" />
@@ -65,83 +65,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Kitab\Bin;
+namespace Kitab\Compiler\IntermediateRepresentation;
 
-use Hoa\Console;
-use Hoa\Dispatcher;
-use Hoa\Exception;
-use Hoa\Router;
-
-class Bin
+class Documentation
 {
-    public static function main()
+    public $documentation = '';
+
+    public function __construct(string $documentation)
     {
-        self::setErrorHandler();
+        $this-&gt;documentation = $documentation;
+    }
 
-        try {
-            $router     = self::getRouter();
-            $dispatcher = self::getDispatcher();
-
-            exit((int) $dispatcher-&gt;dispatch($router));
-        } catch (Exception $e) {
-            $message = $e-&gt;raise(true);
-            $code    = 1;
-        } catch (\Exception $e) {
-            $message = $e-&gt;getMessage();
-            $code    = 2;
+    public function getDescription(): string
+    {
+        if (0 !== preg_match('/\n\n/', $this-&gt;documentation, $matches, PREG_OFFSET_CAPTURE)) {
+            return substr($this-&gt;documentation, 0, $matches[0][1]);
         }
 
-        self::exitWith($message, $code);
+        return $this-&gt;documentation;
     }
 
-    protected static function setErrorHandler(): void
+    public function __toString(): string
     {
-        Exception\Error::enableErrorHandler();
-        Exception::enableUncaughtHandler();
-    }
-
-    protected static function getRouter(): Router\Cli
-    {
-        $router = new Router\Cli();
-        $router-&gt;get(
-            'g',
-            '(?&lt;command&gt;\w+)?(?&lt;_tail&gt;.*?)',
-            'main',
-            'main',
-            [
-                'command' =&gt; 'welcome'
-            ]
-        );
-
-        return $router;
-    }
-
-    protected static function getDispatcher(): Dispatcher\ClassMethod
-    {
-        $dispatcher = new Dispatcher\ClassMethod([
-            'synchronous.call'
-                =&gt; 'Kitab\Bin\(:%variables.command:lU:)',
-            'synchronous.able'
-                =&gt; 'run'
-        ]);
-        $dispatcher-&gt;setKitName(Console\Dispatcher\Kit::class);
-
-        return $dispatcher;
-    }
-
-    protected static function exitWith(string $message, int $code)
-    {
-        ob_start();
-
-        Console\Cursor::colorize('foreground(white) background(red)');
-        echo $message, &quot;\n&quot;;
-        Console\Cursor::colorize('normal');
-        $content = ob_get_contents();
-
-        ob_end_clean();
-
-        file_put_contents('php://stderr', $content);
-        exit($code);
+        return $this-&gt;documentation;
     }
 }
 </code></pre>
