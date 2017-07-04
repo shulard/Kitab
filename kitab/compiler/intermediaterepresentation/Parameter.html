@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Parameter</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.62-110" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.64-113" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -77,7 +82,7 @@ it will receive all extra arguments given to the function.</p>
 <pre><code class="language-php">$typeInt       = new Kitab\Compiler\IntermediateRepresentation\Type();
 $typeInt-&gt;name = 'int';
 
-$parameter        = new Kitab\Compiler\IntermediateRepresentation\Parameter();
+$parameter        = new Kitab\Compiler\IntermediateRepresentation\Parameter('x');
 $parameter-&gt;type  = $typeInt;
 $parameter-&gt;name  = 'foo';
 $parameter-&gt;value = '42';
@@ -118,7 +123,7 @@ A default value for the</p>
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.90-93" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.92-95" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Allocate a parameter with a name. This is the only mandatory information.</p>
@@ -126,11 +131,12 @@ A default value for the</p>
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.100-109" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Parameter.source.html#L.103-112" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Transform the intermediate representation into its PHP representation.</p>
-<p>The original formatting is not kept. The applied formatting is designed for Kitab.</p>
+<p>The original formatting is not kept. The applied formatting is designed
+for Kitab.</p>
 </section>
             </dd>
             </dl>

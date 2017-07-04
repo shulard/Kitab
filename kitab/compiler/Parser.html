@@ -46,7 +46,7 @@
     <h1>
     Class <code>Kitab\Compiler\Parser</code>
     <aside>
-        <a href="./kitab/compiler/Parser.source.html#L.60-202" title="View source">[src]</a>
+        <a href="./kitab/compiler/Parser.source.html#L.64-225" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -55,8 +55,9 @@
     public function __construct();
     public function parse(Hoa\File\SplFileInfo $file): Kitab\Compiler\IntermediateRepresentation\File;
     protected function intoIntermediateRepresentation(array $statements, string $fileName): Kitab\Compiler\IntermediateRepresentation\File;
-    protected static function getPhpParser(): PhpParser\Parser\Multiple;
+    public static function getPhpParser(): PhpParser\Parser\Multiple;
     protected static function getTraverser(): PhpParser\NodeTraverser;
+    public static function getPhpPrettyPrinter(): PhpParser\PrettyPrinter\Standard;
     public static function extractFromComment($comment);
 }</code></pre>
 
@@ -67,7 +68,8 @@ and transforms it into an Intermediate Representation.</p>
 to parse with PHP 7 strategy first. They are small but subtle <a href="http://php.net/manual/en/migration70.incompatible.php#migration70.incompatible.variable-handling">differences
 with previous PHP
 versions</a>.</p>
-<p>All the work done by the parser is delegated to <a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>.</p>
+<p>All the work done by the parser is delegated to
+<a href="https://github.com/nikic/PHP-Parser">PHP-Parser</a>.</p>
 </section>
 
 
@@ -90,6 +92,12 @@ to get fully qualified names everywhere in the code.</p>
 <p>The traverser is allocated once, hence the static declaration.</p>
 </section>
             </dd>
+                    <dt aria-label="_phpPrettyPrinter"><code class="language-php">protected static $_phpPrettyPrinter = null;</code></dt>
+            <dd>
+                <section><p>Pretty print visitor to transform a PHP AST into its PHP representation.</p>
+<p>The pretty printer is allocated once, hence the static declaration.</p>
+</section>
+            </dd>
             </dl>
 
     <h2 id="methods">Methods</h2>
@@ -97,7 +105,7 @@ to get fully qualified names everywhere in the code.</p>
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct()</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.85-95" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.96-110" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>When allocating a <code>Parser</code> instance, a PHP-Parser instance is created
@@ -107,7 +115,7 @@ traverser is created and stored in <code>self::$_phpTraverser</code> too.</p>
             </dd>
                     <dt aria-label="parse">
                 <code class="language-php">public function parse(Hoa\File\SplFileInfo $file): Kitab\Compiler\IntermediateRepresentation\File</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.119-137" title="View source of the `parse` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.134-152" title="View source of the `parse` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>The <code>parse</code> methods parses a file aiming at containing PHP code, and
@@ -128,7 +136,7 @@ exception.</p>
             </dd>
                     <dt aria-label="intoIntermediateRepresentation">
                 <code class="language-php">protected function intoIntermediateRepresentation(array $statements, string $fileName): Kitab\Compiler\IntermediateRepresentation\File</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.150-162" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.165-177" title="View source of the `intoIntermediateRepresentation` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Transform the Abstract Syntax Tree into its Intermediate Representation.</p>
@@ -141,8 +149,8 @@ contains the resulting IR.</p>
 </section>
             </dd>
                     <dt aria-label="getPhpParser">
-                <code class="language-php">protected static function getPhpParser(): PhpParser\Parser\Multiple</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.167-170" title="View source of the `getPhpParser` method">[src]</a></aside>
+                <code class="language-php">public static function getPhpParser(): PhpParser\Parser\Multiple</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.182-185" title="View source of the `getPhpParser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Get the statically allocated PHP-Parser instance.</p>
@@ -150,15 +158,23 @@ contains the resulting IR.</p>
             </dd>
                     <dt aria-label="getTraverser">
                 <code class="language-php">protected static function getTraverser(): PhpParser\NodeTraverser</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.175-178" title="View source of the `getTraverser` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.190-193" title="View source of the `getTraverser` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Get the statically allocated traverser instance.</p>
 </section>
             </dd>
+                    <dt aria-label="getPhpPrettyPrinter">
+                <code class="language-php">public static function getPhpPrettyPrinter(): PhpParser\PrettyPrinter\Standard</code>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.198-201" title="View source of the `getPhpPrettyPrinter` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Get the statically allocated pretty printer</p>
+</section>
+            </dd>
                     <dt aria-label="extractFromComment">
                 <code class="language-php">public static function extractFromComment($comment)</code>
-                <aside><a href="./kitab/compiler/Parser.source.html#L.194-201" title="View source of the `extractFromComment` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/Parser.source.html#L.217-224" title="View source of the `extractFromComment` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Extract content from a comment of kind block (<code>/**</code>).</p>

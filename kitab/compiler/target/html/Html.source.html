@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -80,6 +82,7 @@ use StdClass;
 
 class Html implements Target
 {
+    protected $_router        = null;
     protected $_configuration = null;
 
     public function __construct(Router $router = null, Configuration $configuration = null)
@@ -360,7 +363,7 @@ class Html implements Target
                         case '@trait':
                             $_trait              = new StdClass();
                             $_trait-&gt;name        = $subSymbolName;
-                            $_trait-&gt;descripiton = $subSymbolName-&gt;description;
+                            $_trait-&gt;description = $subSymbol-&gt;description;
                             $_trait-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(
@@ -378,7 +381,7 @@ class Html implements Target
                         case '@function':
                             $_function              = new StdClass();
                             $_function-&gt;name        = $subSymbolName;
-                            $_function-&gt;descripiton = $subSymbolName-&gt;description;
+                            $_function-&gt;description = $subSymbol-&gt;description;
                             $_function-&gt;url         =
                                 '.' .
                                 $this-&gt;_router-&gt;unroute(

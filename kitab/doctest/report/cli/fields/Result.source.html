@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../../" />
+        <title>Source of Kitab\DocTest\Report\Cli\Fields\Result from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+namespace Kitab\DocTest\Report\Cli\Fields;
+
+use atoum\report\fields;
+
+class Result extends fields\runner\result\cli
+{
+    public function __toString()
+    {
+        $string = &quot;\n&quot; . $this-&gt;prompt;
+
+        if (null === $this-&gt;testNumber) {
+            $string .= $this-&gt;locale-&gt;_('No test running.');
+        } elseif (true === $this-&gt;success) {
+            $string .= $this-&gt;successColorizer-&gt;colorize(
+                sprintf(
+                    $this-&gt;locale-&gt;_('Success (%s, %s, %s, %s, %s)!'),
+                    sprintf($this-&gt;locale-&gt;__('%s documentation test suite', '%s documentation test suites', $this-&gt;testNumber), $this-&gt;testNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s/%s example', '%s/%s examples', $this-&gt;testMethodNumber), $this-&gt;testMethodNumber - $this-&gt;voidMethodNumber - $this-&gt;skippedMethodNumber, $this-&gt;testMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s void example', '%s void examples', $this-&gt;voidMethodNumber), $this-&gt;voidMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s skipped example', '%s skipped examples', $this-&gt;skippedMethodNumber), $this-&gt;skippedMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s assertion', '%s assertions', $this-&gt;assertionNumber), $this-&gt;assertionNumber)
+                )
+            );
+        } else {
+            $string .= $this-&gt;failureColorizer-&gt;colorize(
+                sprintf(
+                    $this-&gt;locale-&gt;_('Failure (%s, %s, %s, %s, %s, %s, %s, %s)!'),
+                    sprintf($this-&gt;locale-&gt;__('%s documentation test suite', '%s documentation test suites', $this-&gt;testNumber), $this-&gt;testNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s/%s example', '%s/%s examples', $this-&gt;testMethodNumber), $this-&gt;testMethodNumber - $this-&gt;voidMethodNumber - $this-&gt;skippedMethodNumber - $this-&gt;uncompletedMethodNumber, $this-&gt;testMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s void example', '%s void examples', $this-&gt;voidMethodNumber), $this-&gt;voidMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s skipped example', '%s skipped examples', $this-&gt;skippedMethodNumber), $this-&gt;skippedMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s uncompleted example', '%s uncompleted example', $this-&gt;uncompletedMethodNumber), $this-&gt;uncompletedMethodNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s failure', '%s failures', $this-&gt;failNumber), $this-&gt;failNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s error', '%s errors', $this-&gt;errorNumber), $this-&gt;errorNumber),
+                    sprintf($this-&gt;locale-&gt;__('%s exception', '%s exceptions', $this-&gt;exceptionNumber), $this-&gt;exceptionNumber)
+                )
+            );
+        }
+
+        return $string . &quot;\n&quot;;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

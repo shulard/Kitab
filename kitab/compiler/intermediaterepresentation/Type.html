@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Type</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.62-105" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.64-107" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -112,7 +117,7 @@ accept both strings and the <code>null</code> value.</p>
     <dl class="entity__children">
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.96-104" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Type.source.html#L.98-106" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Transform this intermediate representation into its PHP representation.</p>
@@ -121,7 +126,7 @@ accept both strings and the <code>null</code> value.</p>
 <pre><code class="language-php">$type = new Kitab\Compiler\IntermediateRepresentation\Type();
 $type-&gt;name = 'T';
 
-assert('T' === (string) $type);
+assert('T ' === (string) $type);
 </code></pre>
 </section>
             </dd>

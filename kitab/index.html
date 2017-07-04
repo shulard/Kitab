@@ -41,25 +41,83 @@
 <article>
     <h1>Namespace <code>Kitab</code></h1>
 
-            <section class="entity__description"><p>Kitab is an API documentation generator program. Its role is to scan,
-lex, parse, and compile any PHP programs into a static HTML
-documentation.</p>
-<h1>Usage</h1>
-<p>The simplest way to use Kitab is with a command-line, like:</p>
-<pre><code class="language-sh">$ ./bin/kitab compile --with-composer --output-directory documentation src
+            <section class="entity__description"><p>Kitab is the ideal companion for <strong>Documentation-Driven Quality</strong> for
+PHP programs.</p>
+<p>The goal of Kitab is twofold, <strong>render</strong> and <strong>test</strong> the
+documentation:</p>
+<ol>
+<li>
+<p>Generate a quality and searchable documentation based on your
+code. The documentation inside your code is compiled into static
+HTML files with a powerful static search engine,</p>
+</li>
+<li>
+<p>Test the documentation itself. Indeed, a documentation contains
+examples, and these examples are compiled into test suites that
+are run directly to ensure the examples are still up-to-date and
+working.</p>
+</li>
+</ol>
+<h1>Static documentation</h1>
+<p>Kitab is able to compile the documentation inside your code into
+static HTML files. A carefully crafted design is provided to ensure a
+great look for your documentation. This is possible to customize the
+logo, the project name, etc.</p>
+<p>A static search engine is compiled specifically for your
+documentation. It contains all the modern feature we can expect from a
+search engine, like tokenizing, stemming, stop word filtering, term
+frequency-inverse document frequency (TF-ID), inverted index etc. The
+search engine database is pre-computed and optimized to load as fast
+as possible.</p>
+<p>The more your documentation provides details and smart vocabulary, the
+more the search engine will be able to provide relevant results.</p>
+<p>The following command line compiles the documentation from your code
+in <code>src</code> into HTML files stored in <code>doc</code>:</p>
+<pre><code class="language-sh">$ ./bin/kitab compile --open --with-composer --output-directory doc src
 </code></pre>
-<p>where <code>src</code> is the directory containing the PHP code you would like to
-document, <code>documentation</code> is the directory that will receive the
-generated documentation, and the <code>--with-composer</code> option to ask Kitab
-to use Composer for PSR-4 mapping definitions.</p>
+<p>The <code>--with-composer</code> option asks Kitab to use Composer for PSR-4
+mapping definitions. This is useful to map <code>README.md</code> files to
+namespace directories, more below. The <code>--open</code> option opens the
+documentation in your default browser as soon as it is generated
+successfully.</p>
+<h1>DocTest</h1>
+<p>Documentation test suites, aka DocTest, are generated based on the
+examples present in your documentation. Examples are compiled into
+test suites and executed on-the-fly. A cache is generated to avoid
+to re-compile examples into test suites each time.</p>
+<p>For instance, the following example will succeed:</p>
+<pre><code class="language-php">/**
+ * Classical sum of two integers.
+ *
+ * # Examples
+ *
+ * ```php
+ * $x = 1;
+ * $y = 2;
+ *
+ * assert(3 === sum($x + $y));
+ * ```
+ */
+function sum(int $x, int $y): int
+{
+    return $x + $y;
+}
+</code></pre>
+<p>The following command line generates and executes the documentation
+test suites from the <code>src</code> directory:</p>
+<pre><code class="language-sh">$ ./bin/kitab test src
+</code></pre>
+<p>Behind the scene, Kitab
+uses <a href="http://atoum.org">the atoum test framework</a>.</p>
 <h1>Dependencies</h1>
-<p>Kitab requires PHP and NodeJS to be installed: PHP because this is a
-PHP program, and NodeJS to pre-compiled the static search engine
-(which is written in Elm).</p>
+<p>Kitab requires <a href="http://php.net/">PHP</a>
+and <a href="https://nodejs.org/">NodeJS</a> to be installed: PHP because this is
+a PHP program, and NodeJS to pre-compiled the static search engine
+(which is written in <a href="http://elm-lang.org/">Elm</a>).</p>
 <h1>Standards and formats</h1>
 <p>Kitab expects documentation in your PHP code to be written
 in <a href="http://commonmark.org/">CommonMark</a> (a standard variant of
-Markdown). It can be mixed with <a href="w3.org/TR/html5/">HTML</a>.</p>
+Markdown). It can be mixed with <a href="https://w3.org/TR/html5/">HTML</a>.</p>
 <p>Each block of documentation can declare sections, and any kind of
 CommonMark elements, like:</p>
 <pre><code class="language-php">/**
@@ -93,12 +151,13 @@ transform a namespace into a path to a directory. For each directory
 representing a namespace, if a <code>README.md</code> file exists, then it will
 be used as the documentation of this particular namespace. For
 instance, <code>Kitab\</code> maps to <code>src/</code>, so the documentation for
-the <a href="kittab/index.html"><a href="./kitab/Compiler.html"><code>Kitab\Compiler</code></a></a> namespace is expected to be
-find in the <code>src/Compiler/README.md</code> file, that simple. This is pretty
-straightforward at usage.</p>
+the <a href="kitab/compiler/index.html"><code>Kitab</code>\<code>Compiler</code></a> namespace is
+expected to be find in the <code>src/Compiler/README.md</code> file, that
+simple. This is pretty straightforward at usage.</p>
 <p>Entity and namespace documentations are inserted at the top of their
-respective documentation page. The rest of the page contains
-information about the entity or the namespace.</p>
+respective documentation page. This is the introduction. The rest of
+the page contains information about the entity or the namespace.</p>
+<h2>Block of codes</h2>
 <p>Documentation can contain block of codes. This is possible to specify
 the type of the block with this standard notation:</p>
 <pre>
@@ -106,10 +165,38 @@ the type of the block with this standard notation:</p>
 code
 ```
 </pre>
-<p>where <code>type</code> can be <code>php</code>, <code>sh</code>, <code>html</code>, <code>css</code> etc. It has no
-particular impact, except of the syntax highlighting. However, since
-Kitab format is also the basis for other tools, it is better to not
-forget to specify the type of a code block.</p>
+<p>where <code>type</code> can be <code>php</code>, <code>sh</code>, <code>html</code>, <code>css</code> etc. It impacts the
+syntax highlighting.</p>
+<p>The <code>php</code> type is special since it indicates a potential test
+case. Indeed, all code blocks inside an Examples Section can be
+compiled into test suites with the <code>./bin/kitab test</code> command. We can
+control the expectation of the test case:</p>
+<ul>
+<li>
+<code>php</code> indicates the test case must be a success,</li>
+<li>
+<code>php,ignore</code> indicates the test case must be skiped,</li>
+<li>
+<code>php,must_throw</code> indicates the test case must throw an exception,</li>
+<li>
+<code>php,must_throw(E)</code> indicates the test case must throw an
+exception of kind <code>E</code>.</li>
+</ul>
+<p>Consequently, the following example will be a success:</p>
+<pre><code class="language-php">/**
+ * Generate a runtime exception.
+ *
+ * # Examples
+ *
+ * ```php,must_throw(RuntimeException)
+ * panic('Hello World');
+ * ```
+ */
+function panic(string $message): RuntimeException
+{
+    throw new RuntimeException($message);
+}
+</code></pre>
 </section>
     
             <h2 id="classes">Classes</h2>
@@ -133,6 +220,7 @@ forget to specify the type of a code block.</p>
         <ul>
                             <li><a href="./kitab/bin/index.html"><code>Bin</code></a></li>
                             <li><a href="./kitab/compiler/index.html"><code>Compiler</code></a></li>
+                            <li><a href="./kitab/doctest/index.html"><code>DocTest</code></a></li>
                             <li><a href="./kitab/exception/index.html"><code>Exception</code></a></li>
                     </ul>
     </article>

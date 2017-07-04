@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../" />
+        <title>Source of Kitab\DocTest\Report\Cli\Cli from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+namespace Kitab\DocTest\Report\Cli;
+
+use atoum;
+use atoum\report\fields\runner;
+use atoum\report\fields\test;
+
+class Cli extends atoum\reports\realtime
+{
+    private $runnerTestsCoverageField;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $defaultColorizer       = new Colorizer('foreground(' . Colors::BLUE . ')');
+        $defaultPromptColorizer = clone $defaultColorizer;
+        $defaultInfoColorizer   = new Colorizer('foreground(' . Colors::YELLOW . ')');
+
+        $firstLevelPrompt  = new atoum\cli\prompt('&gt; ', $defaultPromptColorizer);
+        $secondLevelPrompt = new atoum\cli\prompt('~&gt; ', $defaultPromptColorizer);
+        $thirdLevelPrompt  = new atoum\cli\prompt('~~&gt; ', $defaultPromptColorizer);
+
+        $atoumPathField = new runner\atoum\path\cli();
+        $atoumPathField
+            -&gt;setPrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer);
+
+        $this-&gt;addField($atoumPathField);
+
+        $atoumVersionField = new runner\atoum\version\cli();
+        $atoumVersionField
+            -&gt;setTitlePrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer);
+
+        $this-&gt;addField($atoumVersionField);
+
+        $phpPathField = new runner\php\path\cli();
+        $phpPathField
+            -&gt;setPrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer);
+
+        $this-&gt;addField($phpPathField);
+
+        $phpVersionField = new runner\php\version\cli();
+        $phpVersionField
+            -&gt;setTitlePrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer)
+            -&gt;setVersionPrompt($secondLevelPrompt);
+
+        $this-&gt;addField($phpVersionField);
+
+        $runnerTestsDurationField = new runner\tests\duration\cli();
+        $runnerTestsDurationField
+            -&gt;setPrompt(new atoum\cli\prompt(&quot;\n&quot; . '&gt; ', $defaultInfoColorizer))
+            -&gt;setTitleColorizer($defaultInfoColorizer);
+
+        $this-&gt;addField($runnerTestsDurationField);
+
+        $runnerTestsMemoryField = new runner\tests\memory\cli();
+        $runnerTestsMemoryField
+            -&gt;setPrompt(new atoum\cli\prompt('&gt; ', $defaultInfoColorizer))
+            -&gt;setTitleColorizer($defaultInfoColorizer);
+
+        $this-&gt;addField($runnerTestsMemoryField);
+
+        $this-&gt;runnerTestsCoverageField = new runner\tests\coverage\cli();
+        $this-&gt;runnerTestsCoverageField
+            -&gt;setTitlePrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer)
+            -&gt;setClassPrompt($secondLevelPrompt)
+            -&gt;setMethodPrompt($thirdLevelPrompt);
+
+        $this-&gt;addField($this-&gt;runnerTestsCoverageField);
+
+        $runnerDurationField = new runner\duration\cli();
+        $runnerDurationField
+            -&gt;setPrompt(new atoum\cli\prompt('&gt; ', $defaultInfoColorizer))
+            -&gt;setTitleColorizer($defaultInfoColorizer);
+
+        $this-&gt;addField($runnerDurationField);
+
+        $runnerResultField = new Fields\Result();
+        $runnerResultField
+            -&gt;setSuccessColorizer(new Colorizer('background(' . Colors::GREEN . ') foreground(' . Colors::WHITE . ')'))
+            -&gt;setFailureColorizer(new Colorizer('background(' . Colors::MAGENTA . ') foreground(' . Colors::WHITE . ')'));
+
+        $this-&gt;addField($runnerResultField);
+
+        $failureColorizer   = new Colorizer('foreground(' . Colors::MAGENTA . ')');
+        $failureTitlePrompt = new atoum\cli\prompt(&quot;\n&quot;);
+        $failureTitlePrompt-&gt;setColorizer($failureColorizer);
+        $failurePrompt = clone $secondLevelPrompt;
+        $failurePrompt-&gt;setColorizer($failureColorizer);
+
+        $runnerFailuresField = new Fields\Failures();
+        $runnerFailuresField
+            -&gt;setTitlePrompt($failureTitlePrompt)
+            -&gt;setTitleColorizer($failureColorizer)
+            -&gt;setMethodPrompt($failurePrompt);
+
+        $this-&gt;addField($runnerFailuresField);
+
+        $runnerOutputsField = new runner\outputs\cli();
+        $runnerOutputsField
+            -&gt;setTitlePrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($defaultColorizer)
+            -&gt;setMethodPrompt($secondLevelPrompt);
+
+        $this-&gt;addField($runnerOutputsField);
+
+        $errorColorizer   = new Colorizer('foreground(' . Colors::YELLOW . ')');
+        $errorTitlePrompt = new atoum\cli\prompt(&quot;\n&quot;);
+        $errorTitlePrompt-&gt;setColorizer($errorColorizer);
+        $errorMethodPrompt = clone $secondLevelPrompt;
+        $errorMethodPrompt-&gt;setColorizer($errorColorizer);
+        $errorPrompt = clone $thirdLevelPrompt;
+        $errorPrompt-&gt;setColorizer($errorColorizer);
+
+        $runnerErrorsField = new runner\errors\cli();
+        $runnerErrorsField
+            -&gt;setTitlePrompt($errorTitlePrompt)
+            -&gt;setTitleColorizer($errorColorizer)
+            -&gt;setMethodPrompt($errorMethodPrompt)
+            -&gt;setErrorPrompt($errorPrompt);
+
+        $this-&gt;addField($runnerErrorsField);
+
+        $exceptionColorizer   = new Colorizer('foreground(' . Colors::YELLOW . ')');
+        $exceptionTitlePrompt = new atoum\cli\prompt(&quot;\n&quot;);
+        $exceptionTitlePrompt-&gt;setColorizer($exceptionColorizer);
+        $exceptionMethodPrompt = clone $secondLevelPrompt;
+        $exceptionMethodPrompt-&gt;setColorizer($exceptionColorizer);
+        $exceptionPrompt = clone $thirdLevelPrompt;
+        $exceptionPrompt-&gt;setColorizer($exceptionColorizer);
+
+        $runnerExceptionsField = new runner\exceptions\cli();
+        $runnerExceptionsField
+            -&gt;setTitlePrompt($exceptionTitlePrompt)
+            -&gt;setTitleColorizer($exceptionColorizer)
+            -&gt;setMethodPrompt($exceptionMethodPrompt)
+            -&gt;setExceptionPrompt($exceptionPrompt);
+
+        $this-&gt;addField($runnerExceptionsField);
+
+        $uncompletedTestColorizer   = new Colorizer('foreground(' . Colors::GRAY . ')');
+        $uncompletedTestTitlePrompt = new atoum\cli\prompt(&quot;\n&quot;);
+        $uncompletedTestTitlePrompt-&gt;setColorizer($uncompletedTestColorizer);
+        $uncompletedTestMethodPrompt = clone $secondLevelPrompt;
+        $uncompletedTestMethodPrompt-&gt;setColorizer($uncompletedTestColorizer);
+        $uncompletedTestOutputPrompt = clone $thirdLevelPrompt;
+        $uncompletedTestOutputPrompt-&gt;setColorizer($uncompletedTestColorizer);
+
+        $runnerUncompletedField = new Fields\Uncompleted();
+        $runnerUncompletedField
+            -&gt;setTitlePrompt($uncompletedTestTitlePrompt)
+            -&gt;setTitleColorizer($uncompletedTestColorizer)
+            -&gt;setMethodPrompt($uncompletedTestMethodPrompt)
+            -&gt;setOutputPrompt($uncompletedTestOutputPrompt);
+
+        $this-&gt;addField($runnerUncompletedField);
+
+        $voidTestColorizer   = new Colorizer('foreground(' . Colors::YELLOW . ')');
+        $voidTestTitlePrompt = new atoum\cli\prompt(&quot;\n&quot;);
+        $voidTestTitlePrompt-&gt;setColorizer($voidTestColorizer);
+        $voidTestMethodPrompt = clone $secondLevelPrompt;
+        $voidTestMethodPrompt-&gt;setColorizer($voidTestColorizer);
+
+        $runnerVoidField = new Fields\Nil();
+        $runnerVoidField
+            -&gt;setTitlePrompt($voidTestTitlePrompt)
+            -&gt;setTitleColorizer($voidTestColorizer)
+            -&gt;setMethodPrompt($voidTestMethodPrompt);
+
+        $this-&gt;addField($runnerVoidField);
+
+        $skippedTestColorizer    = new Colorizer('foreground(' . Colors::GRAY . ')');
+        $skippedTestMethodPrompt = clone $secondLevelPrompt;
+        $skippedTestMethodPrompt-&gt;setColorizer($skippedTestColorizer);
+
+        $runnerSkippedField = new runner\tests\skipped\cli();
+        $runnerSkippedField
+            -&gt;setTitlePrompt($firstLevelPrompt)
+            -&gt;setTitleColorizer($skippedTestColorizer)
+            -&gt;setMethodPrompt($skippedTestMethodPrompt);
+
+        $this-&gt;addField($runnerSkippedField);
+
+        $testRunField = new test\run\cli();
+        $testRunField
+            -&gt;setPrompt(new atoum\cli\prompt(&quot;\n&quot; . 'Suite ', $defaultPromptColorizer))
+            -&gt;setColorizer($defaultColorizer);
+
+        $this-&gt;addField($testRunField);
+
+        $this-&gt;addField(new test\event\cli());
+
+        $testDurationField = new Fields\Duration();
+        $testDurationField
+            -&gt;setPrompt($secondLevelPrompt);
+
+        $this-&gt;addField($testDurationField);
+
+        $testMemoryField = new Fields\Memory();
+        $testMemoryField
+            -&gt;setPrompt($secondLevelPrompt);
+
+        $this-&gt;addField($testMemoryField);
+    }
+
+    public function hideClassesCoverageDetails()
+    {
+        $this-&gt;runnerTestsCoverageField-&gt;hideClassesCoverageDetails();
+
+        return $this;
+    }
+
+    public function hideMethodsCoverageDetails()
+    {
+        $this-&gt;runnerTestsCoverageField-&gt;hideMethodsCoverageDetails();
+
+        return $this;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

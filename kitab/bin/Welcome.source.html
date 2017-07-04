@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -77,8 +79,14 @@ class Welcome extends Console\Dispatcher\Kit
      * @var array
      */
     protected $options = [
+        ['list', Console\GetOption::NO_ARGUMENT, 'l'],
         ['help', Console\GetOption::NO_ARGUMENT, 'h'],
         ['help', Console\GetOption::NO_ARGUMENT, '?']
+    ];
+
+    private $_subCommands = [
+        'compile' =&gt; 'to compile the documentation into static HTML files',
+        'test'    =&gt; 'to test the documentation'
     ];
 
 
@@ -90,8 +98,15 @@ class Welcome extends Console\Dispatcher\Kit
      */
     public function run()
     {
+        $printList = false;
+
         while (false !== $c = $this-&gt;getOption($v)) {
             switch ($c) {
+                case 'l':
+                    $printList = $v;
+
+                break;
+
                 case 'h':
                 case '?':
                     return $this-&gt;usage();
@@ -103,7 +118,27 @@ class Welcome extends Console\Dispatcher\Kit
             }
         }
 
-        echo 'Welcome :-)', &quot;\n&quot;;
+        if (true === $printList) {
+            echo implode(&quot;\t&quot;, array_keys($this-&gt;_subCommands));
+
+            return;
+        }
+
+        echo
+            'Welcome :-)!', &quot;\n\n&quot;,
+            'List of subcommands:', &quot;\n\n&quot;,
+            implode(
+                &quot;,\n&quot;,
+                array_map(
+                    function ($key, $value) {
+                        return '  * `' . $key . '`, ' . $value;
+                    },
+                    array_keys($this-&gt;_subCommands),
+                    array_values($this-&gt;_subCommands)
+                )
+            ), &quot;.\n\n&quot;,
+            'Example:', &quot;\n\n&quot;,
+            '    $ ', $_SERVER['argv'][0], ' compile src', &quot;\n&quot;;
 
         return;
     }
@@ -119,6 +154,7 @@ class Welcome extends Console\Dispatcher\Kit
             'Usage   : welcome &lt;options&gt;', &quot;\n&quot;,
             'Options :', &quot;\n&quot;,
             $this-&gt;makeUsageOptionsList([
+                'l'    =&gt; 'List available sub-commands.',
                 'help' =&gt; 'This help.'
             ]);
 

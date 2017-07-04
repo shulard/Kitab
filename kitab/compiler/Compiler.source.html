@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -186,7 +188,7 @@ class Compiler
                 $lastSymbolPart   = '@' . $item-&gt;getType() . ':' . $item-&gt;getShortName();
                 $currentDimension = &amp;$symbols;
 
-                foreach($symbolParts as $symbolPart) {
+                foreach ($symbolParts as $symbolPart) {
                     if (!isset($currentDimension[$symbolPart])) {
                         $currentDimension[$symbolPart] = [];
                     }

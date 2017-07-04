@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -121,7 +123,7 @@ class Type
      * $type = new Kitab\Compiler\IntermediateRepresentation\Type();
      * $type-&gt;name = 'T';
      *
-     * assert('T' === (string) $type);
+     * assert('T ' === (string) $type);
      * ```
      */
     public function __toString(): string

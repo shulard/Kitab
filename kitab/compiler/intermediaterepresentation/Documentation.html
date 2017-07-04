@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Documentation</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.39-61" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.56-96" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -68,7 +73,16 @@
     public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A documentation intermediate representation.</p>
+<p>A documentation is block comment starting with <code>/**</code> and “attached” to a
+statement (like a function, a method, a class, an attribute
+etc.). “Attached” means that it immediately preceeds a statement, modulo
+whitespaces.</p>
+<p>Kitab expects those documentation to contain
+<a href="http://commonmark.org/">CommonMark</a> formatted text.</p>
+<p>The first paragraph of the documentation is called the
+description. Paragraphes must be separated by 2 consecutive newlines.</p>
+</section>
 
 
     <h2 id="attributes">Attributes</h2>
@@ -76,7 +90,8 @@
     <dl class="entity__children">
                     <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
             <dd>
-                <section></section>
+                <section><p>The raw extracted documentation, with not formatting applied.</p>
+</section>
             </dd>
             </dl>
 
@@ -85,24 +100,31 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $documentation)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.43-46" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.66-69" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate a documentation.</p>
+</section>
             </dd>
                     <dt aria-label="getDescription">
                 <code class="language-php">public function getDescription(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.48-55" title="View source of the `getDescription` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.78-85" title="View source of the `getDescription` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>The description is the first paragraph of the documentation.</p>
+<p>It generally gives an overview or the abstract idea of the documented
+feature. This is more or less like a summary that highlights important
+points.</p>
+</section>
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.57-60" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Documentation.source.html#L.92-95" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform the intermediate representation.</p>
+<p>It basically returns the documentation. No extra allocation is applied.</p>
+</section>
             </dd>
             </dl>
 

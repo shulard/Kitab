@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../" />
+        <title>Source of Kitab\Compiler\Target\DocTest\DocTest from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Hoa
+ *
+ *
+ * @license
+ *
+ * New BSD License
+ *
+ * Copyright © 2007-2017, Hoa community. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Hoa nor the names of its contributors may be
+ *       used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+namespace Kitab\Compiler\Target\DocTest;
+
+use Hoa\File\Directory;
+use Hoa\File\Write;
+use Kitab\Compiler\IntermediateRepresentation;
+use Kitab\Compiler\Parser;
+use Kitab\Compiler\Target\Target;
+use Kitab\Configuration;
+use Kitab\Exception;
+use League\CommonMark;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor;
+use PhpParser\PrettyPrinter;
+
+class DocTest implements Target
+{
+    const DOCUMENTATION_SECTION = 'Examples';
+
+    protected static $_markdownParser = null;
+    protected static $_phpTraverser   = null;
+
+    public function compile(IntermediateRepresentation\File $file)
+    {
+        foreach ($file as $representation) {
+            if ($representation instanceof IntermediateRepresentation\Entity) {
+                $this-&gt;compileEntity($representation);
+            } else {
+                throw new Exception\TargetUnknownIntermediateRepresentation(
+                    'Intermediate representation `%s` has not been handled.',
+                    0,
+                    get_class($representation)
+                );
+            }
+        }
+    }
+
+    protected function compileEntity(IntermediateRepresentation\Entity $entity)
+    {
+        $testSuite = sprintf(
+            '&lt;?php' . &quot;\n\n&quot; .
+            'declare(strict_types=1);' . &quot;\n\n&quot; .
+            'namespace Kitab\Generated\DocTest%s;' . &quot;\n\n&quot; .
+            'use Kitab\DocTest;' . &quot;\n\n&quot; .
+            'class %s extends DocTest\Suite' . &quot;\n&quot; .
+            '{',
+            $entity-&gt;inNamespace() ? '\\' . $entity-&gt;getNamespaceName() : '',
+            $entity-&gt;getShortName()
+        );
+        $anyTestCase = false;
+
+        // Introduction.
+        foreach ($this-&gt;getCodeBlocks($entity-&gt;documentation) as $i =&gt; $codeBlock) {
+            $testSuite .= $this-&gt;compileToTestCase(
+                '0introduction_' . $i, // start with `0` to avoid conflict with existing identifier.
+                $codeBlock
+            );
+
+            $anyTestCase = true;
+        }
+
+        // Methods
+        if ($entity instanceof IntermediateRepresentation\HasMethods) {
+            foreach ($entity-&gt;getMethods() as $method) {
+                foreach ($this-&gt;getCodeBlocks($method-&gt;documentation) as $i =&gt; $codeBlock) {
+                    $testSuite .= $this-&gt;compileToTestCase(
+                        $method-&gt;name . '_' . $i,
+                        $codeBlock
+                    );
+
+                    $anyTestCase = true;
+                }
+            }
+        }
+
+        if (false === $anyTestCase) {
+            return;
+        }
+
+        $testSuite .= '}';
+        $fileName   = 'hoa://Kitab/Output/' . $entity-&gt;file-&gt;name;
+
+        Directory::create(dirname($fileName));
+
+        $output = new Write($fileName, Write::MODE_TRUNCATE_WRITE);
+        $output-&gt;writeAll($testSuite);
+
+        return;
+    }
+
+    public function assemble(array $symbols)
+    {
+        return;
+    }
+
+    protected function getCodeBlocks(IntermediateRepresentation\Documentation $documentation = null): iterable
+    {
+        if (empty($documentation) ||
+            empty($documentation-&gt;documentation)) {
+            return;
+        }
+
+        yield from $this-&gt;parseCodeBlocks(
+            $this-&gt;getMarkdownParser()-&gt;parse($documentation-&gt;documentation)-&gt;walker()
+        );
+    }
+
+    protected function parseCodeBlocks(CommonMark\Node\NodeWalker $walker): iterable
+    {
+        $hashes = [];
+
+        while ($event = $walker-&gt;next()) {
+            $node = $event-&gt;getNode();
+
+            if (false === $event-&gt;isEntering() ||
+                !($node instanceof CommonMark\Block\Element\Heading) ||
+                1 !== $node-&gt;getLevel() ||
+                self::DOCUMENTATION_SECTION !== $node-&gt;getStringContent()) {
+                continue;
+            }
+
+            while ($childEvent = $walker-&gt;next()) {
+                $childNode = $childEvent-&gt;getNode();
+
+                if ($childNode instanceof CommonMark\Block\Element\Heading &amp;&amp;
+                    self::DOCUMENTATION_SECTION !== $childNode-&gt;getStringContent()) {
+
+                    break;
+                }
+
+                if (false === $event-&gt;isEntering() ||
+                    !($childNode instanceof CommonMark\Block\Element\FencedCode)) {
+                    continue;
+                }
+
+                $hash = spl_object_hash($childNode);
+
+                if (true === in_array($hash, $hashes)) {
+                    continue;
+                } else {
+                    $hashes[] = $hash;
+                }
+
+                $type = trim($childNode-&gt;getInfo());
+
+                if (empty($type)) {
+                    $type = 'php';
+                }
+
+                if (0 === preg_match('/\bphp\b/', $type)) {
+                    continue;
+                }
+
+                $code = $this-&gt;unfoldCode($childNode-&gt;getStringContent());
+
+                yield [
+                    'type' =&gt; $type,
+                    'code' =&gt; $code
+                ];
+            }
+        }
+    }
+
+    protected function unfoldCode(string $phpCode): string
+    {
+        $ast = Parser::getPhpParser()-&gt;parse('&lt;?php ' . $phpCode);
+        self::getPhpTraverser()-&gt;traverse($ast);
+
+        return Parser::getPhpPrettyPrinter()-&gt;prettyPrint($ast);
+    }
+
+    protected function compileToTestCase(string $testCaseName, array $codeBlock): string
+    {
+        $prefix =
+            &quot;\n&quot; .
+            '    public function case_' . $testCaseName . '()' . &quot;\n&quot; .
+            '    {' . &quot;\n&quot;;
+        $suffix =
+            &quot;\n&quot; .
+            '    }' . &quot;\n&quot;;
+
+        if (0 !== preg_match('/\bignore\b/', $codeBlock['type'])) {
+            return
+                $prefix .
+                sprintf(
+                    '        $this' . &quot;\n&quot; .
+                    '            -&gt;skip(\'Skipped because ' .
+                    'the code block type contains `ignore`: `%s`.\');',
+                    $codeBlock['type']
+                ) .
+                $suffix;
+        }
+
+
+        if (0 !== preg_match('/\bmust_throw(?:\(([^\)]+)\)|\b)/', $codeBlock['type'], $matches)) {
+            return
+                $prefix .
+                sprintf(
+                        '        $this' . &quot;\n&quot; .
+                    '            -&gt;exception(function () {' . &quot;\n&quot; .
+                    '                %s' . &quot;\n&quot; .
+                    '            })' . &quot;\n&quot; .
+                    '                -&gt;isInstanceOf(\'%s\');',
+                    preg_replace(
+                        '/^\h+$/m',
+                        '',
+                        str_replace(&quot;\n&quot;, &quot;\n&quot; . '                ', $codeBlock['code'])
+                    ),
+                    isset($matches[1]) ? $matches[1] : 'Exception'
+                ) .
+                $suffix;
+        }
+
+        return
+            $prefix .
+                sprintf(
+                '        $this' . &quot;\n&quot; .
+                '            -&gt;assert(function () {' . &quot;\n&quot; .
+                '                %s' . &quot;\n&quot; .
+                '            });',
+                preg_replace(
+                    '/^\h+$/m',
+                    '',
+                    str_replace(&quot;\n&quot;, &quot;\n&quot; . '                ', $codeBlock['code'])
+                )
+            ) .
+            $suffix;
+    }
+
+    protected function getMarkdownParser()
+    {
+        if (null === static::$_markdownParser) {
+            static::$_markdownParser = new CommonMark\DocParser(
+                CommonMark\Environment::createCommonMarkEnvironment()
+            );
+        }
+
+        return static::$_markdownParser;
+    }
+
+    protected static function getPhpTraverser(): NodeTraverser
+    {
+        if (null === self::$_phpTraverser) {
+            self::$_phpTraverser = new NodeTraverser();
+            self::$_phpTraverser-&gt;addVisitor(new NodeVisitor\NameResolver());
+        }
+
+        return self::$_phpTraverser;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

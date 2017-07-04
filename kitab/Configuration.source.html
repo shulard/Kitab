@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -75,9 +77,11 @@ namespace Kitab;
  *
  * # Examples
  *
- * ```php,ignore
- * $configuration = new Configuration();
+ * ```php
+ * $configuration              = new Kitab\Configuration();
  * $configuration-&gt;projectName = 'Kitab';
+ *
+ * assert('Kitab' === $configuration-&gt;projectName);
  * ```
  */
 class Configuration
@@ -116,7 +120,7 @@ class Configuration
      * # Examples
      *
      * ```php
-     * $configuration = new Configuration();
+     * $configuration = new Kitab\Configuration();
      *
      * assert($configuration-&gt;defaultNamespace === null);
      * assert($configuration-&gt;getOr('defaultNamespace', 'foobar') === 'foobar');

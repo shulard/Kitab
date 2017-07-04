@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../../" />
+        <title>Source of Kitab\DocTest\Report\Cli\Fields\Uncompleted from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+namespace Kitab\DocTest\Report\Cli\Fields;
+
+use atoum\report\fields;
+
+class Uncompleted extends fields\runner\tests\uncompleted\cli
+{
+    public function __toString()
+    {
+        $string = '';
+
+        if (null !== $this-&gt;runner) {
+            $uncompletedMethods      = $this-&gt;runner-&gt;getScore()-&gt;getUncompletedMethods();
+            $sizeOfUncompletedMethod = sizeof($uncompletedMethods);
+
+            if (0 &lt; $sizeOfUncompletedMethod) {
+                $string .=
+                    $this-&gt;titlePrompt .
+                    sprintf(
+                        $this-&gt;locale-&gt;_('%s:'),
+                        $this-&gt;titleColorizer-&gt;colorize(sprintf($this-&gt;locale-&gt;__('There is %d uncompleted test case', 'There are %d uncompleted test cases', $sizeOfUncompletedMethod), $sizeOfUncompletedMethod))
+                    ) . &quot;\n&quot;;
+
+                foreach ($uncompletedMethods as $uncompletedMethod) {
+                    $string .=
+                        $this-&gt;methodPrompt .
+                        sprintf(
+                            $this-&gt;locale-&gt;_('%s:'),
+                            $this-&gt;methodColorizer-&gt;colorize(sprintf('%s::%s() with exit code %d', $uncompletedMethod['class'], $uncompletedMethod['method'], $uncompletedMethod['exitCode']))
+                        ) . &quot;\n&quot;;
+
+                    $lines   = explode(PHP_EOL, trim($uncompletedMethod['output']));
+                    $string .= $this-&gt;outputPrompt . 'output(' . strlen($uncompletedMethod['output']) . ') &quot;' . array_shift($lines);
+
+                    foreach ($lines as $line) {
+                        $string .= &quot;\n&quot; . $this-&gt;outputPrompt . $line;
+                    }
+
+                    $string .= '&quot;' . &quot;\n&quot;;
+                }
+            }
+        }
+
+        return $string;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

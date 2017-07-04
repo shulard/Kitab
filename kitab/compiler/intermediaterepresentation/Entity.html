@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Entity</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.45-145" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.47-148" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -107,9 +112,10 @@ class, interface, trait, function…</p>
                 <section><p>The fully-qualified name of the entity, i.e. it includes namespaces.</p>
 </section>
             </dd>
-                    <dt aria-label="documentation"><code class="language-php">public $documentation = '';</code></dt>
+                    <dt aria-label="documentation"><code class="language-php">public $documentation = null;</code></dt>
             <dd>
-                <section><p>Associated documentation of the entity.</p>
+                <section><p>Associated documentation of the entity as an instance of
+<a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Kitab\Compiler\IntermediateRepresentation\Documentation</code></a>.</p>
 </section>
             </dd>
             </dl>
@@ -119,7 +125,7 @@ class, interface, trait, function…</p>
     <dl class="entity__children">
                     <dt aria-label="getNamespaceName">
                 <code class="language-php">public function getNamespaceName(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.88-95" title="View source of the `getNamespaceName` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.91-98" title="View source of the `getNamespaceName` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>The name of the entity without the short name, i.e. only the namespaces.</p>
@@ -132,7 +138,7 @@ assert($class-&gt;getNamespaceName() === 'Foo\\Bar');
             </dd>
                     <dt aria-label="getShortName">
                 <code class="language-php">public function getShortName(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.108-115" title="View source of the `getShortName` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.111-118" title="View source of the `getShortName` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>The name of the entity without the namespaces, only the short name.</p>
@@ -145,7 +151,7 @@ assert($class-&gt;getShortName() === 'Baz');
             </dd>
                     <dt aria-label="inNamespace">
                 <code class="language-php">public function inNamespace(): bool</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.133-136" title="View source of the `inNamespace` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.136-139" title="View source of the `inNamespace` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>An entity is in a namespace if its fully-qualified name contains at
@@ -153,17 +159,17 @@ least one namespace separator (aka <code>\</code>).</p>
 <h1>Examples</h1>
 <pre><code class="language-php">$classA = new Kitab\Compiler\IntermediateRepresentation\Class_('Foo\\Bar\\Baz');
 
-assert(true === $class-&gt;inNamespace());
+assert(true === $classA-&gt;inNamespace());
 
 $classB = new Kitab\Compiler\IntermediateRepresentation\Class_('Qux');
 
-assert(false === $class-&gt;inNamespace());
+assert(false === $classB-&gt;inNamespace());
 </code></pre>
 </section>
             </dd>
                     <dt aria-label="getType">
                 <code class="language-php">public static function getType(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.141-144" title="View source of the `getType` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Entity.source.html#L.144-147" title="View source of the `getType` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Return the type of the entity defined by the <code>TYPE</code> class constant.</p>

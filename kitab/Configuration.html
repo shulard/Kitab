@@ -46,7 +46,7 @@
     <h1>
     Class <code>Kitab\Configuration</code>
     <aside>
-        <a href="./kitab/Configuration.source.html#L.52-102" title="View source">[src]</a>
+        <a href="./kitab/Configuration.source.html#L.56-106" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -59,8 +59,10 @@
 <p>This structure contains all the configuration items used by Kitab.
 All these items are public. Use it as a regular structure.</p>
 <h1>Examples</h1>
-<pre><code class="language-php,ignore">$configuration = new Configuration();
+<pre><code class="language-php">$configuration              = new Kitab\Configuration();
 $configuration-&gt;projectName = 'Kitab';
+
+assert('Kitab' === $configuration-&gt;projectName);
 </code></pre>
 </section>
 
@@ -99,13 +101,13 @@ default, a placeholder is used.</p>
     <dl class="entity__children">
                     <dt aria-label="getOr">
                 <code class="language-php">public function getOr(string $item, $default)</code>
-                <aside><a href="./kitab/Configuration.source.html#L.94-101" title="View source of the `getOr` method">[src]</a></aside>
+                <aside><a href="./kitab/Configuration.source.html#L.98-105" title="View source of the `getOr` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Get a configuration item value, or —if <code>null</code>— return a default value.
 If the configuration item is not set, it will be considered as <code>null</code>.</p>
 <h1>Examples</h1>
-<pre><code class="language-php">$configuration = new Configuration();
+<pre><code class="language-php">$configuration = new Kitab\Configuration();
 
 assert($configuration-&gt;defaultNamespace === null);
 assert($configuration-&gt;getOr('defaultNamespace', 'foobar') === 'foobar');

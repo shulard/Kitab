@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Constant</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.57-132" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.59-134" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -76,7 +81,7 @@ visibility, and a value sets to 42.</p>
 $constant-&gt;visibility = $constant::VISIBILITY_PROTECTED;
 $constant-&gt;value      = '42';
 
-assert('protected const FOO = 42' === (string) $attribute);
+assert('protected const FOO = 42' === (string) $constant);
 </code></pre>
 </section>
 
@@ -131,7 +136,7 @@ assert('protected const FOO = 42' === (string) $attribute);
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.98-101" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.100-103" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Allocate a constant with a name. This is the only mandatory information.</p>
@@ -139,7 +144,7 @@ assert('protected const FOO = 42' === (string) $attribute);
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.108-131" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Constant.source.html#L.110-133" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Transform this intermediate representation into its PHP representation.</p>

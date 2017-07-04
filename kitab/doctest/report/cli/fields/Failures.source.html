@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../../" />
+        <title>Source of Kitab\DocTest\Report\Cli\Fields\Failures from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+namespace Kitab\DocTest\Report\Cli\Fields;
+
+use atoum\report\fields;
+
+class Failures extends fields\runner\failures\cli
+{
+    public function __toString()
+    {
+        $string = '';
+
+        if ($this-&gt;runner !== null) {
+            $fails = $this-&gt;runner-&gt;getScore()-&gt;getFailAssertions();
+
+            $numberOfFails = count($fails);
+
+            if ($numberOfFails &gt; 0) {
+                $string .=
+                    $this-&gt;titlePrompt .
+                    sprintf(
+                        $this-&gt;locale-&gt;_('%s:'),
+                        $this-&gt;titleColorizer-&gt;colorize(sprintf($this-&gt;locale-&gt;__('There is %d failure', 'There are %d failures', $numberOfFails), $numberOfFails))
+                    ) . &quot;\n&quot;;
+
+                foreach ($fails as $fail) {
+                    $string .=
+                        $this-&gt;methodPrompt .
+                        sprintf(
+                            '%s: ',
+                            $this-&gt;methodColorizer-&gt;colorize($fail['class'] . '::' . $fail['method'] . '()')
+                        ) .
+                        $fail['fail'] . &quot;\n\n&quot;;
+                }
+            }
+        }
+
+        return $string;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,13 +62,14 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Interface_</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Interface_.source.html#L.54-79" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Interface_.source.html#L.56-89" title="View source">[src]</a>
     </aside>
 </h1>
 
 <pre><code class="language-php">class Interface_ extends Kitab\Compiler\IntermediateRepresentation\Entity
 {
     public function __construct(string $name);
+    public function getMethods(): iterable;
 }</code></pre>
 
 <section class="entity__description"><p>An interface intermediate representation.</p>
@@ -106,15 +112,29 @@ $interface-&gt;methods[] = new Kitab\Compiler\IntermediateRepresentation\Method(
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Interface_.source.html#L.75-78" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Interface_.source.html#L.77-80" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Allocate an interface with a fully-qualified name. This is the only
 mandatory information.</p>
 </section>
             </dd>
+                    <dt aria-label="getMethods">
+                <code class="language-php">public function getMethods(): iterable</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Interface_.source.html#L.85-88" title="View source of the `getMethods` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section><p>Return all methods declared for this entity.</p>
+</section>
+            </dd>
             </dl>
 
+    <h2 id="interfaces">Interfaces</h2>
+
+    <dl class="entity__children list--flat">
+                    <dt><code class="language-php">interface Kitab\Compiler\IntermediateRepresentation\HasMethods</code></dt>
+            <dd>…</dd>
+            </dl>
 </article>
         </main>
 

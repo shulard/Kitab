@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Method</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.39-103" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.72-201" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -67,7 +72,31 @@
     public function __toString(): string;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A method intermediate representation.</p>
+<p>A method is a function inside a class. Contrary to a function, it receives
+an implicit <code>$this</code> argument representing the object (class instance),
+except for static method. Just like a function, it has zero or many inputs,
+and zero or one output. Each input is represented by a
+<a href="./kitab/compiler/intermediaterepresentation/Parameter.html"><code>Kitab\Compiler\IntermediateRepresentation\Parameter</code></a> instance, while the
+output is represented by a <a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Kitab\Compiler\IntermediateRepresentation\Type</code></a>
+instance. A method also has a visiblity, can be abstract (if the class is
+abstract), and can be final (cannot be overriden by a child class).</p>
+<h1>Examples</h1>
+<p>In this example, a new method <code>f</code> is created with 1 input: <code>int $x</code>, and
+1 output: <code>int</code>.</p>
+<pre><code class="language-php">$typeInt = new Kitab\Compiler\IntermediateRepresentation\Type();
+$typeInt-&gt;name = 'int';
+
+$input1 = new Kitab\Compiler\IntermediateRepresentation\Parameter('x');
+$input1-&gt;type = $typeInt;
+
+$output = $typeInt;
+
+$method = new Kitab\Compiler\IntermediateRepresentation\Method('f');
+$method-&gt;inputs[] = $input1;
+$method-&gt;output   = $output;
+</code></pre>
+</section>
 
     <h2 id="constants">Constants</h2>
 
@@ -94,43 +123,66 @@
     <dl class="entity__children">
                     <dt aria-label="lineStart"><code class="language-php">public $lineStart = 0;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Unsigned integer representing where the method declaration starts in
+the file. The file can be retrieved on the class containing this
+method.</p>
+</section>
             </dd>
                     <dt aria-label="lineEnd"><code class="language-php">public $lineEnd = 0;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Unsigned integer representing where the entity declaration ends in the
+file. The file can retrieved on the class containing this method.</p>
+</section>
             </dd>
                     <dt aria-label="visibility"><code class="language-php">public $visibility = self::VISIBILITY_PUBLIC;</code></dt>
             <dd>
-                <section></section>
+                <section><p>The visibility of the method, represented by the <code>self::VISIBILITY_*</code>
+constants.</p>
+</section>
             </dd>
                     <dt aria-label="static"><code class="language-php">public $static = false;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Represent whether the method is static or not.</p>
+<p>A static method does not receive the implicit <code>$this</code> argument
+representing the current object.</p>
+</section>
             </dd>
                     <dt aria-label="abstract"><code class="language-php">public $abstract = false;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Represent whether the method is abstract or not.</p>
+<p>An abstract method does not an implementation (body), it only provides
+a signature (inputs and output). If at least one method is abstract,
+the whole class must be marked as abstract.</p>
+</section>
             </dd>
                     <dt aria-label="final"><code class="language-php">public $final = false;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Represent whether the method is final or not.</p>
+<p>A final method cannot be overriden in a child class.</p>
+</section>
             </dd>
                     <dt aria-label="name"><code class="language-php">public $name</code></dt>
             <dd>
-                <section></section>
+                <section><p>The name of the method.</p>
+</section>
             </dd>
                     <dt aria-label="inputs"><code class="language-php">public $inputs = [];</code></dt>
             <dd>
-                <section></section>
+                <section><p>Collection of <a href="./kitab/compiler/intermediaterepresentation/Parameter.html"><code>Kitab\Compiler\IntermediateRepresentation\Parameter</code></a>
+instances.</p>
+</section>
             </dd>
                     <dt aria-label="output"><code class="language-php">public $output = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>An output is a <a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Kitab\Compiler\IntermediateRepresentation\Type</code></a>
+instance if any.</p>
+</section>
             </dd>
                     <dt aria-label="documentation"><code class="language-php">public $documentation = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Associated documentation of the entity as an instance of
+<a href="./kitab/compiler/intermediaterepresentation/Documentation.html"><code>Kitab\Compiler\IntermediateRepresentation\Documentation</code></a>.</p>
+</section>
             </dd>
             </dl>
 
@@ -139,17 +191,22 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.67-70" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.159-162" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate a new method with a name. This is the only mandatory
+information.</p>
+</section>
             </dd>
                     <dt aria-label="__toString">
                 <code class="language-php">public function __toString(): string</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.72-102" title="View source of the `__toString` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Method.source.html#L.170-200" title="View source of the `__toString` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform the intermediate representation into its PHP representation.</p>
+<p>The original formatting is not kept. The applied formatting is design
+for Kitab.</p>
+</section>
             </dd>
             </dl>
 

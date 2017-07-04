@@ -35,6 +35,7 @@
             <ul class="list--flat">
                                     <li><a href="./kitab/bin/Bin.html"><code>Bin</code></a></li>
                                     <li><a href="./kitab/bin/Compile.html"><code>Compile</code></a></li>
+                                    <li><a href="./kitab/bin/Test.html"><code>Test</code></a></li>
                                     <li><a href="./kitab/bin/Welcome.html"><code>Welcome</code></a></li>
                             </ul>
         
@@ -47,7 +48,7 @@
     <h1>
     Class <code>Kitab\Bin\Welcome</code>
     <aside>
-        <a href="./kitab/bin/Welcome.source.html#L.41-96" title="View source">[src]</a>
+        <a href="./kitab/bin/Welcome.source.html#L.43-132" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -63,11 +64,15 @@
     <h2 id="attributes">Attributes</h2>
 
     <dl class="entity__children">
-                    <dt aria-label="options"><code class="language-php">protected $options = [['help', \Hoa\Console\GetOption::NO_ARGUMENT, 'h'], ['help', \Hoa\Console\GetOption::NO_ARGUMENT, '?']];</code></dt>
+                    <dt aria-label="options"><code class="language-php">protected $options = [['list', \Hoa\Console\GetOption::NO_ARGUMENT, 'l'], ['help', \Hoa\Console\GetOption::NO_ARGUMENT, 'h'], ['help', \Hoa\Console\GetOption::NO_ARGUMENT, '?']];</code></dt>
             <dd>
                 <section><p>Options description.</p>
 <p>@var array</p>
 </section>
+            </dd>
+                    <dt aria-label="_subCommands"><code class="language-php">private $_subCommands = ['compile' => 'to compile the documentation into static HTML files', 'test' => 'to test the documentation'];</code></dt>
+            <dd>
+                <section></section>
             </dd>
             </dl>
 
@@ -76,7 +81,7 @@
     <dl class="entity__children">
                     <dt aria-label="run">
                 <code class="language-php">public function run()</code>
-                <aside><a href="./kitab/bin/Welcome.source.html#L.60-78" title="View source of the `run` method">[src]</a></aside>
+                <aside><a href="./kitab/bin/Welcome.source.html#L.68-113" title="View source of the `run` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>The entry method.</p>
@@ -85,7 +90,7 @@
             </dd>
                     <dt aria-label="usage">
                 <code class="language-php">public function usage()</code>
-                <aside><a href="./kitab/bin/Welcome.source.html#L.85-95" title="View source of the `usage` method">[src]</a></aside>
+                <aside><a href="./kitab/bin/Welcome.source.html#L.120-131" title="View source of the `usage` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Print help.</p>

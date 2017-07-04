@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../" />
+        <title>Kitab\Compiler\Target\DocTest\DocTest from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+
+    <nav>
+        <h1><code><a href="./kitab/index.html">Kitab</a>\<wbr /><a href="./kitab/compiler/index.html">Compiler</a>\<wbr /><a href="./kitab/compiler/target/index.html">Target</a>\<wbr /><a href="./kitab/compiler/target/doctest/index.html">DocTest</a></code></h1>
+
+                    <h2>Classes</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/target/doctest/DocTest.html"><code>DocTest</code></a></li>
+                            </ul>
+        
+        
+        
+            </nav>
+</aside>
+
+<article>
+    <h1>
+    Class <code>Kitab\Compiler\Target\DocTest\DocTest</code>
+    <aside>
+        <a href="./kitab/compiler/target/doctest/DocTest.source.html#L.53-287" title="View source">[src]</a>
+    </aside>
+</h1>
+
+<pre><code class="language-php">class DocTest
+{
+    public function compile(Kitab\Compiler\IntermediateRepresentation\File $file);
+    protected function compileEntity(Kitab\Compiler\IntermediateRepresentation\Entity $entity);
+    public function assemble(array $symbols);
+    protected function getCodeBlocks(Kitab\Compiler\IntermediateRepresentation\Documentation $documentation): iterable;
+    protected function parseCodeBlocks(League\CommonMark\Node\NodeWalker $walker): iterable;
+    protected function unfoldCode(string $phpCode): string;
+    protected function compileToTestCase(string $testCaseName, array $codeBlock): string;
+    protected function getMarkdownParser();
+    protected static function getPhpTraverser(): PhpParser\NodeTraverser;
+}</code></pre>
+
+<section class="entity__description"></section>
+
+    <h2 id="constants">Constants</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="DOCUMENTATION_SECTION"><code class="language-php">public const DOCUMENTATION_SECTION = 'Examples';</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="attributes">Attributes</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="_markdownParser"><code class="language-php">protected static $_markdownParser = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="_phpTraverser"><code class="language-php">protected static $_phpTraverser = null;</code></dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="methods">Methods</h2>
+
+    <dl class="entity__children">
+                    <dt aria-label="compile">
+                <code class="language-php">public function compile(Kitab\Compiler\IntermediateRepresentation\File $file)</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.60-73" title="View source of the `compile` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="compileEntity">
+                <code class="language-php">protected function compileEntity(Kitab\Compiler\IntermediateRepresentation\Entity $entity)</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.75-126" title="View source of the `compileEntity` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="assemble">
+                <code class="language-php">public function assemble(array $symbols)</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.128-131" title="View source of the `assemble` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getCodeBlocks">
+                <code class="language-php">protected function getCodeBlocks(Kitab\Compiler\IntermediateRepresentation\Documentation $documentation): iterable</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.133-143" title="View source of the `getCodeBlocks` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="parseCodeBlocks">
+                <code class="language-php">protected function parseCodeBlocks(League\CommonMark\Node\NodeWalker $walker): iterable</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.145-199" title="View source of the `parseCodeBlocks` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="unfoldCode">
+                <code class="language-php">protected function unfoldCode(string $phpCode): string</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.201-207" title="View source of the `unfoldCode` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="compileToTestCase">
+                <code class="language-php">protected function compileToTestCase(string $testCaseName, array $codeBlock): string</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.209-265" title="View source of the `compileToTestCase` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getMarkdownParser">
+                <code class="language-php">protected function getMarkdownParser()</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.267-276" title="View source of the `getMarkdownParser` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+                    <dt aria-label="getPhpTraverser">
+                <code class="language-php">protected static function getPhpTraverser(): PhpParser\NodeTraverser</code>
+                <aside><a href="./kitab/compiler/target/doctest/DocTest.source.html#L.278-286" title="View source of the `getPhpTraverser` method">[src]</a></aside>
+            </dt>
+            <dd>
+                <section></section>
+            </dd>
+            </dl>
+
+    <h2 id="interfaces">Interfaces</h2>
+
+    <dl class="entity__children list--flat">
+                    <dt><code class="language-php">interface Kitab\Compiler\Target\Target</code></dt>
+            <dd>…</dd>
+            </dl>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

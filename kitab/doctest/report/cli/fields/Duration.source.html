@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <base href="./../../../../../" />
+        <title>Source of Kitab\DocTest\Report\Cli\Fields\Duration from Kitab</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/javascript; charset=utf-8" />
+        <meta http-equiv="content-type" content="text/css; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./css/main.css" media="all" />
+        <link rel="stylesheet" href="./css/prism.css" media="all" />
+    </head>
+    <body>
+        <div id="search" role="search">
+            <div>
+                <input type="search" placeholder="Initializing search…" disabled />
+            </div>
+        </div>
+
+        <main>
+            <aside>
+    <header>
+        <a href="./">
+            <img src="https://static.hoa-project.net/Image/Hoa.png" alt="Home" />
+        </a>
+    </header>
+</aside>
+
+<article>
+    <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
+
+declare(strict_types=1);
+
+namespace Kitab\DocTest\Report\Cli\Fields;
+
+use atoum\report\fields;
+
+class Duration extends fields\test\duration\cli
+{
+    public function __toString()
+    {
+        return
+            $this-&gt;prompt .
+            sprintf(
+                $this-&gt;locale-&gt;_('%1$s: %2$s.'),
+                $this-&gt;titleColorizer-&gt;colorize($this-&gt;locale-&gt;_('Duration')),
+                $this-&gt;durationColorizer-&gt;colorize(
+                    null === $this-&gt;value
+                        ? $this-&gt;locale-&gt;_('unknown')
+                        : sprintf(
+                            $this-&gt;locale-&gt;__('%4.6f second', '%4.6f seconds', $this-&gt;value),
+                            $this-&gt;value
+                        )
+                )
+            ) . &quot;\n&quot;;
+    }
+}
+</code></pre>
+</article>
+        </main>
+
+        <script type="text/javascript" src="./javascript/search.elm.js"></script>
+        <script type="text/javascript" src="./javascript/search-index.js"></script>
+        <script type="text/javascript" src="./javascript/search-metadata.js"></script>
+        <script type="text/javascript" src="./javascript/application.js"></script>
+        <script type="text/javascript" src="./javascript/prism.js"></script>
+        <script type="text/javascript" src="./javascript/prism-hooks.js" async defer></script>
+    </body>
+</html>

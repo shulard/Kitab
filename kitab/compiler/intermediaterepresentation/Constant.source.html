@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -82,7 +84,7 @@ namespace Kitab\Compiler\IntermediateRepresentation;
  * $constant-&gt;visibility = $constant::VISIBILITY_PROTECTED;
  * $constant-&gt;value      = '42';
  *
- * assert('protected const FOO = 42' === (string) $attribute);
+ * assert('protected const FOO = 42' === (string) $constant);
  * ```
  */
 class Constant

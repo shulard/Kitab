@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -68,6 +70,7 @@
 namespace Kitab\Bin;
 
 use Hoa\Console;
+use Hoa\File\Temporary\Temporary;
 use Hoa\Protocol\Node;
 use Hoa\Protocol\Protocol;
 use Kitab\Compiler\Compiler;
@@ -88,6 +91,7 @@ class Compile extends Console\Dispatcher\Kit
         ['with-logo-url',     Console\GetOption::REQUIRED_ARGUMENT, 'l'],
         ['with-project-name', Console\GetOption::REQUIRED_ARGUMENT, 'p'],
         ['output-directory',  Console\GetOption::REQUIRED_ARGUMENT, 'o'],
+        ['open',              Console\GetOption::NO_ARGUMENT,       'r'],
         ['help',              Console\GetOption::NO_ARGUMENT,       'h'],
         ['help',              Console\GetOption::NO_ARGUMENT,       '?']
     ];
@@ -102,9 +106,10 @@ class Compile extends Console\Dispatcher\Kit
     public function run()
     {
         $composerFile    = null;
-        $outputDirectory = null;
-        $directoryToScan = getcwd();
+        $outputDirectory = Temporary::getTemporaryDirectory() . DS . 'Kitab.html.output';
+        $directoryToScan = null;
         $configuration   = new Configuration();
+        $open            = false;
 
         while (false !== $c = $this-&gt;getOption($v)) {
             switch ($c) {
@@ -134,6 +139,11 @@ class Compile extends Console\Dispatcher\Kit
 
                 case 'o':
                     $outputDirectory = $v;
+
+                    break;
+
+                case 'r':
+                    $open = $v;
 
                     break;
 
@@ -176,11 +186,13 @@ class Compile extends Console\Dispatcher\Kit
             }
         }
 
-        if (null !== $outputDirectory) {
-            Protocol::getInstance()['Kitab']['Output']-&gt;setReach(&quot;\r&quot; . $outputDirectory . DS);
-        }
+        Protocol::getInstance()['Kitab']['Output']-&gt;setReach(&quot;\r&quot; . $outputDirectory . DS);
 
         $this-&gt;parser-&gt;listInputs($directoryToScan);
+
+        if (empty($directoryToScan)) {
+            throw new \RuntimeException('Directory to scan must not be empty.');
+        }
 
         $finder = new Finder();
         $finder-&gt;in($directoryToScan);
@@ -189,6 +201,43 @@ class Compile extends Console\Dispatcher\Kit
 
         $compiler = new Compiler($configuration);
         $compiler-&gt;compile($finder, $target);
+
+        $index = $outputDirectory;
+
+        if (true === file_exists($index . DS . 'index.html')) {
+            $index .= DS . 'index.html';
+        }
+
+        if (true === $open) {
+            if (isset($_SERVER['BROWSER'])) {
+                echo
+                    'Opening…', &quot;\n&quot;,
+                    Console\Processus::execute($_SERVER['BROWSER'] . ' ' . $index, false);
+
+                return;
+            }
+
+            $utilities = [
+                'open',
+                'xdg-open',
+                'gnome-open',
+                'kde-open'
+            ];
+
+            foreach ($utilities as $utility) {
+                if (null !== $utilityPath = Console\Processus::locate($utility)) {
+                    echo
+                        'Opening…', &quot;\n&quot;,
+                        Console\Processus::execute($utilityPath . ' ' . $index, false);
+
+                    return;
+                }
+            }
+
+            echo 'Did not succeed to open the documentation automatically (', $index, ').', &quot;\n&quot;;
+        } else {
+            echo $index, &quot;\n&quot;;
+        }
 
         return;
     }
@@ -201,7 +250,7 @@ class Compile extends Console\Dispatcher\Kit
     public function usage()
     {
         echo
-            'Usage   : compile &lt;options&gt;', &quot;\n&quot;,
+            'Usage   : compile &lt;options&gt; directory-to-scan', &quot;\n&quot;,
             'Options :', &quot;\n&quot;,
             $this-&gt;makeUsageOptionsList([
                 'd'    =&gt; 'Default namespace that must be displayed.',
@@ -210,6 +259,7 @@ class Compile extends Console\Dispatcher\Kit
                 'l'    =&gt; 'URL of the logo.',
                 'p'    =&gt; 'Project name.',
                 'o'    =&gt; 'Directory that will receive the generated documentation.',
+                'r'    =&gt; 'Open the documentation in a browser after its computation.',
                 'help' =&gt; 'This help.'
             ]);
 

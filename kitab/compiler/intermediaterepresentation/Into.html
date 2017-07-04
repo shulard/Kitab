@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,14 +62,14 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Into</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.44-296" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.63-382" title="View source">[src]</a>
     </aside>
 </h1>
 
 <pre><code class="language-php">class Into extends PhpParser\NodeVisitorAbstract
 {
     public function __construct(string $filename);
-    public function leaveNode(PhpParser\Node $node);
+    public function leaveNode(PhpParser\Node $node): void;
     protected function intoConstants(PhpParser\Node\Stmt\ClassLike $node): array;
     protected function intoAttributes(PhpParser\Node\Stmt\ClassLike $node): array;
     protected function intoMethods(PhpParser\Node\Stmt\ClassLike $node): array;
@@ -74,7 +79,19 @@
     public function collect(): Kitab\Compiler\IntermediateRepresentation\File;
 }</code></pre>
 
-<section class="entity__description"></section>
+<section class="entity__description"><p>A visitor to transform an Abstract Syntax Tree (AST) into an Intermediate
+Representation (IR).</p>
+<p>This visitor implements the API from <a href="./phpparser/NodeVisitorAbstract.html"><code>PhpParser\NodeVisitorAbstract</code></a>. It is
+applied when leaving a node of the AST to allow other visitors to transform
+the currently visited node and its children. For instance, the name
+resolver visitor modifies the AST when entering a node. This visitor needs
+the information from the name resolver visitor, so it must executes
+after. The best way to get all these information for a node and its
+children is to run each node when the visitor leaves a node.</p>
+<h1>Examples</h1>
+<p>See <a href="kitab/compiler/intermediaterepresentation/index.html">the examples of the current
+namespace</a>.</p>
+</section>
 
 
     <h2 id="attributes">Attributes</h2>
@@ -82,11 +99,17 @@
     <dl class="entity__children">
                     <dt aria-label="_file"><code class="language-php">protected $_file = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Name of the file where the AST comes from.</p>
+</section>
             </dd>
                     <dt aria-label="_prettyPrinter"><code class="language-php">private $_prettyPrinter = null;</code></dt>
             <dd>
-                <section></section>
+                <section><p>Pretty print visitor to transform the AST into its PHP representation.</p>
+<p>It is used for example to get the PHP representation of a default value
+for an attribute.</p>
+<p>This is a reference to the PHP pretty printer allocated in the
+<a href="./kitab/compiler/Parser.html"><code>Kitab\Compiler\Parser</code></a> class.</p>
+</section>
             </dd>
             </dl>
 
@@ -95,66 +118,104 @@
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $filename)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.49-53" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.85-89" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Allocate a new visitor. The only mandatory information is the name of
+the file where the AST comes from.</p>
+</section>
             </dd>
                     <dt aria-label="leaveNode">
-                <code class="language-php">public function leaveNode(PhpParser\Node $node)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.55-124" title="View source of the `leaveNode` method">[src]</a></aside>
+                <code class="language-php">public function leaveNode(PhpParser\Node $node): void</code>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.97-164" title="View source of the `leaveNode` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Transform a node of the AST into an IR.</p>
+<p>This method returns nothing because it is called several times by the
+traverser API. To get the final result, see the <code>collect</code> method.</p>
+</section>
             </dd>
                     <dt aria-label="intoConstants">
                 <code class="language-php">protected function intoConstants(PhpParser\Node\Stmt\ClassLike $node): array</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.126-163" title="View source of the `intoConstants` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.177-214" title="View source of the `intoConstants` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract constant nodes and transform them into a collection of
+<a href="./kitab/compiler/intermediaterepresentation/Constant.html"><code>Kitab\Compiler\IntermediateRepresentation\Constant</code></a> objects.</p>
+<p>It supports both declaration forms:</p>
+<ul>
+<li>
+<code>public const FOO = 42; public const BAR = 153;</code>, and</li>
+<li>
+<code>public const FOO = 42, BAR = 153;</code>.</li>
+</ul>
+<p>The resulting IR will be the same and will correspond to the former form.</p>
+</section>
             </dd>
                     <dt aria-label="intoAttributes">
                 <code class="language-php">protected function intoAttributes(PhpParser\Node\Stmt\ClassLike $node): array</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.165-208" title="View source of the `intoAttributes` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.227-270" title="View source of the `intoAttributes` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract attribute nodes and transform them into a collection of
+<a href="./kitab/compiler/intermediaterepresentation/Attribute.html"><code>Kitab\Compiler\IntermediateRepresentation\Attribute</code></a> objects.</p>
+<p>It supports both declaration forms:</p>
+<ul>
+<li>
+<code>public $foo = 42; public $bar = 153;</code>, and</li>
+<li>
+<code>public $foo = 42, $bar = 153;</code>.</li>
+</ul>
+<p>The resulting IR will be the same and will correspond to the former form.</p>
+</section>
             </dd>
                     <dt aria-label="intoMethods">
                 <code class="language-php">protected function intoMethods(PhpParser\Node\Stmt\ClassLike $node): array</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.210-242" title="View source of the `intoMethods` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.276-308" title="View source of the `intoMethods` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract method nodes and transform them into a collection of
+<a href="./kitab/compiler/intermediaterepresentation/Method.html"><code>Kitab\Compiler\IntermediateRepresentation\Method</code></a> objects.</p>
+</section>
             </dd>
                     <dt aria-label="intoInputs">
                 <code class="language-php">protected function intoInputs($node): array</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.244-259" title="View source of the `intoInputs` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.315-330" title="View source of the `intoInputs` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract nodes representing parameters of a function and transform them
+into a collection of
+<a href="./kitab/compiler/intermediaterepresentation/Parameter.html"><code>Kitab\Compiler\IntermediateRepresentation\Parameter</code></a> objects.</p>
+</section>
             </dd>
                     <dt aria-label="intoOutput">
                 <code class="language-php">protected function intoOutput($node): Kitab\Compiler\IntermediateRepresentation\Type</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.261-267" title="View source of the `intoOutput` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.336-342" title="View source of the `intoOutput` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract node representing the output of a function and transform it
+into a <a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Kitab\Compiler\IntermediateRepresentation\Type</code></a> object.</p>
+</section>
             </dd>
                     <dt aria-label="intoType">
                 <code class="language-php">protected function intoType($node): Kitab\Compiler\IntermediateRepresentation\Type</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.269-290" title="View source of the `intoType` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.348-369" title="View source of the `intoType` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Extract node representing a type and transform it into a
+<a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Kitab\Compiler\IntermediateRepresentation\Type</code></a> object.</p>
+</section>
             </dd>
                     <dt aria-label="collect">
                 <code class="language-php">public function collect(): Kitab\Compiler\IntermediateRepresentation\File</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.292-295" title="View source of the `collect` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Into.source.html#L.378-381" title="View source of the `collect` method">[src]</a></aside>
             </dt>
             <dd>
-                <section></section>
+                <section><p>Because the visitor runs for every node in the AST, the only way to
+collect the resulting IR is to call this method.</p>
+<p>This method can be called at any time but it is best to call it when
+the traverser returns. It means the transformation will be complete.</p>
+</section>
             </dd>
             </dl>
 

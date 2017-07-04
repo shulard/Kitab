@@ -48,6 +48,11 @@
                                     <li><a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Type</code></a></li>
                             </ul>
         
+                    <h2>Interfaces</h2>
+
+            <ul class="list--flat">
+                                    <li><a href="./kitab/compiler/intermediaterepresentation/HasMethods.html"><code>HasMethods</code></a></li>
+                            </ul>
         
         
             </nav>
@@ -57,7 +62,7 @@
     <h1>
     Class <code>Kitab\Compiler\IntermediateRepresentation\Function_</code>
     <aside>
-        <a href="./kitab/compiler/intermediaterepresentation/Function_.source.html#L.66-93" title="View source">[src]</a>
+        <a href="./kitab/compiler/intermediaterepresentation/Function_.source.html#L.69-96" title="View source">[src]</a>
     </aside>
 </h1>
 
@@ -73,7 +78,8 @@ inputs, and zero or one output. Each input is represented by a
 output is represented by a <a href="./kitab/compiler/intermediaterepresentation/Type.html"><code>Kitab\Compiler\IntermediateRepresentation\Type</code></a>
 instance.</p>
 <h1>Examples</h1>
-<p>In this example, a new function <code>f</code> is created with 1 input: <code>int $x</code>, and 1 output: <code>int</code>.</p>
+<p>In this example, a new function <code>f</code> is created with 1 input: <code>int $x</code>, and
+1 output: <code>int</code>.</p>
 <pre><code class="language-php">$typeInt = new Kitab\Compiler\IntermediateRepresentation\Type();
 $typeInt-&gt;name = 'int';
 
@@ -120,7 +126,7 @@ instance if any.</p>
     <dl class="entity__children">
                     <dt aria-label="__construct">
                 <code class="language-php">public function __construct(string $name)</code>
-                <aside><a href="./kitab/compiler/intermediaterepresentation/Function_.source.html#L.89-92" title="View source of the `__construct` method">[src]</a></aside>
+                <aside><a href="./kitab/compiler/intermediaterepresentation/Function_.source.html#L.92-95" title="View source of the `__construct` method">[src]</a></aside>
             </dt>
             <dd>
                 <section><p>Allocate a new named function with a name. This is the only mandatory

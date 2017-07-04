@@ -31,6 +31,8 @@
 <article>
     <pre id="L" data-line="," class="line-numbers"><code class="language-php no-wrap-hooks">&lt;?php
 
+declare(strict_types=1);
+
 /**
  * Hoa
  *
@@ -101,9 +103,10 @@ abstract class Entity
     public $name;
 
     /**
-     * Associated documentation of the entity.
+     * Associated documentation of the entity as an instance of
+     * `Kitab\Compiler\IntermediateRepresentation\Documentation`.
      */
-    public $documentation = '';
+    public $documentation = null;
 
     /**
      * The name of the entity without the short name, i.e. only the namespaces.
@@ -154,11 +157,11 @@ abstract class Entity
      * ```php
      * $classA = new Kitab\Compiler\IntermediateRepresentation\Class_('Foo\\Bar\\Baz');
      *
-     * assert(true === $class-&gt;inNamespace());
+     * assert(true === $classA-&gt;inNamespace());
 
      * $classB = new Kitab\Compiler\IntermediateRepresentation\Class_('Qux');
      *
-     * assert(false === $class-&gt;inNamespace());
+     * assert(false === $classB-&gt;inNamespace());
      * ```
      */
     public function inNamespace(): bool
